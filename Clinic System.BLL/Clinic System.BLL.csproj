@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Clinic_System.BLL</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clinic System.DAL\Clinic System.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ModelVM\" />
+    <Folder Include="Helper\" />
+    <Folder Include="Mapping\" />
+    <Folder Include="Service\Abstraction\" />
+    <Folder Include="Service\Implementation\" />
+  </ItemGroup>
+
+</Project>
