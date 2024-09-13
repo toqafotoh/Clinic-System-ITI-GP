@@ -24,6 +24,7 @@ namespace Clinic_System.DAL.Entities
         [ForeignKey("Patient")]
         public int? PatientID { get; set; }
         public List<Payment> payments { get; set; }
+        //Change
 
     }
 }

@@ -19,7 +19,7 @@ namespace Clinic_System.DAL.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-C38K9CB;Database=ClinicSystemITI;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-2VMSENQ;Database=ClinicSystemITI;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
