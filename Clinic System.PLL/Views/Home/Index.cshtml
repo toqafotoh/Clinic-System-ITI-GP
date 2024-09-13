@@ -1,8 +1,397 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical History</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css ">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js" integrity="sha512-oAY57i8MXmaOP7pAylNLnULAM4QLV3uGnvnXVY4zF229/zFzTvG2/5YIgH8iN8oZR2hnbkiDPd4JCJGaH4oG6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+
+</head>
+
+<body>
+    <div class="loading-screen">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-heartbeat icon"></i>
+                <div class="text">MedLink</div>
+            </div>
+            <div class="text-outside">
+                Med<span>Link</span>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-heartbeat icon"></i>
+                <div class="text">MedLink</div>
+            </div>
+            <div class="text-outside">
+                Med<span>Link</span>
+            </div>
+        </div>
+
+        <!-- User dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="imges/about1.png" alt="User Profile" class="user-image">
+                Moamen Elgraihy
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="profile.html">Profile</a>
+                <a class="dropdown-item" href="logout.html">Logout</a>
+            </div>
+        </div>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="#search-container">Book</a>
+            <a href="#about">About Us</a>
+            <a href="#ser-heading">Services</a>
+            <a href="#cont">FeedBack</a>
+            <!-- <a href="side.html">Side Effect</a> -->
+
+        </nav>
+
+        <div class="righticons">
+            <div id="menubars" class="fas fa-bars"></div>
+
+        </div>
+    </header>
+
+    <div id="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <div class="main-home">
+
+        <div class="home">
+            <div class="home-left-content">
+                <span>Welcome To The MedLink Website</span>
+                <h2>
+                    Simplify your booking appointments with ease
+                    <br>
+                </h2>
+                <p class="lorem">
+                    Our platform allows you to book appointments, choose departments,
+                    and select doctors quickly. Create your account now for a smooth healthcare.
+                </p>
+
+                <div class="home-btn">
+                    <a href="">Login</a>
+                    <a class="homebtnsec" href="">SignUp</a>
+                </div>
+
+            </div>
+            <span id="search-container"></span>
+
+            <div class="home-right-content">
+                <img src="imges/n.png" alt="">
+
+            </div>
+        </div>
+    </div>
+    <div class="search-container">
+        <!-- Header Section -->
+        <div class="search-header">
+            <h2><i class="fas fa-user-md icon"></i>Book a Doctor</h2>
+            <p>Consultation or Procedure</p>
+        </div>
+
+        <!-- Search Bar Section -->
+        <div class="search-bar">
+            <div class="search-select-icon">
+                <i class="fas fa-stethoscope icon"></i>
+                <select class="search-select" required>
+                    <option value="" disabled selected>Select Specialty</option>
+                    <option value="cardiology">Cardiology</option>
+                    <option value="neurology">Neurology</option>
+                    <option value="orthopedics">Orthopedics</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+
+            <input type="text" placeholder="Enter doctor name" class="search-input">
+            <a href="search.html" class="search-button">
+                <i class="fas fa-search icon"></i>Search
+            </a>
+        </div>
+    </div>
+    <div id="about" class="main-about">
+        <div class="about-heading">About Us</div>
+
+        <div class="inner-main-about">
+            <div class="about-inner-content-left">
+                <img src="/imges/han.jpeg" alt="">
+            </div>
+
+            <div class="about-inner-content">
+                <div class="about-right-content">
+                    <h2> Welcome to our MedLink website!</h2>
+                    <p>A cutting-edge platform designed to simplify bookings and streamline your healthcare experience.</p>
+                    <h1>
+                        Our Story
+                    </h1>
+                    <p class="aboutsec-content">
+                        MedLink was established in 2024 to transform how patients schedule their hospital appointments.
+                        Our platform offers a user-friendly system for booking appointments, choosing departments,
+                        and selecting doctors with ease. With a team of experts in healthcare and technology,
+                        we are dedicated to providing a seamless and efficient booking process, ensuring you receive
+                        the best care without any hassle.
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ser-heading" id="ser-heading">Services</div>
+
+    <div class="technology" id="services">
+        <div class="main-technology">
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-tr-user-injured"></i>
+                <h2>Patient Profiles: </h2>
+                <p>
+                    Patients can create and manage their profiles, including personal information and appointment history.
+
+                </p>
+            </div>
+
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-tr-user-md"></i>
+                <h2>Doctor’s profiles:</h2>
+                <p>
+                    Doctors have individual profiles visible to patients for contact and appointment scheduling.
+
+                </p>
+            </div>
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-tr-admin-alt"></i>
+                <h2>Admin:</h2>
+                <p>
+                    Admins manage doctors and appointments,
+                    oversee profiles, and monitor bookings and payment statuses.
+                </p>
+            </div>
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-rr-alarm-plus"></i>
+                <h2>Appointment Booking:  </h2>
+                <p>
+                    Patients can book appointments by selecting departments, doctors, and preferred time slots.
+                </p>
+            </div>
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-tr-badge-dollar"></i>
+                <h2>Payment Integration: </h2>
+                <p>
+                    Secure payment options are available to complete your booking process.
+                </p>
+            </div>
+            <div class="inner-technology">
+                <span></span>
+                <i class="fi fi-rr-feedback-hand"></i>
+                <h2>Feedback:</h2>
+                <p>
+                    Users can submit their name, email, and message as feedback,
+                    which is sent to the admin for review and action.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <section class="contact" id="cont">
+        <div class="content">
+            <h2>FeedBack</h2>
+
+        </div>
+
+        <div class="container">
+            <div class="contactInfo">
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="text">
+                        <h3>Address</h3>
+                        <p>Cairo,Egypt</p>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="text">
+                        <h3>Email</h3>
+                        <p>MedLink@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-phone"></i></div>
+                    <div class="text">
+                        <h3>Phone</h3>
+                        <p>01279483363</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contactForm">
+                <form action="#" method="post">
+                    <h2>Send Message</h2>
+                    <div class="inputBox">
+                        <input type="text" required>
+                        <span>Full Name</span>
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" required>
+                        <span>Email</span>
+                    </div>
+                    <div class="inputBox">
+                        <textarea required></textarea>
+                        <span>Type Your Message...</span>
+                    </div>
+                    <div class="inputBox">
+                        <input type="submit" value="Send">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container1">
+            <div class="row">
+                <div class="col" id="company">
+                    <div class="logo-container">
+                        <div class="logo">
+                            <i class="fas fa-heartbeat icon"></i>
+                            <div class="text">MedLink</div>
+                        </div>
+                        <div class="text-outside">
+                            Med<span>Link</span>
+                        </div>
+                    </div>
+                    <p>
+                        We are specialized in designings, make your business a brand.
+                        Try our premium services.
+                    </p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="col" id="useful-links">
+                    <h3>Links</h3>
+                    <div class="links">
+                        <a href="index.html">Home</a>
+                        <a href="#ser-heading">Book</a>
+
+                        <a href="#about">About Us</a>
+                        <a href="#ser-heading">Services</a>
+                        <a href="contact.html">FeedBack</a>
+
+                    </div>
+                </div>
+
+                <div class="col" id="contact">
+                    <h3>Contact</h3>
+                    <div class="contact-details">
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        <p>Cairo,Egypt</p>
+                    </div>
+                    <div class="contact-details">
+                        <i class="fa-solid fa-phone"></i>
+                        <p>01279483363</p>
+                    </div>
+                    <div class="contact-details">
+                        <i class="fa-solid fa-envelope"></i>
+                        <p>
+                            MedLink@gmail.com
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+
+        let menubar = document.querySelector('#menubars');
+        let navbar = document.querySelector('.navbar');
+
+        menubar.onclick = () => {
+            menubar.classList.toggle('fa-times');
+            navbar.classList.toggle('active');
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const loadingScreen = document.querySelector('.loading-screen');
+            document.body.style.overflow = 'hidden'; // Hide overflow initially
+            document.body.style.pointerEvents = 'none'; // Disable pointer events initially
+
+            // Simulate some loading time (replace with your actual loading logic)
+            setTimeout(() => {
+                loadingScreen.style.opacity = 0; // Fade out the loading screen
+                document.body.style.overflow = ''; // Restore overflow once loading is complete
+                document.body.style.pointerEvents = ''; // Restore pointer events once loading is complete
+                // Optionally, remove the loading screen from the DOM after fade-out:
+
+            }, 1000); // Adjust timeout as needed (in milliseconds)
+        });
+
+
+
+        const scrollToTopBtn = document.getElementById('scroll-to-top');
+        const contactSection = document.getElementById('about');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY >= contactSection.offsetTop) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // تأثيرات انتقال سلسة
+            });
+        });
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+
+
+</body>
+</html>
+
