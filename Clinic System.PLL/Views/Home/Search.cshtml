@@ -1,0 +1,223 @@
+﻿@{
+    ViewData["Title"] = "Search ";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Profile</title>
+  <link rel="stylesheet" href="~/css/search.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css ">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js" integrity="sha512-oAY57i8MXmaOP7pAylNLnULAM4QLV3uGnvnXVY4zF229/zFzTvG2/5YIgH8iN8oZR2hnbkiDPd4JCJGaH4oG6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+</head>
+<body>
+  <div class="loading-screen">
+    <i class="fa-solid fa-spinner fa-spin-pulse fa-3x"></i>
+    <p>Loading...</p>
+  </div>
+  <header>
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-heartbeat icon"></i>
+        <div class="text">MedLink</div>
+      </div>
+      <div class="text-outside">
+        Med<span>Link</span>
+      </div>
+    </div>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="index.html #search-container">Book</a>
+      <a href="index.html #about">About Us</a>
+      <a href="index.html #ser-heading">Services</a>
+      <a href="index.html #cont">FeedBack</a>
+    </nav>
+    <div class="righticons">
+      <div id="menubars" class="fas fa-bars"></div>
+      
+  </div>
+  </div>
+  </header>
+
+  <div class="search-container" >
+    <!-- Header Section -->
+    <div class="search-header">
+      <h2><i class="fas fa-user-md icon"></i>Book a Doctor</h2>
+      <p>Consultation or Procedure</p>
+    </div>
+
+    <!-- Search Bar Section -->
+    <div class="search-bar">
+      <div class="search-select-icon">
+        <i class="fas fa-stethoscope icon"></i>
+        <select class="search-select" required>
+          <option value="" disabled selected>Select Specialty</option>
+          <option value="cardiology">Cardiology</option>
+          <option value="neurology">Neurology</option>
+          <option value="orthopedics">Orthopedics</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+ 
+      <input type="text" placeholder="Enter doctor name" class="search-input">
+      <a href="search.html" class="search-button">
+        <i class="fas fa-search icon"></i>Search
+      </a>
+    </div>
+  </div>
+  <div class="doctor-container">
+    <!-- Doctor Header Section -->
+    <div class="doctor-header">
+      <img src="~/imges/Elgraihy.jpg" alt="Doctor Photo">
+      <div class="doctor-info">
+        <h2>Dr. Moamen Elgraihy</h2>
+        <p>Consultant in orthopedic surgery, spine and joint surgery, knee and shoulder arthroscopy, and sports injuries</p>
+      </div>
+    </div>
+
+    <!-- Schedule Table Section -->
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Time Slots</th>
+          <th>Book</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Today</td>
+          <td>
+            <select>
+              <option value="">Select Time</option>
+              <option value="12:00 PM">12:00 PM</option>
+              <option value="1:30 PM">1:30 PM</option>
+              <option value="3:00 PM">3:00 PM</option>
+            </select>
+          </td>
+          <td><button class="book-btn">Book</button></td>
+        </tr>
+        <tr>
+          <td>Tomorrow</td>
+          <td>
+            <select>
+              <option value="">Select Time</option>
+              <option value="12:00 PM">12:00 PM</option>
+              <option value="1:30 PM">1:30 PM</option>
+              <option value="3:00 PM">3:00 PM</option>
+            </select>
+          </td>
+          <td><button class="book-btn">Book</button></td>
+        </tr>
+        <tr>
+          <td>Thursday 13/7</td>
+          <td>
+            <select>
+              <option value="">Select Time</option>
+              <option value="12:00 PM">12:00 PM</option>
+              <option value="1:30 PM">1:30 PM</option>
+              <option value="3:00 PM">3:00 PM</option>
+            </select>
+          </td>
+          <td><button class="book-btn">Book</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Doctor Details Section -->
+    <div class="doctor-details">
+      <ul>
+        <li><i class="fas fa-user-md"></i>Consultant in orthopedic surgery, spine and joint surgery, knee and shoulder arthroscopy.</li>
+        <li><i class="fas fa-wallet"></i> Consultation Fee: 300 EGP</li>
+        <li><i class="fas fa-phone"></i> 0123456789 - For Appointments</li>
+      </ul>
+    </div>
+  </div>
+  <footer>
+    <div class="container1">
+        <div class="row">
+              <div class="col" id="company">
+                <div class="logo-container">
+                    <div class="logo">
+                        <i class="fas fa-heartbeat icon"></i>
+                        <div class="text">MedLink</div>
+                    </div>
+                    <div class="text-outside">
+                        Med<span>Link</span>
+                    </div>
+                </div>
+                  <p>
+                    We are specialized in designings, make your business a brand.
+                    Try our premium services.
+                  </p>
+                  <div class="social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                  </div>
+              </div>
+
+
+              <div class="col" id="useful-links">
+                 <h3>Links</h3>
+                 <div class="links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html #search-container">Book</a>
+                    <a href="index.html #about">About Us</a>
+                    <a href="index.html #ser-heading">Services</a>
+                    <a href="index.html contact.html">FeedBack</a>
+
+                 </div>
+              </div>
+
+              <div class="col" id="contact">
+                  <h3>Contact</h3>
+                  <div class="contact-details">
+                     <i class="fa-solid fa-location-dot"></i>
+                     
+                     <p>Cairo,Egypt</p>
+                  </div>
+                  <div class="contact-details">
+                     <i class="fa-solid fa-phone"></i>
+                     <p>01279483363</p>
+                  </div>
+                  <div class="contact-details">
+                    <i class="fa-solid fa-envelope"></i>
+                     <p>
+                        MedLink@gmail.com
+                    </p>
+                  </div>
+              </div>
+         
+        </div>
+    </div>
+ </footer>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+    const loadingScreen = document.querySelector('.loading-screen');
+  
+    // Simulate some loading time (replace with your actual loading logic)
+    setTimeout(() => {
+      loadingScreen.classList.add('hidden');
+    }, 2000); // Adjust timeout as needed (in milliseconds)
+  });
+
+
+         let menubar = document.querySelector('#menubars');
+            let navbar  = document.querySelector('.navbar');
+            
+            menubar.onclick = () =>{
+                menubar.classList.toggle('fa-times');
+                navbar.classList.toggle('active');
+            }
+
+</script>
+</body>
+</html>

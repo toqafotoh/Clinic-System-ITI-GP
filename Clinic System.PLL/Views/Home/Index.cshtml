@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical History</title>
+    <title>MedLink</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="~/css/index.css">
@@ -70,7 +70,7 @@
         </div>
     </header>
 
-    <div id="scroll-to-top">
+    <div id="scroll-to-top" class="scroll-to-top">
         <i class="fas fa-arrow-up"></i>
     </div>
 
@@ -123,9 +123,10 @@
             </div>
 
             <input type="text" placeholder="Enter doctor name" class="search-input">
-            <a href="search.html" class="search-button">
-                <i class="fas fa-search icon"></i>Search
+            <a href="@Url.Action("Search", "Home")" class="search-button">
+                <i class="fas fa-search icon"></i> Search
             </a>
+
         </div>
     </div>
     <div id="about" class="main-about">

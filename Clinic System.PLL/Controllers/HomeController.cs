@@ -14,11 +14,14 @@ namespace Clinic_System.PLL.Controllers
         }
 
         public IActionResult Index()
+        { 
+            return View();
+        }
+
+        public IActionResult Search()
         {
             return View();
         }
 
-       
-    
     }
 }

@@ -52,12 +52,15 @@
     opacity: 0;
     transform: translateX(100px);
 }
+.scroll-to-top i{
+    position:relative;
+    bottom: -5px;
+}
 
-
-    #scroll-to-top:hover {
-        color: black;
-        background-color: white;
-    }
+#scroll-to-top:hover {
+    color: black;
+    background-color: white;
+}
 
 
     #scroll-to-top.show {
