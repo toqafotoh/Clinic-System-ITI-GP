@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinic_System.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240914203353_InitialMigration")]
+    [Migration("20240914222642_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -197,6 +197,9 @@ namespace Clinic_System.DAL.Migrations
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
