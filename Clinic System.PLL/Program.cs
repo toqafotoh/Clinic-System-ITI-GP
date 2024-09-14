@@ -1,3 +1,7 @@
+using Clinic_System.DAL.Database;
+using Clinic_System.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
+
 namespace Clinic_System.PLL
 {
     public class Program
@@ -8,7 +12,7 @@ namespace Clinic_System.PLL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

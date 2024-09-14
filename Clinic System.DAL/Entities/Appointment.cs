@@ -10,7 +10,7 @@ namespace Clinic_System.DAL.Entities
 {
     public class Appointment
     {
-        [Required]
+        [Key]
         public int ID { get; set; }
         public DateTime Date { get; set; }= DateTime.Now;
         [Required]
@@ -24,7 +24,6 @@ namespace Clinic_System.DAL.Entities
         [ForeignKey("Patient")]
         public int? PatientID { get; set; }
         public List<Payment> payments { get; set; }
-        //Change
 
     }
 }

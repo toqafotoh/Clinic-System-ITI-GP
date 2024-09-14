@@ -5,22 +5,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Identity;
 namespace Clinic_System.DAL.Entities
 {
-    public class User
+    public class User : IdentityUser
     {
-        [Required]
-        public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int Age { get; set; }
-        public Gender Gender { get; set; }
-        public string phoneNumber { get; set; }
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
+        public int Age { get; set; } = 0;
+        public Gender Gender { get; set; } = Gender.Male;
+        public string? Image {  get; set; }
     }
 }
