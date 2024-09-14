@@ -15,5 +15,6 @@ namespace Clinic_System.DAL.Entities
         public int Age { get; set; } = 0;
         public Gender Gender { get; set; } = Gender.Male;
         public string? Image {  get; set; }
+        public bool? IsDeleted { get; set; } = false;
     }
 }
