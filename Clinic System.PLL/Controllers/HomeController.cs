@@ -12,12 +12,10 @@ namespace Clinic_System.PLL.Controllers
         {
             _logger = logger;
         }
-
         public IActionResult Index()
         { 
             return View();
         }
-
         public IActionResult Search()
         {
             return View();

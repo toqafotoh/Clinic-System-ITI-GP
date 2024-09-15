@@ -30,7 +30,5 @@ namespace Clinic_System.DAL.Database
                 .WithOne(doctor => doctor.Department)
                 .HasForeignKey(doctor => doctor.DeptID);
         }
-
-
     }
 }
