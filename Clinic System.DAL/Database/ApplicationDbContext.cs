@@ -2,26 +2,30 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clinic_System.DAL.Database
 {
-    public class ApplicationDbContext: IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public DbSet<Appointment>Appointments { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Patient>Patients { get; set; }
+        public DbSet<Patient> Patients { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // Constructor accepting DbContextOptions
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-C38K9CB;Database=ClinicSystemITI;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
         }
+
+        // remove the onconfiguring method to use configuration from program.cs
+        // protected override void onconfiguring(dbcontextoptionsbuilder optionsbuilder)
+        // {
+        //     optionsbuilder.usesqlserver("server=elgogo;database=clinicsystemiti;trusted_connection=true;multipleactiveresultsets=true;trustservercertificate=true");
+        // }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
