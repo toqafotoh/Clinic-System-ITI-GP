@@ -85,6 +85,22 @@ namespace Clinic_System.DAL.Repo.Implementation
         {
             return _db.Appointments.Where(a => a.ID == id).FirstOrDefault();
         }
+        
+        public bool BookAppointment(Appointment appointment,int patientID)
+        {
+           var Booking = _db.Appointments.Where(a => a.ID == appointment.ID).FirstOrDefault();
+            try
+            {
+                Booking.Isbooked = true;
+                Booking.PatientID = patientID;
+                _db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
     }
 }

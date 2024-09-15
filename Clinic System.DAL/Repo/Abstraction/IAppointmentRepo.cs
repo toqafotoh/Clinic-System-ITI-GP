@@ -14,6 +14,6 @@ namespace Clinic_System.DAL.Repo.Abstraction
         bool Edit(Appointment appointment);
         bool Create(Appointment appointment);
         bool Delete(Appointment appointment);
-        //bool Book (Appointment appointment);
+        bool BookAppointment(Appointment appointment, int patientID);
     }
 }
