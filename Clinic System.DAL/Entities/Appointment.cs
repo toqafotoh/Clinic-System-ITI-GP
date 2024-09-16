@@ -15,6 +15,7 @@ namespace Clinic_System.DAL.Entities
         public DateTime Date { get; set; }= DateTime.Now;
         [Required]
         public bool Isbooked { get; set; }
+        public bool IsDeleted { get; set; }
 
         //Navigation Property
         [ForeignKey("Doctor")]

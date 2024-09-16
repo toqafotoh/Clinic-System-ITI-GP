@@ -18,9 +18,6 @@ namespace Clinic_System.PLL
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-
-
-
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -28,7 +25,10 @@ namespace Clinic_System.PLL
 
             builder.Services.AddScoped<IFeedBackRepository, FeedBackRipository>();
             builder.Services.AddScoped<IFeedbackService, FeedbackService>();
-
+            builder.Services.AddScoped<IPatientRepo, PatientRepo>();
+            builder.Services.AddScoped<IAppointmentRepo, AppointmentRepo>();
+            builder.Services.AddScoped<IPaymentRepo,PaymentRepo>();
+            //builder.Services.AddScoped<IPatientService, PatientService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
