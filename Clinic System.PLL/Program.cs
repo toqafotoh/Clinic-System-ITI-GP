@@ -5,6 +5,7 @@ using Clinic_System.DAL.Entities;
 using Clinic_System.DAL.Repo.Abstraction;
 using Clinic_System.DAL.Repo.Implementation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clinic_System.PLL
 {
@@ -17,6 +18,13 @@ namespace Clinic_System.PLL
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+
+            builder.Services.AddScoped<IFeedBackRepository, FeedBackRipository>();
+            builder.Services.AddScoped<IFeedbackService, FeedbackService>();
             builder.Services.AddScoped<IPatientRepo, PatientRepo>();
             builder.Services.AddScoped<IAppointmentRepo, AppointmentRepo>();
             builder.Services.AddScoped<IPaymentRepo,PaymentRepo>();
