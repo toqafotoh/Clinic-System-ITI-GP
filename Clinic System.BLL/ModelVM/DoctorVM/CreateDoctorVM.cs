@@ -1,4 +1,5 @@
 ﻿using Clinic_System.DAL.Enum;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -41,6 +42,7 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
         public Shift Shift { get; set; }
 
         public String? Image { get; set; }
+        public IFormFile? ImageFile { get; set; }
 
         [Required(ErrorMessage = "Session price is required")]
         [Range(80, double.MaxValue, ErrorMessage = "Session price must be at least 80")]

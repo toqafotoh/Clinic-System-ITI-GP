@@ -9,6 +9,7 @@ using Clinic_System.DAL.Repo.Implementation;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.DAL.Entities;
 using AutoMapper;
+using Clinic_System.BLL.Helper;
 namespace Clinic_System.BLL.Service.Implementation
 {
     public class DoctorService : IDoctorService
@@ -25,6 +26,8 @@ namespace Clinic_System.BLL.Service.Implementation
         {
             if (doctorVM is not null)
             {
+                //null refernce handling
+                doctorVM.Image = FileHelper.UploadFile("DoctorProfilePhoto", doctorVM.ImageFile);  //save photo in specfic path and return its name to save it in DB 
                 var doctorEntity = _mapper.Map<Doctor>(doctorVM);
                 return _doctorRepo.Create(doctorEntity);
             }

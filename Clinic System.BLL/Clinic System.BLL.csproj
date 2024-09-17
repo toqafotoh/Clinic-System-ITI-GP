@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helper\" />
     <Folder Include="Mapping\" />
     <Folder Include="ModelVM\PaymentVM\" />
   </ItemGroup>
@@ -23,6 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
 </Project>

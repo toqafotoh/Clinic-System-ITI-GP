@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Clinic_System.BLL.Helper;
 using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.DAL.Entities;
 using Clinic_System.DAL.Repo.Abstraction;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,8 @@ namespace Clinic_System.BLL.Service.Implementation
 
         public bool Create(CreatePatientVM patientVM)
         {
+            //null refernce handling
+            patientVM.Image = FileHelper.UploadFile("PatientProfilePhoto", patientVM.ImageFile);  //save photo in specfic path and return its name to save it in DB
             var Result = mapper.Map<Patient>(patientVM);
             return patientRepo.Create(Result);
         }
@@ -42,6 +46,8 @@ namespace Clinic_System.BLL.Service.Implementation
 
         public bool Delete(DeletePatientVM patientVM)
         {
+            //null refernce handling
+            FileHelper.DeleteFile("PatientProfilePhoto", patientVM.Image); //If patient photo exist will delete it
             var patient = mapper.Map<Patient>(patientVM);
             return patientRepo.Delete(patient);
         }

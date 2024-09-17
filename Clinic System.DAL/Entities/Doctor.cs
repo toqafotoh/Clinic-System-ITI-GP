@@ -14,6 +14,7 @@ namespace Clinic_System.DAL.Entities
     {
         public int DoctorID { get; set; }
         public Shift Shift { get; set; }
+        //why has image 
         public string? Image {  get; set; }
         public int SessionPrice { get; set; }
         public string Description { get; set; }
