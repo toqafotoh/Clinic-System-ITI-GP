@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Clinic_System.BLL.ModelVM.FeedBackVM
+@model FeedbackVM
+
+@{
     ViewData["Title"] = "Home Page";
 
 }
@@ -21,6 +24,8 @@
 </head>
 
 <body>
+    <div id="feedbackMessage" style="display:none;"></div>
+
     <div class="loading-screen">
         <div class="logo-container">
             <div class="logo">
@@ -253,19 +258,19 @@
             </div>
 
             <div class="contactForm">
-                <form action="#" method="post">
+                <form  asp-action="Feedback" asp-controller="Home"  id="feedbackForm" method="post">
                     <h2>Send Message</h2>
                     <div class="inputBox">
-                        <input type="text" required>
-                        <span>Full Name</span>
+                        <input asp-for="Name" type="text" required id="name">
+                        <span asp-for="Name">Name</span>
                     </div>
                     <div class="inputBox">
-                        <input type="text" required>
-                        <span>Email</span>
+                        <input asp-for="Email" type="text" required id="email">
+                        <span asp-for ="Email">Email</span>
                     </div>
                     <div class="inputBox">
-                        <textarea required></textarea>
-                        <span>Type Your Message...</span>
+                        <textarea asp-for="Content" required id = "content"></textarea>
+                        <span asp-for="Content">Type Your Message...</span>
                     </div>
                     <div class="inputBox">
                         <input type="submit" value="Send">
@@ -384,6 +389,8 @@
 
 
     </script>
+   
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

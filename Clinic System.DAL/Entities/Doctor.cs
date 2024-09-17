@@ -18,13 +18,11 @@ namespace Clinic_System.DAL.Entities
         public int SessionPrice { get; set; }
         public string Description { get; set; }
 
-        //Navigation Property
         [ForeignKey("Department")]
         public int? DeptID { get; set; }
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
         public List<Appointment> Appointments { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string? UserID { get; set; }
         public User User { get; set; }
         
 
