@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using Clinic_System.BLL.ModelVM.DoctorVM;
+using Clinic_System.BLL.ModelVM.PatientVM;
+using Clinic_System.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
