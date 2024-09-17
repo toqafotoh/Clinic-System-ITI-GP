@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Clinic_System.DAL.Repo.Abstraction
 {
-    public interface IPatientRepo
+    public interface IDoctorRepo
     {
-        List<Patient> GetAll();
-        Patient GetById(int id);
-        bool Edit(Patient patient);
-        bool Create(Patient patient);
-        bool Delete(Patient patient);
+        List<Doctor> GetAll();
+        Doctor GetById(int id);
+        bool Edit(Doctor doctor);
+        bool Create(Doctor doctor);
+        bool Delete(Doctor doctor);
     }
 }
