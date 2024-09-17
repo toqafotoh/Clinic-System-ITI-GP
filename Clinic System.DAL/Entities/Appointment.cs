@@ -20,8 +20,11 @@ namespace Clinic_System.DAL.Entities
         //Navigation Property
         [ForeignKey("Doctor")]
         public int? DoctorID { get; set; }
+
         [ForeignKey("Department")]
         public int? DeptID { get; set; }
+        public Department Department { get; set; }
+
         [ForeignKey("Patient")]
         public int? PatientID { get; set; }
         public List<Payment> payments { get; set; }

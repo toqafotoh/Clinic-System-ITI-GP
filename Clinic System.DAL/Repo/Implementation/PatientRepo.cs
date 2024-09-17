@@ -86,7 +86,7 @@ namespace Clinic_System.DAL.Repo.Implementation
             return _db.Patients.Include(p => p.User).ToList();
         }
 
-        public Patient GetbyId(int id)
+        public Patient GetById(int id)
         {
             return _db.Patients.Include(p => p.User).FirstOrDefault(p => p.PatientID == id);
         }
