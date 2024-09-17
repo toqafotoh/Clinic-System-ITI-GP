@@ -1,3 +1,4 @@
+using Clinic_System.BLL.Mapping;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
 using Clinic_System.DAL.Database;
@@ -6,7 +7,6 @@ using Clinic_System.DAL.Repo.Abstraction;
 using Clinic_System.DAL.Repo.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 namespace Clinic_System.PLL
 {
     public class Program
@@ -28,9 +28,10 @@ namespace Clinic_System.PLL
             builder.Services.AddScoped<IPatientRepo, PatientRepo>();
             builder.Services.AddScoped<IAppointmentRepo, AppointmentRepo>();
             builder.Services.AddScoped<IPaymentRepo,PaymentRepo>();
-            //builder.Services.AddScoped<IPatientService, PatientService>();
+            builder.Services.AddScoped<IDoctorRepo, DoctorRepo>();
+            builder.Services.AddScoped<IDoctorService, DoctorService>();
+            builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
             var app = builder.Build();
-
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
