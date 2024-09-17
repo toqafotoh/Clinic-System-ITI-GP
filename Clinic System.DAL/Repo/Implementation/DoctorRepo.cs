@@ -94,25 +94,5 @@ namespace Clinic_System.DAL.Repo.Implementation
             return _db.Doctors.Include(d => d.User).FirstOrDefault(d => d.DoctorID == id);
         }
 
-        public bool Delete(Doctor doctor)
-        {
-            try
-            {
-                var data = _db.Doctors.Include(d => d.User)
-                                                      .FirstOrDefault(p => p.DoctorID == doctor.DoctorID);
-                if (data != null)
-                {
-                    data.User.IsDeleted = !data.User.IsDeleted;
-                    _db.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-
-            }
-        }
-    }
+    }      
 }
