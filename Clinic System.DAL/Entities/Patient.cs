@@ -17,7 +17,6 @@ namespace Clinic_System.DAL.Entities
         public string Address { get; set; }
         public List<Appointment> Appointments { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string? UserID { get; set; }
         public User User { get; set; }
     }
 }

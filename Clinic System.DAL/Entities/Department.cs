@@ -14,7 +14,6 @@ namespace Clinic_System.DAL.Entities
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
         public List<Doctor> Doctors { get; set; }
-        public Doctor Doctor { get; set; }
         public List <Appointment> Appointments { get; set; }
     }
 }
