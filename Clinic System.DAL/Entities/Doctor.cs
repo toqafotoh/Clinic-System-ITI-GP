@@ -19,7 +19,7 @@ namespace Clinic_System.DAL.Entities
         public string Description { get; set; }
 
         [ForeignKey("Department")]
-        public int? DeptID { get; set; }
+        public int DeptID { get; set; }
         public Department? Department { get; set; }
         public List<Appointment> Appointments { get; set; }
         [ForeignKey("ApplicationUser")]

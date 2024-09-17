@@ -1,4 +1,5 @@
-﻿using Clinic_System.DAL.Database;
+﻿using AutoMapper;
+using Clinic_System.DAL.Database;
 using Clinic_System.DAL.Entities;
 using Clinic_System.DAL.Repo.Abstraction;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace Clinic_System.DAL.Repo.Implementation
     public class DoctorRepo : IDoctorRepo
     {
         private readonly ApplicationDbContext _db;
+        private readonly IMapper _mapper;
 
-        public DoctorRepo(ApplicationDbContext applicationDb)
+        public DoctorRepo(ApplicationDbContext applicationDb, IMapper mapper)
         {
             _db = applicationDb;
+            _mapper = mapper;
         }
 
         public bool Create(Doctor doctor)
@@ -34,26 +37,6 @@ namespace Clinic_System.DAL.Repo.Implementation
             }
         }
 
-        public bool Delete(Doctor doctor)
-        {
-            try
-            {
-                var data = _db.Doctors.Include(d => d.User)
-                                      .FirstOrDefault(d => d.DoctorID == doctor.DoctorID);
-                if (data is not null)
-                {
-                    data.User.IsDeleted = !data.User.IsDeleted;
-                    _db.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public bool Edit(Doctor doctor)
         {
             try
@@ -63,15 +46,7 @@ namespace Clinic_System.DAL.Repo.Implementation
 
                 if (existingDoctor is not null)
                 {
-                    existingDoctor.Department = doctor.Department;
-                    existingDoctor.User.FirstName = doctor.User.FirstName;
-                    existingDoctor.User.LastName = doctor.User.LastName;
-                    existingDoctor.User.Age = doctor.User.Age;
-                    existingDoctor.User.Gender = doctor.User.Gender;
-                    existingDoctor.User.PhoneNumber = doctor.User.PhoneNumber;
-                    existingDoctor.User.Email = doctor.User.Email;
-                    existingDoctor.SessionPrice = doctor.SessionPrice;
-                    existingDoctor.Shift = doctor.Shift;
+                    _mapper.Map(doctor, existingDoctor);
                     _db.SaveChanges();
                     return true;
                 }

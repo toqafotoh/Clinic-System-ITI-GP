@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinic_System.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240915004010_addfeedback")]
-    partial class addfeedback
+    [Migration("20240917210652_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,17 +33,20 @@ namespace Clinic_System.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DepartmentID")
+                    b.Property<TimeSpan>("AppointmentTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("DepartmentID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DeptID")
+                    b.Property<int>("DoctorID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DoctorID")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("Isbooked")
                         .HasColumnType("bit");
@@ -70,16 +73,14 @@ namespace Clinic_System.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("DoctorID")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("DoctorID");
 
                     b.ToTable("Departments");
                 });
@@ -92,7 +93,10 @@ namespace Clinic_System.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorID"));
 
-                    b.Property<int?>("DeptID")
+                    b.Property<string>("ApplicationUser")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("DeptID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -108,14 +112,11 @@ namespace Clinic_System.DAL.Migrations
                     b.Property<int>("Shift")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("DoctorID");
 
-                    b.HasIndex("DeptID");
+                    b.HasIndex("ApplicationUser");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("DeptID");
 
                     b.ToTable("Doctor");
                 });
@@ -136,6 +137,9 @@ namespace Clinic_System.DAL.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -158,12 +162,12 @@ namespace Clinic_System.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
+                    b.Property<string>("ApplicationUser")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PatientID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("ApplicationUser");
 
                     b.ToTable("Patient");
                 });
@@ -184,6 +188,9 @@ namespace Clinic_System.DAL.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("ID");
 
@@ -412,39 +419,41 @@ namespace Clinic_System.DAL.Migrations
 
             modelBuilder.Entity("Clinic_System.DAL.Entities.Appointment", b =>
                 {
-                    b.HasOne("Clinic_System.DAL.Entities.Department", null)
+                    b.HasOne("Clinic_System.DAL.Entities.Department", "Department")
                         .WithMany("Appointments")
-                        .HasForeignKey("DepartmentID");
-
-                    b.HasOne("Clinic_System.DAL.Entities.Doctor", null)
-                        .WithMany("Appointments")
-                        .HasForeignKey("DoctorID");
-
-                    b.HasOne("Clinic_System.DAL.Entities.Patient", null)
-                        .WithMany("Appointments")
-                        .HasForeignKey("PatientID");
-                });
-
-            modelBuilder.Entity("Clinic_System.DAL.Entities.Department", b =>
-                {
-                    b.HasOne("Clinic_System.DAL.Entities.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Clinic_System.DAL.Entities.Doctor", "Doctor")
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Clinic_System.DAL.Entities.Patient", "Patient")
+                        .WithMany("Appointments")
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Department");
+
                     b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Clinic_System.DAL.Entities.Doctor", b =>
                 {
-                    b.HasOne("Clinic_System.DAL.Entities.Department", "Department")
-                        .WithMany("Doctors")
-                        .HasForeignKey("DeptID");
-
                     b.HasOne("Clinic_System.DAL.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("ApplicationUser");
+
+                    b.HasOne("Clinic_System.DAL.Entities.Department", "Department")
+                        .WithMany("Doctors")
+                        .HasForeignKey("DeptID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Department");
 
@@ -455,7 +464,7 @@ namespace Clinic_System.DAL.Migrations
                 {
                     b.HasOne("Clinic_System.DAL.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("ApplicationUser");
 
                     b.Navigation("User");
                 });

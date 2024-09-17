@@ -1,7 +1,9 @@
 ﻿using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
+using Clinic_System.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace Clinic_System.PLL.Controllers
 {
@@ -16,7 +18,8 @@ namespace Clinic_System.PLL.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var doctors = _doctorService.GetAllDoctors();
+            return View("GetAllDoctors", doctors);
         }
 
         [HttpGet]
@@ -33,9 +36,36 @@ namespace Clinic_System.PLL.Controllers
                 var isCreated = _doctorService.Create(doctorVM);
                 if (isCreated)
                 {
-                    //return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
                 ModelState.AddModelError("", "Failed to create doctor");
+            }
+            return View(doctorVM);
+        }
+
+        [HttpGet]
+        public IActionResult EditDoctor(int id)
+        {
+            var doctorVM = _doctorService.GetDoctorById(id); 
+            if (doctorVM is null)
+            {
+                return RedirectToAction("Index");
+            }
+            var updateDoctorVM = _doctorService.ConvertToUpdateDoctorVM(doctorVM);
+            return View(updateDoctorVM);
+        }
+
+        [HttpPost]
+        public IActionResult EditDoctor(UpdateDoctorVM doctorVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var isUpdated = _doctorService.Edit(doctorVM);
+                if (isUpdated)
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError("", "Failed to update doctor");
             }
             return View(doctorVM);
         }

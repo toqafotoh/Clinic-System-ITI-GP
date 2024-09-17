@@ -1,0 +1,65 @@
+﻿@model List<Clinic_System.BLL.ModelVM.DoctorVM.GetAllDoctorsVM>
+
+@{
+    ViewData["Title"] = "Get All Doctors";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .add-doctor-container button {
+        background-color: #4E73DF;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+        .add-doctor-container button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="add-doctor-container">
+    <button onclick="window.location.href='@Url.Action("CreateDoctor", "Doctor")'">Add New Doctor</button>
+</div>
+<!-- Begin Page Content -->
+<table class="table table-bordered border-dark table-hover table-light">
+    <thead style="background-color: #2d53c633;">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Shift</th>
+            <th>Session Price</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var doctor in Model)
+        {
+            <tr>
+                <td>@doctor.DoctorID</td>
+                <td>@doctor.FullName</td>
+                <td>@doctor.Age</td>
+                <td>@doctor.Gender</td>
+                <td>@doctor.Shift</td>
+                <td>@doctor.SessionPrice</td>
+                <td>@doctor.Email</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" href="@Url.Action("EditDoctor", "Doctor", new { id = doctor.DoctorID })">
+                        Edit <i class="fas fa-pen ml-1"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Doctor", new { id = doctor.DoctorID })">
+                        <i class="fas fa-trash-alt"></i> Remove
+                    </a>
+                    <a class="btn btn-info" href="@Url.Action("Details", "Doctor", new { id = doctor.DoctorID })">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
