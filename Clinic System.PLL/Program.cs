@@ -1,3 +1,4 @@
+using Clinic_System.BLL.Mapping;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
 using Clinic_System.DAL.Database;
@@ -14,6 +15,7 @@ namespace Clinic_System.PLL
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
