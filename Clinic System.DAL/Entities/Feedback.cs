@@ -19,5 +19,6 @@ namespace Clinic_System.DAL.Entities
         [MaxLength(200)]
         [MinLength(10)]
         public string Content { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

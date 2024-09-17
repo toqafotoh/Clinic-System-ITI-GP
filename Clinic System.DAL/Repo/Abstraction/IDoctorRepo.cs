@@ -11,7 +11,8 @@ namespace Clinic_System.DAL.Repo.Abstraction
     {
         List<Doctor> GetAll();
         Doctor GetById(int id);
-        bool Create(Doctor doctor);
         bool Edit(Doctor doctor);
+        bool Create(Doctor doctor);
+        bool Delete(Doctor doctor);
     }
 }

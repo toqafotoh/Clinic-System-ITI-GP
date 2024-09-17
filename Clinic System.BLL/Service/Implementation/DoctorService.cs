@@ -30,5 +30,32 @@ namespace Clinic_System.BLL.Service.Implementation
             }
             return false;
         }
+
+        public bool Edit(UpdateDoctorVM doctorVM)
+        {
+           if(doctorVM is not null)
+            {
+                var doctorEntity = _mapper.Map<Doctor>(doctorVM);
+                return _doctorRepo.Edit(doctorEntity);
+            }
+            return false;
+        }
+        public List<GetAllDoctorsVM> GetAllDoctors()
+        {
+            var doctors = _doctorRepo.GetAll();
+            var doctorVMs = _mapper.Map<List<GetAllDoctorsVM>>(doctors);
+
+            return doctorVMs;
+        }
+        public GetDoctorByIdVM GetDoctorById(int id)
+        {
+            var doctor = _doctorRepo.GetById(id);
+            return _mapper.Map<GetDoctorByIdVM>(doctor); 
+        }
+        public UpdateDoctorVM ConvertToUpdateDoctorVM(GetDoctorByIdVM doctorByIdVM)
+        {
+            var updateDoctorVM = _mapper.Map<UpdateDoctorVM>(doctorByIdVM);
+            return updateDoctorVM;
+        }
     }
 }

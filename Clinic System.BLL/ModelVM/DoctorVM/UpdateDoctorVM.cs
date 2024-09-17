@@ -1,4 +1,5 @@
 ﻿using Clinic_System.DAL.Enum;
+using global::Clinic_System.DAL.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Clinic_System.BLL.ModelVM.DoctorVM
 {
-    public class CreateDoctorVM
+    public class UpdateDoctorVM
     {
+        public int DoctorID { get; set; }
         [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
 
@@ -43,7 +45,7 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
         [Range(80, double.MaxValue, ErrorMessage = "Session price must be at least 80")]
         public decimal SessionPrice { get; set; }
 
-        public string Description { get; set; } 
+        public string Description { get; set; }
     }
 
 }

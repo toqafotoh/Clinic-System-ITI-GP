@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinic_System.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240916233230_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20240917210652_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,16 +33,16 @@ namespace Clinic_System.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DepartmentID")
+                    b.Property<TimeSpan>("AppointmentTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("DepartmentID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DeptID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DoctorID")
+                    b.Property<int>("DoctorID")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -96,7 +96,7 @@ namespace Clinic_System.DAL.Migrations
                     b.Property<string>("ApplicationUser")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("DeptID")
+                    b.Property<int>("DeptID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -137,6 +137,9 @@ namespace Clinic_System.DAL.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -416,17 +419,28 @@ namespace Clinic_System.DAL.Migrations
 
             modelBuilder.Entity("Clinic_System.DAL.Entities.Appointment", b =>
                 {
-                    b.HasOne("Clinic_System.DAL.Entities.Department", null)
+                    b.HasOne("Clinic_System.DAL.Entities.Department", "Department")
                         .WithMany("Appointments")
-                        .HasForeignKey("DepartmentID");
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("Clinic_System.DAL.Entities.Doctor", null)
+                    b.HasOne("Clinic_System.DAL.Entities.Doctor", "Doctor")
                         .WithMany("Appointments")
-                        .HasForeignKey("DoctorID");
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("Clinic_System.DAL.Entities.Patient", null)
+                    b.HasOne("Clinic_System.DAL.Entities.Patient", "Patient")
                         .WithMany("Appointments")
-                        .HasForeignKey("PatientID");
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Clinic_System.DAL.Entities.Doctor", b =>
@@ -437,7 +451,9 @@ namespace Clinic_System.DAL.Migrations
 
                     b.HasOne("Clinic_System.DAL.Entities.Department", "Department")
                         .WithMany("Doctors")
-                        .HasForeignKey("DeptID");
+                        .HasForeignKey("DeptID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Department");
 

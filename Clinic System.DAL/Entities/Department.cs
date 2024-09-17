@@ -12,7 +12,7 @@ namespace Clinic_System.DAL.Entities
         [Key] 
         public int ID { get; set; }
         public string Name { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public List<Doctor> Doctors { get; set; }
         public List <Appointment> Appointments { get; set; }
     }
