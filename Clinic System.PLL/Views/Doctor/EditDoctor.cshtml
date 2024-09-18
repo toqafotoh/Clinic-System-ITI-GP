@@ -25,6 +25,12 @@
 
 <div class="container form-container">
     <h2 class="text-center mb-4">Update Doctor</h2>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+    }
 
     <form asp-action="EditDoctor" asp-controller="Doctor" method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="DoctorID" />
@@ -86,15 +92,13 @@
         </div>
         *@
          <!-- Department -->
-         <div class="mb-3">
-         <label class="form-label">Department</label>
-         <select class="form-select" asp-for="DepartmentID">
-         <option value="" disabled selected>Select department</option>
-         <option value="1">Surgery</option>
-         <option value="2">Dentistry</option>
-         </select>
-         <span class="text-danger" asp-validation-for="DepartmentID"></span>
-         </div> 
+        <div class="mb-3">
+            <label class="form-label">Department</label>
+            <select class="form-select" asp-for="DepartmentID" asp-items="ViewBag.Departments">
+                <option value="">Select department</option>
+            </select>
+            <span class="text-danger" asp-validation-for="DepartmentID"></span>
+        </div>
 
         <!-- Shift -->
         <div class="mb-3">

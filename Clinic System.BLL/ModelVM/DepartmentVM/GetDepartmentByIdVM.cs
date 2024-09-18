@@ -5,15 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Clinic_System.DAL.Entities
+namespace Clinic_System.BLL.ModelVM.DepartmentVM
 {
-    public class Department
+    public class GetDepartmentByIdVM
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public string PhoneNumber { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public string? PhoneNumber { get; set; }
-        public List<Doctor> Doctors { get; set; }
-        public List <Appointment> Appointments { get; set; }
     }
 }

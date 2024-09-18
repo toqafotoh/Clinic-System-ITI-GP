@@ -3,6 +3,7 @@ using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
 using Clinic_System.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Numerics;
 
 namespace Clinic_System.PLL.Controllers
@@ -10,10 +11,12 @@ namespace Clinic_System.PLL.Controllers
     public class DoctorController : Controller
     {
         private readonly IDoctorService _doctorService;
+        private readonly IDepartmentService _departmentService;
 
-        public DoctorController(IDoctorService doctorService)
+        public DoctorController(IDoctorService doctorService, IDepartmentService departmentService)
         {
             _doctorService = doctorService;
+            _departmentService = departmentService;
         }
 
         public IActionResult Index()
@@ -25,12 +28,17 @@ namespace Clinic_System.PLL.Controllers
         [HttpGet]
         public IActionResult CreateDoctor()
         {
+            var departments = _departmentService.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "ID", "Name");
             return View(new CreateDoctorVM());
         }
 
         [HttpPost]
         public IActionResult CreateDoctor(CreateDoctorVM doctorVM)
         {
+            var departments = _departmentService.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "ID", "Name");
+
             if (ModelState.IsValid)
             {
                 var isCreated = _doctorService.Create(doctorVM);
@@ -46,6 +54,8 @@ namespace Clinic_System.PLL.Controllers
         [HttpGet]
         public IActionResult EditDoctor(int id)
         {
+            var departments = _departmentService.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "ID", "Name");
             var doctorVM = _doctorService.GetDoctorById(id); 
             if (doctorVM is null)
             {
@@ -58,6 +68,8 @@ namespace Clinic_System.PLL.Controllers
         [HttpPost]
         public IActionResult EditDoctor(UpdateDoctorVM doctorVM)
         {
+            var departments = _departmentService.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "ID", "Name");
             if (ModelState.IsValid)
             {
                 var isUpdated = _doctorService.Edit(doctorVM);

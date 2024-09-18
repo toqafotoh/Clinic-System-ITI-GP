@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Clinic_System.DAL.Repo.Implementation
 {
-    public class DepartmentRepo
+    public class DepartmentRepo : IDepartmentRepo
     {
         private readonly ApplicationDbContext _db;
         public DepartmentRepo(ApplicationDbContext applicationDb)

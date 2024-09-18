@@ -32,7 +32,7 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Department is required")]
-        public int DepartmentID { get; set; }
+        public int? DepartmentID { get; set; }
 
         [Required(ErrorMessage = "Shift is required")]
         public Shift Shift { get; set; }

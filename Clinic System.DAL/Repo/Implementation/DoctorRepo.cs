@@ -46,7 +46,17 @@ namespace Clinic_System.DAL.Repo.Implementation
 
                 if (existingDoctor is not null)
                 {
-                    _mapper.Map(doctor, existingDoctor);
+                    //_mapper.Map(doctor, existingDoctor);
+                    existingDoctor.Shift = doctor.Shift;
+                    existingDoctor.SessionPrice = doctor.SessionPrice;
+                    existingDoctor.Description = doctor.Description;
+                    existingDoctor.DeptID = doctor.DeptID;  
+                    existingDoctor.User.FirstName = doctor.User.FirstName;
+                    existingDoctor.User.LastName = doctor.User.LastName;
+                    existingDoctor.User.Age = doctor.User.Age;
+                    existingDoctor.User.Gender = doctor.User.Gender;
+                    existingDoctor.User.PhoneNumber = doctor.User.PhoneNumber;
+                    existingDoctor.User.Email = doctor.User.Email;
                     _db.SaveChanges();
                     return true;
                 }

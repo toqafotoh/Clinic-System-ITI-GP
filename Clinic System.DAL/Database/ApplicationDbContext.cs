@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Clinic_System.DAL.Database
 {
@@ -32,13 +33,13 @@ namespace Clinic_System.DAL.Database
                 .HasOne(a => a.Doctor)
                 .WithMany(d => d.Appointments)
                 .HasForeignKey(a => a.DoctorID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.Department)
                 .WithMany(d => d.Appointments)
                 .HasForeignKey(a => a.DepartmentID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.Patient)

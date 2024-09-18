@@ -32,6 +32,8 @@ namespace Clinic_System.PLL
             builder.Services.AddScoped<IDoctorRepo, DoctorRepo>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+            builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
             var app = builder.Build();
             // Configure the HTTP request pipeline.

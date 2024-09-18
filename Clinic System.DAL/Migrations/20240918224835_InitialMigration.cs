@@ -63,7 +63,8 @@ namespace Clinic_System.DAL.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -222,14 +223,14 @@ namespace Clinic_System.DAL.Migrations
                     SessionPrice = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DeptID = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUser = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Doctor", x => x.DoctorID);
                     table.ForeignKey(
-                        name: "FK_Doctor_AspNetUsers_ApplicationUser",
-                        column: x => x.ApplicationUser,
+                        name: "FK_Doctor_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -261,14 +262,12 @@ namespace Clinic_System.DAL.Migrations
                         name: "FK_Appointments_Departments_DepartmentID",
                         column: x => x.DepartmentID,
                         principalTable: "Departments",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Appointments_Doctor_DoctorID",
                         column: x => x.DoctorID,
                         principalTable: "Doctor",
-                        principalColumn: "DoctorID",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "DoctorID");
                     table.ForeignKey(
                         name: "FK_Appointments_Patient_PatientID",
                         column: x => x.PatientID,
@@ -353,14 +352,14 @@ namespace Clinic_System.DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctor_ApplicationUser",
-                table: "Doctor",
-                column: "ApplicationUser");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Doctor_DeptID",
                 table: "Doctor",
                 column: "DeptID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctor_UserId",
+                table: "Doctor",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patient_ApplicationUser",

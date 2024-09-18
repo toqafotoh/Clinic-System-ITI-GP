@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Clinic_System.BLL.ModelVM.AppointmentVM;
+using Clinic_System.BLL.ModelVM.DepartmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.DAL.Entities;
@@ -38,7 +39,7 @@ namespace Clinic_System.BLL.Mapping
             //CreateMap<DepartmentVM, Department>();
 
 
-            CreateMap<Doctor, Doctor>().ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
+            //CreateMap<Doctor, Doctor>().ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
             CreateMap<UpdateDoctorVM, Doctor>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User
                 {
@@ -66,6 +67,12 @@ namespace Clinic_System.BLL.Mapping
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Doctor.SessionPrice))
                 .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Doctor.Department.Name));
             CreateMap<GetAppointmentByIdVM, UpdateAppointmentVM>();
+
+            CreateMap<Department, GetAllDepartmentsVM>().ReverseMap();
+            CreateMap<Department, GetDepartmentByIdVM>().ReverseMap();
+            CreateMap<CreateDepartmentVM, Department>().ReverseMap();
+            CreateMap<EditDepartmentVM, Department>().ReverseMap();
+            CreateMap<DeleteDepartmentVM, Department>().ReverseMap();
         }
     }
 }

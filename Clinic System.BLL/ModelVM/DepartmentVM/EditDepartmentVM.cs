@@ -5,15 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Clinic_System.DAL.Entities
+namespace Clinic_System.BLL.ModelVM.DepartmentVM
 {
-    public class Department
+    public class EditDepartmentVM
     {
         public int ID { get; set; }
+
+        [Required(ErrorMessage = "First name is required")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Phone number is required")]
+        [Phone(ErrorMessage = "Invalid phone number")]
+        public string PhoneNumber { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public string? PhoneNumber { get; set; }
-        public List<Doctor> Doctors { get; set; }
-        public List <Appointment> Appointments { get; set; }
     }
 }
