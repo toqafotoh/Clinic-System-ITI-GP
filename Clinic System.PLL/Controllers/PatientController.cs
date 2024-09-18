@@ -19,38 +19,22 @@ namespace Clinic_System.PLL.Controllers
             return View("GetAllPatients",patients);
         }
 
-        //[HttpGet]
-        //public IActionResult DeletePatient(int id)
-        //{
-        //    var PatientVM = _patientService.GetPatientById(id);
-        //    if (PatientVM is null)
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(PatientVM);
-
-        //}
-        //[HttpPost]
-        //public IActionResult DeletePatient(DeletePatientVM patientVM)
-        //{
-        //    _patientService.Delete(patientVM);
-        //    return RedirectToAction("Index", "Patient");
-
-        //}
-
+        [HttpGet]
+        public IActionResult DeletePatient(int id)
+        {
+            var PatientVM = _patientService.GetPatientById(id);
+            if (PatientVM is null)
+            {
+                return RedirectToAction("Index");
+            }
+            var deletePatientVM = _patientService.ConvertToDeletePatientVM(PatientVM);
+            return View(deletePatientVM);
+        }
         [HttpPost]
         public IActionResult DeletePatient(DeletePatientVM deletePatientVM)
         {
-            var result = _patientService.DeletePatientById(deletePatientVM);
-
-            if (result)
-            {
-                return Json(new { success = true });
-            }
-            else
-            {
-                return Json(new { success = false, message = "Error deleting the patient." });
-            }
+            var result = _patientService.Delete(deletePatientVM);
+                return RedirectToAction("Index");
         }
 
     }

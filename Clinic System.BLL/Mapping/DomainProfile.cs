@@ -28,7 +28,6 @@ namespace Clinic_System.BLL.Mapping
                     LastName = src.LastName,
                     Age = src.Age,
                     Gender = src.Gender,
-                    PhoneNumber = src.PhoneNumber,
                     Email = src.Email,
                     Image = src.Image,
                     IsDeleted=src.IsDeleted
@@ -70,6 +69,7 @@ namespace Clinic_System.BLL.Mapping
             CreateMap<Doctor, GetAllDoctorsVM>().ConstructUsing(doctor => new GetAllDoctorsVM(doctor));
             CreateMap<Doctor, GetDoctorByIdVM>().ConstructUsing(doctor => new GetDoctorByIdVM(doctor));
             CreateMap<GetDoctorByIdVM, UpdateDoctorVM>();
+            CreateMap<GetPatientByIdVM, DeletePatientVM>();
             CreateMap<Appointment, CreateAppointmentVM>().ReverseMap();
             CreateMap<Appointment, UpdateAppointmentVM>().ReverseMap();
             CreateMap<Appointment, GetAllAppointmentsVM>()

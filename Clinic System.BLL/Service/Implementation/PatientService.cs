@@ -86,6 +86,11 @@ namespace Clinic_System.BLL.Service.Implementation
             }
             return false;
         }
+        public DeletePatientVM ConvertToDeletePatientVM(GetPatientByIdVM patientByIdVM)
+        {
+            var deletePatientVM = mapper.Map<DeletePatientVM>(patientByIdVM);
+            return deletePatientVM;
+        }
 
     }
 }

@@ -16,6 +16,7 @@ namespace Clinic_System.BLL.Service.Abstraction
         bool Create(CreatePatientVM patientVM);
         bool Delete(DeletePatientVM patientVM);
         bool DeletePatientById(DeletePatientVM deletePatientVM);
+        DeletePatientVM ConvertToDeletePatientVM(GetPatientByIdVM patientByIdVM);
 
     }
 }

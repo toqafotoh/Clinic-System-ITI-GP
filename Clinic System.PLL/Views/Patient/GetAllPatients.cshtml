@@ -116,7 +116,7 @@
                 <td>@patient.PhoneNumber</td>
                 <td>
                     @* <button class="edit-btn"><i class="fas fa-edit"></i>Edit</button> *@
-                    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Patient", new { id = patient.PatientID })">
+                    <a onclick="deletePatient(@patient.PatientID)" class="btn btn-sm btn-danger" href="@Url.Action("DeletePatient", "Patient", new { id = patient.PatientID })">
                         <i class="fas fa-trash-alt"></i> Remove
                     </a>
                 </td>
