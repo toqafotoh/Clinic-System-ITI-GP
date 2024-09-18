@@ -12,8 +12,9 @@ namespace Clinic_System.BLL.ModelVM.PatientVM
         public int PatientID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
         public string Email { get; set; }
-        public string password {  get; set; }
+        public string PhoneNumber{ get; set; }
         public int Age { get; set; } = 0;
         public Gender Gender { get; set; } = Gender.Male;
         public string? Image { get; set; }

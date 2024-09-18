@@ -14,5 +14,6 @@ namespace Clinic_System.DAL.Repo.Abstraction
         bool Edit(Patient patient);
         bool Create(Patient patient);
         bool Delete(Patient patient);
+        void SaveChanges();
     }
 }

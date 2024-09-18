@@ -19,9 +19,24 @@ namespace Clinic_System.BLL.Mapping
 
             //From Entity To VM(Retreive)
 
-            CreateMap<Patient, GetAllPatientVM>();
-            CreateMap<CreatePatientVM, Patient>();
-            CreateMap<EditPatientVM, Patient>();
+            CreateMap<Patient, GetAllPatientVM>().ConstructUsing(patient => new GetAllPatientVM(patient));
+            CreateMap<Patient, GetPatientByIdVM>().ConstructUsing(patient => new GetPatientByIdVM(patient));
+            CreateMap<DeletePatientVM, Patient>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User
+                {
+                    FirstName = src.FirstName,
+                    LastName = src.LastName,
+                    Age = src.Age,
+                    Gender = src.Gender,
+                    PhoneNumber = src.PhoneNumber,
+                    Email = src.Email,
+                    Image = src.Image,
+                    IsDeleted=src.IsDeleted
+                }));
+            CreateMap<Patient, DeletePatientVM>();
+
+            //CreateMap<CreatePatientVM, Patient>();
+            //CreateMap<EditPatientVM, Patient>();
             CreateMap<CreateDoctorVM, Doctor>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User
                 {
