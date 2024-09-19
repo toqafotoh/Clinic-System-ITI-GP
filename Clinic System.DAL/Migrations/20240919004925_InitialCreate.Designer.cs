@@ -4,6 +4,7 @@ using Clinic_System.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinic_System.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240919004925_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,17 +33,17 @@ namespace Clinic_System.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("AppointmentDate")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("AppointmentTime")
-                        .HasColumnType("time");
-
-                    b.Property<int>("DepartmentID")
+                    b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
 
-                    b.Property<int>("DoctorID")
+                    b.Property<int?>("DoctorID")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("Isbooked")
                         .HasColumnType("bit");
@@ -69,6 +72,9 @@ namespace Clinic_System.DAL.Migrations
 
                     b.Property<int?>("DoctorID")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -117,8 +123,6 @@ namespace Clinic_System.DAL.Migrations
                     b.ToTable("Doctors");
                 });
 
-<<<<<<< Updated upstream
-=======
             modelBuilder.Entity("Clinic_System.DAL.Entities.Feedback", b =>
                 {
                     b.Property<int>("ID")
@@ -146,7 +150,6 @@ namespace Clinic_System.DAL.Migrations
                     b.ToTable("Feedbacks");
                 });
 
->>>>>>> Stashed changes
             modelBuilder.Entity("Clinic_System.DAL.Entities.Patient", b =>
                 {
                     b.Property<int>("PatientID")
@@ -185,6 +188,9 @@ namespace Clinic_System.DAL.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("ID");
 
@@ -413,27 +419,17 @@ namespace Clinic_System.DAL.Migrations
 
             modelBuilder.Entity("Clinic_System.DAL.Entities.Appointment", b =>
                 {
-                    b.HasOne("Clinic_System.DAL.Entities.Department", "Department")
+                    b.HasOne("Clinic_System.DAL.Entities.Department", null)
                         .WithMany("Appointments")
-                        .HasForeignKey("DepartmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DepartmentID");
 
-                    b.HasOne("Clinic_System.DAL.Entities.Doctor", "Doctor")
+                    b.HasOne("Clinic_System.DAL.Entities.Doctor", null)
                         .WithMany("Appointments")
-                        .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DoctorID");
 
-                    b.HasOne("Clinic_System.DAL.Entities.Patient", "Patient")
+                    b.HasOne("Clinic_System.DAL.Entities.Patient", null)
                         .WithMany("Appointments")
                         .HasForeignKey("PatientID");
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Clinic_System.DAL.Entities.Department", b =>
