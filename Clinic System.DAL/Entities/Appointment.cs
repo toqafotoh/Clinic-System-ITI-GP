@@ -17,7 +17,7 @@ namespace Clinic_System.DAL.Entities
         public TimeSpan AppointmentTime { get; set; }
         [Required]
         public bool Isbooked { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         //Navigation Property
         [ForeignKey("Doctor")]

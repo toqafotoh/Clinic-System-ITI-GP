@@ -10,9 +10,10 @@ namespace Clinic_System.DAL.Repo.Abstraction
     public interface IPatientRepo
     {
         List<Patient> GetAll();
-        Patient GetbyId(int id);
+        Patient GetById(int id);
         bool Edit(Patient patient);
         bool Create(Patient patient);
         bool Delete(Patient patient);
+        void SaveChanges();
     }
 }

@@ -15,6 +15,7 @@ namespace Clinic_System.DAL.Entities
         [Required]
         public double Amount { get; set; }
         public DateTime Date { get; set; }= DateTime.Now;
+        public bool IsDeleted { get; set; }
 
         [ForeignKey("Appointment")]
         public int? AppointmentID { get; set; }

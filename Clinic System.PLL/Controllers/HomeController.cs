@@ -10,18 +10,18 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IFeedbackService _feedbackService;
-    private readonly IDoctorService _doctorService;
+    private readonly IDoctorService _doctorService; 
     private readonly IDepartmentService _departmentService;
     private readonly IAppointmentService _appointmentService;
     private readonly IMapper _mapper;
 
 
 
-    public HomeController(ILogger<HomeController> logger, IFeedbackService feedbackService, IAppointmentService appointmentService, IDoctorService doctorService, IDepartmentService departmentService, IMapper mapper)
+    public HomeController(ILogger<HomeController> logger, IFeedbackService feedbackService, IAppointmentService appointmentService, IDoctorService doctorService, IDepartmentService departmentService , IMapper mapper)
     {
         _logger = logger;
         _feedbackService = feedbackService;
-        _doctorService = doctorService;
+        _doctorService = doctorService; 
         _departmentService = departmentService;
         _appointmentService = appointmentService;
         _mapper = mapper;
@@ -30,8 +30,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var departments = _departmentService.GetDepartments();
-        ViewBag.Departments = new SelectList(departments, "ID", "Name");
+        var departments = _departmentService.GetDepartments(); 
+        ViewBag.Departments = new SelectList(departments, "ID", "Name"); 
         return View();
     }
 
@@ -70,7 +70,7 @@ public class HomeController : Controller
         foreach (var doctor in doctors)
         {
             var appointments = _appointmentService.GetAppointmentsByDoctor(doctor.DoctorID);
-            doctor.Appointments = appointments.ToList();
+            doctor.Appointments = appointments.ToList();  
         }
 
         model.Doctors = doctors;
@@ -94,7 +94,7 @@ public class HomeController : Controller
             Email = Email,
             Content = Content
         };
-
+        
         var addedFeedback = _feedbackService.AddFeedback(feedback);
         return Ok();
     }

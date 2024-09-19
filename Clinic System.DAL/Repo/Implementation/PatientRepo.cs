@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace Clinic_System.DAL.Repo.Implementation
         {
             try
             {
+                _db.Users.Add(patient.User);
                 _db.Patients.Add(patient);
                 _db.SaveChanges();
                 return true;
@@ -86,9 +88,14 @@ namespace Clinic_System.DAL.Repo.Implementation
             return _db.Patients.Include(p => p.User).ToList();
         }
 
-        public Patient GetbyId(int id)
+        public Patient GetById(int id)
         {
             return _db.Patients.Include(p => p.User).FirstOrDefault(p => p.PatientID == id);
+        }
+
+        public void SaveChanges()
+        {
+            _db.SaveChanges();
         }
     }
 }

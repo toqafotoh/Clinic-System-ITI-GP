@@ -64,7 +64,6 @@ namespace Clinic_System.DAL.Repo.Implementation
                     existingAppointment.AppointmentTime = appointment.AppointmentTime;
                     existingAppointment.IsDeleted = appointment.IsDeleted;
                     existingAppointment.Isbooked = appointment.Isbooked;
-
                     _db.SaveChanges();
                     return true;
                 }
@@ -75,16 +74,29 @@ namespace Clinic_System.DAL.Repo.Implementation
             {
                 return false;
             }
+            
+//          public List<Appointment> GetAll()
+//         {
+//             return _db.Appointments.ToList();
+//         }
 
-        }
-            public List<Appointment> GetAll()
+        public List<Appointment> GetAll()
         {
-            return _db.Appointments.ToList();
+            return _db.Appointments
+               .Include(a => a.Doctor)
+               .ThenInclude(d => d.Department)  
+               .Include(a => a.Doctor.User)     
+               .ToList();
         }
 
         public Appointment GetbyId(int id)
         {
-            return _db.Appointments.Where(a => a.ID == id).FirstOrDefault();
+           // return _db.Appointments.Where(a => a.ID == id).FirstOrDefault();
+            return _db.Appointments
+               .Include(a => a.Doctor)
+               .ThenInclude(d => d.Department) 
+               .Include(a => a.Doctor.User)    
+               .FirstOrDefault(a => a.ID == id);
         }
         
         public bool BookAppointment(Appointment appointment,int patientID)

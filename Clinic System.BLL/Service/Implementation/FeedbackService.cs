@@ -19,7 +19,6 @@ namespace Clinic_System.BLL.Service.Implementation
             _feedbackRepository = feedbackRepository;
         }
 
-     
 
         public Feedback AddFeedback(FeedbackVM model)
         {
@@ -29,7 +28,6 @@ namespace Clinic_System.BLL.Service.Implementation
                 Content = model.Content,
                 Email = model.Email
             };
-
             return _feedbackRepository.Add(feedback);
         }
 

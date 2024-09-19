@@ -18,7 +18,9 @@ namespace Clinic_System.DAL.Entities
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [StringLength(500)]
-        public string Content { get; set;}
+        [MaxLength(200)]
+        [MinLength(10)]
+        public string Content { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

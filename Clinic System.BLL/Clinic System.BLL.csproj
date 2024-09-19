@@ -12,11 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ModelVM\" />
     <Folder Include="Helper\" />
     <Folder Include="Mapping\" />
-    <Folder Include="Service\Abstraction\" />
-    <Folder Include="Service\Implementation\" />
+    <Folder Include="ModelVM\PaymentVM\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
