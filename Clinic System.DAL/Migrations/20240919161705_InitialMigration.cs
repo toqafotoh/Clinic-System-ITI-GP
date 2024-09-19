@@ -77,7 +77,7 @@ namespace Clinic_System.DAL.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -194,7 +194,7 @@ namespace Clinic_System.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Patient",
+                name: "Patients",
                 columns: table => new
                 {
                     PatientID = table.Column<int>(type: "int", nullable: false)
@@ -204,16 +204,16 @@ namespace Clinic_System.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Patient", x => x.PatientID);
+                    table.PrimaryKey("PK_Patients", x => x.PatientID);
                     table.ForeignKey(
-                        name: "FK_Patient_AspNetUsers_ApplicationUser",
+                        name: "FK_Patients_AspNetUsers_ApplicationUser",
                         column: x => x.ApplicationUser,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctor",
+                name: "Doctors",
                 columns: table => new
                 {
                     DoctorID = table.Column<int>(type: "int", nullable: false)
@@ -227,14 +227,14 @@ namespace Clinic_System.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Doctor", x => x.DoctorID);
+                    table.PrimaryKey("PK_Doctors", x => x.DoctorID);
                     table.ForeignKey(
-                        name: "FK_Doctor_AspNetUsers_UserId",
+                        name: "FK_Doctors_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Doctor_Departments_DeptID",
+                        name: "FK_Doctors_Departments_DeptID",
                         column: x => x.DeptID,
                         principalTable: "Departments",
                         principalColumn: "ID",
@@ -264,14 +264,14 @@ namespace Clinic_System.DAL.Migrations
                         principalTable: "Departments",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Appointments_Doctor_DoctorID",
+                        name: "FK_Appointments_Doctors_DoctorID",
                         column: x => x.DoctorID,
-                        principalTable: "Doctor",
+                        principalTable: "Doctors",
                         principalColumn: "DoctorID");
                     table.ForeignKey(
-                        name: "FK_Appointments_Patient_PatientID",
+                        name: "FK_Appointments_Patients_PatientID",
                         column: x => x.PatientID,
-                        principalTable: "Patient",
+                        principalTable: "Patients",
                         principalColumn: "PatientID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -352,18 +352,18 @@ namespace Clinic_System.DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctor_DeptID",
-                table: "Doctor",
+                name: "IX_Doctors_DeptID",
+                table: "Doctors",
                 column: "DeptID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctor_UserId",
-                table: "Doctor",
+                name: "IX_Doctors_UserId",
+                table: "Doctors",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Patient_ApplicationUser",
-                table: "Patient",
+                name: "IX_Patients_ApplicationUser",
+                table: "Patients",
                 column: "ApplicationUser");
 
             migrationBuilder.CreateIndex(
@@ -403,10 +403,10 @@ namespace Clinic_System.DAL.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
-                name: "Doctor");
+                name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "Patient");
+                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "Departments");

@@ -14,7 +14,7 @@ namespace Clinic_System.BLL.Service.Abstraction
     {
         
         // conflict
-        List<DoctorVM> GetAllDoctors();
+        List<DoctorVM> GetDoctors();
         List<GetAllDoctorsVM> GetAllDoctors();
       
          List<DoctorVM> GetDoctorsByDepartment(int departmentId);
