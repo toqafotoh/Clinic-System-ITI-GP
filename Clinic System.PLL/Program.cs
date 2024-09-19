@@ -1,6 +1,12 @@
+using Clinic_System.BLL.Mapping;
+using Clinic_System.BLL.Service.Abstraction;
+using Clinic_System.BLL.Service.Implementation;
 using Clinic_System.DAL.Database;
 using Clinic_System.DAL.Entities;
+using Clinic_System.DAL.Repo.Abstraction;
+using Clinic_System.DAL.Repo.Implementation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clinic_System.PLL
 {
@@ -13,6 +19,22 @@ namespace Clinic_System.PLL
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
+
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+
+            builder.Services.AddScoped<IFeedBackRepository, FeedBackRipository>();
+            builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+            builder.Services.AddScoped<IPatientRepo, PatientRepo>();
+            builder.Services.AddScoped<IAppointmentRepo, AppointmentRepo>();
+            builder.Services.AddScoped<IPaymentRepo, PaymentRepo>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+            builder.Services.AddScoped<IDoctorService, DoctorService>();
+            //builder.Services.AddScoped<IPatientService, PatientService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

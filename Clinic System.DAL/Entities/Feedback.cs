@@ -11,13 +11,14 @@ namespace Clinic_System.DAL.Entities
     {
         [Key]
         public int ID { get; set; }
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [MaxLength(200)]
-        [MinLength(10)]
-        public string Content { get; set; }
+        [StringLength(500)]
+        public string Content { get; set;}
     }
 }

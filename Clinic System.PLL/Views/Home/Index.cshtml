@@ -1,4 +1,8 @@
-﻿@{
+﻿@using Clinic_System.BLL.ModelVM.FeedBackVM
+@model FeedbackVM 
+
+
+@{
     ViewData["Title"] = "Home Page";
 
 }
@@ -21,6 +25,8 @@
 </head>
 
 <body>
+    <div id="feedbackMessage" style="display:none;"></div>
+
     <div class="loading-screen">
         <div class="logo-container">
             <div class="logo">
@@ -43,7 +49,6 @@
             </div>
         </div>
 
-        <!-- User dropdown -->
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img src="imges/about1.png" alt="User Profile" class="user-image">
@@ -60,7 +65,6 @@
             <a href="#about">About Us</a>
             <a href="#ser-heading">Services</a>
             <a href="#cont">FeedBack</a>
-            <!-- <a href="side.html">Side Effect</a> -->
 
         </nav>
 
@@ -102,33 +106,38 @@
             </div>
         </div>
     </div>
-    <div class="search-container">
-        <!-- Header Section -->
-        <div class="search-header">
-            <h2><i class="fas fa-user-md icon"></i>Book a Doctor</h2>
-            <p>Consultation or Procedure</p>
-        </div>
-
-        <!-- Search Bar Section -->
-        <div class="search-bar">
-            <div class="search-select-icon">
-                <i class="fas fa-stethoscope icon"></i>
-                <select class="search-select" required>
-                    <option value="" disabled selected>Select Specialty</option>
-                    <option value="cardiology">Cardiology</option>
-                    <option value="neurology">Neurology</option>
-                    <option value="orthopedics">Orthopedics</option>
-                    <!-- Add more options as needed -->
-                </select>
+    <form method="post" asp-action="Search">
+        <div class="search-container">
+            <div class="search-header">
+                <h2><i class="fas fa-user-md icon"></i>Book a Doctor</h2>
+                <p>Consultation or Procedure</p>
             </div>
 
-            <input type="text" placeholder="Enter doctor name" class="search-input">
-            <a href="@Url.Action("Search", "Home")" class="search-button">
-                <i class="fas fa-search icon"></i> Search
-            </a>
-
+            <div class="search-bar">
+                <div class="search-select-icon">
+                    <i class="fas fa-stethoscope icon"></i>
+                    <select class="search-select" name="departmentId">
+                        <option value="" disabled selected>Select Specialty</option>
+                        @if (ViewBag.Departments != null)
+                        {
+                            foreach (var department in (SelectList)ViewBag.Departments)
+                            {
+                                <option value="@department.Value">@department.Text</option>
+                            }
+                        }
+                        else
+                        {
+                            <option>No departments available</option>
+                        }
+                    </select>
+                </div>
+                <input type="text" name="doctorName" placeholder="Enter doctor name" class="search-input">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search icon"></i> Search
+                </button>
+            </div>
         </div>
-    </div>
+    </form>
     <div id="about" class="main-about">
         <div class="about-heading">About Us</div>
 
@@ -253,22 +262,27 @@
             </div>
 
             <div class="contactForm">
-                <form action="#" method="post">
+                <form  asp-action="Feedback" asp-controller="Home"  id="feedbackForm" method="post">
                     <h2>Send Message</h2>
                     <div class="inputBox">
-                        <input type="text" required>
-                        <span>Full Name</span>
+                        <input asp-for="Name" type="text" required id="name">
+                        <span asp-for="Name">Name</span>
+                        <span asp-validation-for="Name" style="color : red"></span>
                     </div>
                     <div class="inputBox">
-                        <input type="text" required>
-                        <span>Email</span>
+                        <input asp-for="Email" type="text" required id="email">
+                        <span asp-for ="Email">Email</span>
+                        <span asp-validation-for="Email" style="color : red"></span>
+
                     </div>
                     <div class="inputBox">
-                        <textarea required></textarea>
-                        <span>Type Your Message...</span>
+                        <textarea asp-for="Content" required id = "content"></textarea>
+                        <span asp-for="Content">Type Your Message...</span>
+                        <span asp-validation-for="Content" style="color : red"></span>
+
                     </div>
                     <div class="inputBox">
-                        <input type="submit" value="Send">
+                        <input type="button" value="Send" id="feed"/>
                     </div>
                 </form>
             </div>
@@ -350,17 +364,15 @@
 
         window.addEventListener('DOMContentLoaded', function () {
             const loadingScreen = document.querySelector('.loading-screen');
-            document.body.style.overflow = 'hidden'; // Hide overflow initially
-            document.body.style.pointerEvents = 'none'; // Disable pointer events initially
+            document.body.style.overflow = 'hidden'; 
+            document.body.style.pointerEvents = 'none'; 
 
-            // Simulate some loading time (replace with your actual loading logic)
             setTimeout(() => {
-                loadingScreen.style.opacity = 0; // Fade out the loading screen
-                document.body.style.overflow = ''; // Restore overflow once loading is complete
-                document.body.style.pointerEvents = ''; // Restore pointer events once loading is complete
-                // Optionally, remove the loading screen from the DOM after fade-out:
+                loadingScreen.style.opacity = 0; 
+                document.body.style.overflow = ''; 
+                document.body.style.pointerEvents = ''; 
 
-            }, 1000); // Adjust timeout as needed (in milliseconds)
+            }, 1000); 
         });
 
 
@@ -375,20 +387,53 @@
             }
         });
 
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
+                scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
                 top: 0,
-                behavior: 'smooth' // تأثيرات انتقال سلسة
+                behavior: 'smooth' 
             });
         });
 
 
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
+       document.addEventListener("DOMContentLoaded", (event) => {
+            $(document).ready(function () {
+                $('#feed').on('click', function (event) {
+                    event.preventDefault(); 
 
-    <!-- Bootstrap Bundle with Popper -->
+                    var name = $('#name').val();
+                    var email = $('#email').val();
+                    var content = $('#content').val();
+
+                    $.ajax({
+                        url: '/Home/Feedback', 
+                        method: 'POST',
+                        data: {
+                            Name: name,
+                            Email: email,
+                            Content: content
+                        },
+                        success: function (response) {
+                            alert('Feedback sent successfully!');
+
+                            $('#name').val('');
+                            $('#email').val('');
+                            $('#content').val('');
+                        },
+                        error: function (error) {
+                            alert('An error occurred. Please try again.');
+                        }
+                    });
+                });
+            });
+        });
+      
+
+   </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 

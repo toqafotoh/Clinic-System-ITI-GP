@@ -758,7 +758,7 @@ nav {
         transform: translateY(-20px);
     }
 
-    .contactForm .inputBox input[type="submit"] {
+     .inputBox input[type="button"] {
         width: 100px;
         background: #007bff;
         color: #fff;
@@ -770,7 +770,7 @@ nav {
         transition: 1s;
     }
 
-        .contactForm .inputBox input[type="submit"]:hover {
+         .inputBox input[type="button"]:hover {
             background: white;
             color: black;
         }

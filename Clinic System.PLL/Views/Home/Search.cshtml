@@ -1,18 +1,19 @@
-﻿@{
-    ViewData["Title"] = "Search ";
+﻿@using Clinic_System.BLL.ModelVM.Appointment
+@model SearchVM
+@{
+    ViewData["Title"] = "Search";
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Doctor Profile</title>
   <link rel="stylesheet" href="~/css/search.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css ">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js" integrity="sha512-oAY57i8MXmaOP7pAylNLnULAM4QLV3uGnvnXVY4zF229/zFzTvG2/5YIgH8iN8oZR2hnbkiDPd4JCJGaH4oG6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 
 </head>
 <body>
@@ -31,11 +32,12 @@
       </div>
     </div>
     <nav class="navbar">
-      <a href="index.html">Home</a>
-      <a href="index.html #search-container">Book</a>
-      <a href="index.html #about">About Us</a>
-      <a href="index.html #ser-heading">Services</a>
-      <a href="index.html #cont">FeedBack</a>
+            <a href="@Url.Action("Index", "Home")">Home</a>
+            <a href="@Url.Action("Index", "Home")#search-container">Book</a>
+            <a href="@Url.Action("Index", "Home")#about">About Us</a>
+            <a href="@Url.Action("Index", "Home")#ser-heading">Services</a>
+            <a href="@Url.Action("Index", "Home")#cont">FeedBack</a>
+
     </nav>
     <div class="righticons">
       <div id="menubars" class="fas fa-bars"></div>
@@ -44,100 +46,119 @@
   </div>
   </header>
 
+    <form method="post" asp-action="Search">
   <div class="search-container" >
-    <!-- Header Section -->
     <div class="search-header">
       <h2><i class="fas fa-user-md icon"></i>Book a Doctor</h2>
       <p>Consultation or Procedure</p>
     </div>
 
-    <!-- Search Bar Section -->
-    <div class="search-bar">
-      <div class="search-select-icon">
-        <i class="fas fa-stethoscope icon"></i>
-        <select class="search-select" required>
-          <option value="" disabled selected>Select Specialty</option>
-          <option value="cardiology">Cardiology</option>
-          <option value="neurology">Neurology</option>
-          <option value="orthopedics">Orthopedics</option>
-          <!-- Add more options as needed -->
-        </select>
-      </div>
- 
-      <input type="text" placeholder="Enter doctor name" class="search-input">
-      <a href="search.html" class="search-button">
-        <i class="fas fa-search icon"></i>Search
-      </a>
-    </div>
-  </div>
-  <div class="doctor-container">
-    <!-- Doctor Header Section -->
-    <div class="doctor-header">
-      <img src="~/imges/Elgraihy.jpg" alt="Doctor Photo">
-      <div class="doctor-info">
-        <h2>Dr. Moamen Elgraihy</h2>
-        <p>Consultant in orthopedic surgery, spine and joint surgery, knee and shoulder arthroscopy, and sports injuries</p>
-      </div>
-    </div>
+            <div class="search-bar">
+                <div class="search-select-icon">
+                    <i class="fas fa-stethoscope icon"></i>
+                    <select class="search-select" name="departmentId">
+                        <option value="" disabled selected>Select Specialty</option>
+                        @if (ViewBag.Departments != null)
+                        {
+                            foreach (var department in (SelectList)ViewBag.Departments)
+                            {
+                                <option value="@department.Value">@department.Text</option>
+                            }
+                        }
+                        else
+                        {
+                            <option>No departments available</option>
+                        }
+                    </select>
+                </div>
+                <input type="text" name="doctorName" placeholder="Enter doctor name" class="search-input">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search icon"></i> Search
+                </button>
+            </div>
+        </div>
+    </form>
+    <form asp-action="Search" method="get">
+        @if (Model.Doctors != null && Model.Doctors.Any())
+        {
+            @foreach (var doctor in Model.Doctors)
+            {
+                @if (doctor != null && doctor.User != null)
+                {
+                    <div class="doctor-container">
+                        <div class="doctor-header">
+                            @if (!string.IsNullOrEmpty(doctor.Image))
+                            {
+                                <img src="~/images/@doctor.Image" alt="@doctor.User.FirstName Photo">
+                            }
+                            else
+                            {
+                                <img src="~/imges/Elgraihy.jpg" alt="Default Photo">
+                            }
+                            <div class="doctor-info">
+                                <h2>@doctor.User.FirstName @doctor.User.LastName</h2>
+                                <p>@doctor.Description</p>
+                            </div>
+                        </div>
 
-    <!-- Schedule Table Section -->
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>Day</th>
-          <th>Time Slots</th>
-          <th>Book</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Today</td>
-          <td>
-            <select>
-              <option value="">Select Time</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="1:30 PM">1:30 PM</option>
-              <option value="3:00 PM">3:00 PM</option>
-            </select>
-          </td>
-          <td><button class="book-btn">Book</button></td>
-        </tr>
-        <tr>
-          <td>Tomorrow</td>
-          <td>
-            <select>
-              <option value="">Select Time</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="1:30 PM">1:30 PM</option>
-              <option value="3:00 PM">3:00 PM</option>
-            </select>
-          </td>
-          <td><button class="book-btn">Book</button></td>
-        </tr>
-        <tr>
-          <td>Thursday 13/7</td>
-          <td>
-            <select>
-              <option value="">Select Time</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="1:30 PM">1:30 PM</option>
-              <option value="3:00 PM">3:00 PM</option>
-            </select>
-          </td>
-          <td><button class="book-btn">Book</button></td>
-        </tr>
-      </tbody>
-    </table>
+                        <table class="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Time Slots</th>
+                                    <th>Book</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var group in doctor.Appointments.Where(a => !a.IsDeleted).GroupBy(a => a.AppointmentDate.Date))
+                                {
+                                    <tr>
+                                        <td>@group.Key.ToString("dddd")</td>
+                                        <td>
+                                            <select>
+                                                <option value="">Select Time</option>
+                                                @foreach (var slot in group)
+                                                {
+                                                    if (slot.IsBooked)
+                                                    {
+                                                        <option value="@slot.ID" disabled>
+                                                            @slot.AppointmentTime.ToString(@"hh\:mm") - Booked
+                                                        </option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@slot.ID">
+                                                            @slot.AppointmentTime.ToString(@"hh\:mm") - Available
+                                                        </option>
+                                                    }
+                                                }
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button class="book-btn" asp-action="Book" asp-route-id="@group.FirstOrDefault().ID">Book</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
 
-    <!-- Doctor Details Section -->
-    <div class="doctor-details">
-      <ul>
-        <li><i class="fas fa-user-md"></i>Consultant in orthopedic surgery, spine and joint surgery, knee and shoulder arthroscopy.</li>
-        <li><i class="fas fa-wallet"></i> Consultation Fee: 300 EGP</li>
-        <li><i class="fas fa-phone"></i> 0123456789 - For Appointments</li>
-      </ul>
-    </div>
-  </div>
+                        <div class="doctor-details">
+                            <ul>
+                                <li><i class="fas fa-user-md"></i>@doctor.Description</li>
+                                <li><i class="fas fa-wallet"></i>Consultation Fee: @doctor.SessionPrice EGP</li>
+                                <li><i class="fas fa-phone"></i>@doctor.User.PhoneNumber - For Appointments</li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            <p>@ViewBag.Message</p>
+        }
+    </form>
+
   <footer>
     <div class="container1">
         <div class="row">
