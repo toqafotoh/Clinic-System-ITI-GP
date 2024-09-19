@@ -52,5 +52,12 @@ namespace Clinic_System.BLL.Service.Implementation
             return patientRepo.Delete(patient);
         }
 
+        //return PatientProfileVM to display patient profile
+        public PatientProfileVM GetPatientById(int id)
+        {
+            var Result = patientRepo.GetById(id);
+            var NewData = mapper.Map<PatientProfileVM>(Result);
+            return NewData;
+        }
     }
 }

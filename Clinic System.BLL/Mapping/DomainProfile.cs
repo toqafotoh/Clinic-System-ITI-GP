@@ -17,6 +17,8 @@ namespace Clinic_System.BLL.Mapping
 
             //From Entity To VM(Retreive)
             CreateMap<Patient, GetAllPatientVM>();
+            CreateMap<Patient, PatientProfileVM>().IncludeMembers(p => p.User);  //
+            CreateMap<User, PatientProfileVM>();                                 //Both -^^- to map Patient to PatientProfileVM
             CreateMap<CreatePatientVM, Patient>();
             CreateMap<EditPatientVM, Patient>();
             CreateMap<CreateDoctorVM, Doctor>()
