@@ -16,6 +16,7 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
         public string Email { get; set; }
         public Shift Shift { get; set; }
         public decimal SessionPrice { get; set; }
+        public bool? IsDeleted { get; set; }
         public GetAllDoctorsVM(Doctor doctor)
         {
             DoctorID = doctor.DoctorID;
@@ -27,6 +28,7 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
             Email = doctor.User.Email;
             Shift = doctor.Shift;
             SessionPrice = doctor.SessionPrice;
+            IsDeleted = doctor.User.IsDeleted;
         }
     }
 }

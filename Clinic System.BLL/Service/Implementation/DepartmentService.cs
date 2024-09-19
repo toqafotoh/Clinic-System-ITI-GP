@@ -1,4 +1,5 @@
 using AutoMapper;
+using Clinic_System.BLL.ModelVM.AppointmentVM;
 using Clinic_System.BLL.ModelVM.DepartmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.ModelVM.PatientVM;
@@ -55,6 +56,14 @@ namespace Clinic_System.BLL.Service.Implementation
             return false;
         }
 
-
+        public GetDepartmentByIdVM GetById(int id)
+        {
+            var department = _departmentRepo.GetById(id);
+            return _mapper.Map<GetDepartmentByIdVM>(department);
+        }
+        public EditDepartmentVM ConvertToUpdateDepartmentVM(GetDepartmentByIdVM getDepartmentById)
+        {
+            return _mapper.Map<EditDepartmentVM>(getDepartmentById);
+        }
     }
 }

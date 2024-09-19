@@ -1,4 +1,5 @@
-﻿using Clinic_System.BLL.ModelVM.DepartmentVM;
+﻿using Clinic_System.BLL.ModelVM.AppointmentVM;
+using Clinic_System.BLL.ModelVM.DepartmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
@@ -44,6 +45,32 @@ namespace Clinic_System.PLL.Controllers
         {
             var result = _departmentService.Delete(deleteDepartmentVM);
             return Json(new { success = result });
+        }
+        [HttpGet]
+        public IActionResult EditDepartment(int id)
+        {
+            var departmentByIdVM = _departmentService.GetById(id);
+            if (departmentByIdVM is null)
+            {
+                return RedirectToAction("Index");
+            }
+            var updateAppointmentVM = _departmentService.ConvertToUpdateDepartmentVM(departmentByIdVM);
+            return View(updateAppointmentVM);
+        }
+
+        [HttpPost]
+        public IActionResult EditDepartment(EditDepartmentVM departmentVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var isUpdated = _departmentService.Edit(departmentVM);
+                if (isUpdated)
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError("", "Failed to update Department");
+            }
+            return View(departmentVM);
         }
     }
 }

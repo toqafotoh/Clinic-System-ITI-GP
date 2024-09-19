@@ -35,7 +35,7 @@
             <span asp-validation-for="AppointmentTime" class="text-danger"></span>
         </div>
 
-        <button type="submit">Add Appointment</button>
+        <button type="submit" class="add-appointment-btn">Add Appointment</button>
     </form>
 
 <table id="appointments-table">
@@ -48,12 +48,15 @@
             <th>Doctor Name</th>
             <th>Price</th>
             <th>State</th>
+            <th>Activity</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var appointment in appointments)
         {
+            var isDeletedClass = appointment.IsDeleted ? "btn-danger" : "btn-success";
+            var isDeletedText = appointment.IsDeleted ? "Deleted" : "Active";
             var rowClass = appointment.Isbooked ? "state-booked" : "state-available";
             <tr class="@rowClass">
                 <td>@appointment.ID</td>
@@ -63,6 +66,9 @@
                 <td>@appointment.DoctorName</td>
                 <td>@appointment.Price</td>
                 <td>@(appointment.Isbooked ? "Booked" : "Available")</td>
+                    <td>
+                        <button class="status-btn @isDeletedClass">@isDeletedText</button>
+                    </td>
                 <td>
                         <a asp-action="EditAppointment" method="get" asp-route-id="@appointment.ID" style="display:inline;" class="edit-btn">Edit</a>
                         <button type="button" class="delete-btn" onclick="confirmDelete(@appointment.ID, '@appointment.DoctorName')">
@@ -87,7 +93,7 @@
                 <div class="modal-body">
                     <p><i class="fas fa-trash-alt"></i> Are you sure you want to delete the appointment with <span id="appointmentDoctorName"></span>?</p>
                     <form id="deleteAppointmentForm" method="post" action="@Url.Action("DeleteAppointment", "Appointment")">
-                        <input type="hidden" name="AppointmentID" id="appointmentId" />
+                        <input type="hidden" name="ID" id="appointmentId" />
                         <div class="modal-footer">
                             <button type="button" class="btn btn-cancel" data-dismiss="modal">
                                 <i class="fas fa-times btn-icon"></i> Cancel
@@ -135,6 +141,23 @@
     </script>
 
 <style>
+
+        .status-btn {
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: none;
+            font-size: 14px;
+            color: white;
+            cursor: default;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
     /* Style the table */
     #appointments-table {
         width: 100%;
@@ -231,7 +254,7 @@
             font-size: 1rem;
         }
 
-        .add-appointment-container button {
+        .add-appointment-btn {
             background-color: #4E73DF;
             color: #fff;
             border: none;
@@ -241,9 +264,10 @@
             font-size: 1rem;
         }
 
-            .add-appointment-container button:hover {
+            .add-appointment-btn:hover {
                 background-color: #0056b3;
             }
+
 
 </style>
     <style>

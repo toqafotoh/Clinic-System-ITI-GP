@@ -29,10 +29,11 @@ namespace Clinic_System.BLL.Mapping
             CreateMap<CreateDepartmentVM, Department>().ReverseMap();
             CreateMap<EditDepartmentVM, Department>().ReverseMap();
             CreateMap<DeleteDepartmentVM, Department>().ReverseMap();
-
+            CreateMap<GetDepartmentByIdVM, Department>().ReverseMap();
             CreateMap<Doctor, GetAllDoctorsVM>().ConstructUsing(doctor => new GetAllDoctorsVM(doctor));
             CreateMap<Doctor, GetDoctorByIdVM>().ConstructUsing(doctor => new GetDoctorByIdVM(doctor));
             CreateMap<GetDoctorByIdVM, UpdateDoctorVM>();
+            CreateMap<GetDepartmentByIdVM, EditDepartmentVM>().ReverseMap();
             CreateMap<GetPatientByIdVM, DeletePatientVM>();
             CreateMap<Appointment, CreateAppointmentVM>().ReverseMap();
             CreateMap<Appointment, UpdateAppointmentVM>().ReverseMap();
