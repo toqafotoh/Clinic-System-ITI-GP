@@ -27,6 +27,7 @@ namespace Clinic_System.PLL
             builder.Services.AddScoped<IFeedBackRepository, FeedBackRipository>();
             builder.Services.AddScoped<IFeedbackService, FeedbackService>();
             builder.Services.AddScoped<IPatientRepo, PatientRepo>();
+            builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IAppointmentRepo, AppointmentRepo>();
             builder.Services.AddScoped<IPaymentRepo,PaymentRepo>();
             builder.Services.AddScoped<IDoctorRepo, DoctorRepo>();
