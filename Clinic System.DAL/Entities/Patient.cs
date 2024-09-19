@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Clinic_System.DAL.Entities
 {
-    [Table("Patient")]
     public class Patient 
     {
         [Key]   

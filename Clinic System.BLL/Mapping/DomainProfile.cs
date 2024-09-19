@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+using AutoMapper;
+using Clinic_System.BLL.ModelVM.Appointment;
 using Clinic_System.BLL.ModelVM.AppointmentVM;
 using Clinic_System.BLL.ModelVM.DepartmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
@@ -19,6 +20,8 @@ namespace Clinic_System.BLL.Mapping
 
             //From Entity To VM(Retreive)
 
+            CreateMap<Doctor, DoctorVM>();
+            CreateMap<Appointment, AppointmentVM>();
             CreateMap<Patient, GetAllPatientVM>().ConstructUsing(patient => new GetAllPatientVM(patient));
             CreateMap<Patient, GetPatientByIdVM>().ConstructUsing(patient => new GetPatientByIdVM(patient));
             CreateMap<Department, GetAllDepartmentsVM>().ReverseMap();

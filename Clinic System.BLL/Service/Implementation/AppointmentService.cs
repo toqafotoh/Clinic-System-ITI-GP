@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+using AutoMapper;
+using Clinic_System.BLL.ModelVM.Appointment;
 using Clinic_System.BLL.ModelVM.AppointmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.Service.Abstraction;
@@ -6,11 +7,17 @@ using Clinic_System.DAL.Entities;
 using Clinic_System.DAL.Repo.Abstraction;
 using Clinic_System.DAL.Repo.Implementation;
 using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Clinic_System.BLL.Service.Implementation
 {
     public class AppointmentService : IAppointmentService
     {
+
         private readonly IAppointmentRepo _appointmentRepo;
         private readonly IDoctorRepo _doctorRepo; 
         private readonly IMapper _mapper;
@@ -21,6 +28,12 @@ namespace Clinic_System.BLL.Service.Implementation
             _doctorRepo = doctorRepo;
             _mapper = mapper;
         }
+        
+        public IEnumerable<AppointmentVM> GetAppointmentsByDoctor(int doctorId)
+        {
+            var appointments = _appointmentRepo.GetAppointmentsByDoctor(doctorId);
+            return _mapper.Map<IEnumerable<AppointmentVM>>(appointments);
+         }
 
         public bool Create(CreateAppointmentVM appointmentVM)
         {

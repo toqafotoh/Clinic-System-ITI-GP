@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Clinic_System.BLL.ModelVM.DepartmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.ModelVM.PatientVM;
@@ -24,6 +24,10 @@ namespace Clinic_System.BLL.Service.Implementation
         _departmentRepo = departmentRepo;
         _mapper = mapper;
     }
+         public List<Department> GetDepartments()
+        {
+            return _departmentRepo.GetAll().ToList();
+        }
 
         public List<GetAllDepartmentsVM> GetAllDepartments()
         {
@@ -53,5 +57,4 @@ namespace Clinic_System.BLL.Service.Implementation
 
 
     }
-
 }

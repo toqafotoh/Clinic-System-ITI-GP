@@ -19,34 +19,15 @@ namespace Clinic_System.BLL.Service.Implementation
             _feedbackRepository = feedbackRepository;
         }
 
-        //public IEnumerable<FeedBack> GetAllFeedbacks()
-        //{
-        //    return _feedbackRepository.GetAllFeedbacks();
-        //}
-
-        //public FeedBack GetFeedbackById(int id)
-        //{
-        //    return _feedbackRepository.GetFeedbackById(id);
-        //}
-
-        //public void AddFeedback(FeedBack feedback)
-        //{
-        //    _feedbackRepository.AddFeedback(feedback);
-        //    _feedbackRepository.Save();
-        //}
-
 
         public Feedback AddFeedback(FeedbackVM model)
         {
-            // تحويل FeedbackViewModel إلى كائن Feedback
             var feedback = new Feedback
             {
                 Name = model.Name,
                 Content = model.Content,
                 Email = model.Email
             };
-
-            // إضافة الـ Feedback إلى المستودع
             return _feedbackRepository.Add(feedback);
         }
 
