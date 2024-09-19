@@ -64,7 +64,7 @@ public class HomeController : Controller
         }
         else
         {
-            doctors = _doctorService.GetAllDoctors().ToList();
+            doctors = _doctorService.GetDoctors().ToList();
         }
 
         foreach (var doctor in doctors)

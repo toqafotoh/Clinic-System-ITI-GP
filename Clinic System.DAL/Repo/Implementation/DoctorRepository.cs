@@ -20,7 +20,8 @@ namespace Clinic_System.DAL.Repo.Implementation
 
         public IQueryable<Doctor> GetAll()
         {
-            return _context.Doctors;
+            var doctors = _context.Doctors;
+            return doctors;
         }
     }
 }
