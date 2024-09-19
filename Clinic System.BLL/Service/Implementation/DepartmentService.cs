@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Clinic_System.BLL.ModelVM.DepartmentVM;
+using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.DAL.Entities;
@@ -40,10 +41,14 @@ namespace Clinic_System.BLL.Service.Implementation
             var department = _mapper.Map<Department>(departmentVM);
             return _departmentRepo.Edit(department);
         }
-        public bool Delete(DeleteDepartmentVM departmentVM)
+        public bool Delete(DeleteDepartmentVM deleteDepartmentVM)
         {
-            var department = _mapper.Map<Department>(departmentVM);
-            return _departmentRepo.Delete(department);
+            if (deleteDepartmentVM is not null)
+            {
+                var department = _mapper.Map<Department>(deleteDepartmentVM);
+                return _departmentRepo.Delete(department);
+            }
+            return false;
         }
 
 

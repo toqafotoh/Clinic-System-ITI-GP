@@ -16,5 +16,6 @@ namespace Clinic_System.BLL.Service.Abstraction
         List<GetAllDoctorsVM> GetAllDoctors();
         GetDoctorByIdVM GetDoctorById(int id);
         UpdateDoctorVM ConvertToUpdateDoctorVM(GetDoctorByIdVM doctorByIdVM);
+        bool Delete(DeleteDoctorVM doctorVM);
     }
 }

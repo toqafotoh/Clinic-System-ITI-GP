@@ -30,11 +30,12 @@ namespace Clinic_System.PLL.Controllers
             var deletePatientVM = _patientService.ConvertToDeletePatientVM(PatientVM);
             return View(deletePatientVM);
         }
+
         [HttpPost]
         public IActionResult DeletePatient(DeletePatientVM deletePatientVM)
         {
             var result = _patientService.Delete(deletePatientVM);
-                return RedirectToAction("Index");
+            return Json(new { success = result });
         }
 
     }

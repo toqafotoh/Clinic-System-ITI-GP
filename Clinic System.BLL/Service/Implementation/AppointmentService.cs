@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Clinic_System.BLL.ModelVM.AppointmentVM;
+using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.DAL.Entities;
 using Clinic_System.DAL.Repo.Abstraction;
@@ -73,6 +74,15 @@ namespace Clinic_System.BLL.Service.Implementation
         public UpdateAppointmentVM ConvertToUpdateAppointmentVM(GetAppointmentByIdVM appointmentByIdVM)
         {
             return _mapper.Map<UpdateAppointmentVM>(appointmentByIdVM);
+        }
+        public bool Delete(DeleteAppointmentVM deleteAppointmentVM)
+        {
+            if (deleteAppointmentVM is not null)
+            {
+                var appointment = _mapper.Map<Appointment>(deleteAppointmentVM);
+                return _appointmentRepo.Delete(appointment);
+            }
+            return false;
         }
     }
 }

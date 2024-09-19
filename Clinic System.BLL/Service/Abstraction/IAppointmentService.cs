@@ -1,4 +1,5 @@
 ﻿using Clinic_System.BLL.ModelVM.AppointmentVM;
+using Clinic_System.BLL.ModelVM.DoctorVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace Clinic_System.BLL.Service.Abstraction
         List<GetAllAppointmentsVM> GetAllAppointments();
         GetAppointmentByIdVM GetAppointmentById(int id);
         UpdateAppointmentVM ConvertToUpdateAppointmentVM(GetAppointmentByIdVM appointmentByIdVM);
+        bool Delete(DeleteAppointmentVM appointmentVM);
     }
 }

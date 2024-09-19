@@ -81,5 +81,11 @@ namespace Clinic_System.PLL.Controllers
             }
             return View(doctorVM);
         }
+        [HttpPost]
+        public IActionResult DeleteDoctor(DeleteDoctorVM deleteDoctorVM)
+        {
+            var result = _doctorService.Delete(deleteDoctorVM); 
+            return Json(new { success = result });
+        }
     }
 }

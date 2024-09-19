@@ -1,5 +1,7 @@
 ﻿using Clinic_System.BLL.ModelVM.DepartmentVM;
+using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.Service.Abstraction;
+using Clinic_System.BLL.Service.Implementation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic_System.PLL.Controllers
@@ -36,6 +38,12 @@ namespace Clinic_System.PLL.Controllers
 
             ViewBag.Departments = _departmentService.GetAllDepartments();
             return View("Index", departmentVM);
+        }
+        [HttpPost]
+        public IActionResult DeleteDepartment(DeleteDepartmentVM deleteDepartmentVM)
+        {
+            var result = _departmentService.Delete(deleteDepartmentVM);
+            return Json(new { success = result });
         }
     }
 }

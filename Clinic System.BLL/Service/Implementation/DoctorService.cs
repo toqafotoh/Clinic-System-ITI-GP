@@ -9,6 +9,7 @@ using Clinic_System.DAL.Repo.Implementation;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.DAL.Entities;
 using AutoMapper;
+using Clinic_System.BLL.ModelVM.PatientVM;
 namespace Clinic_System.BLL.Service.Implementation
 {
     public class DoctorService : IDoctorService
@@ -57,5 +58,15 @@ namespace Clinic_System.BLL.Service.Implementation
             var updateDoctorVM = _mapper.Map<UpdateDoctorVM>(doctorByIdVM);
             return updateDoctorVM;
         }
+        public bool Delete(DeleteDoctorVM doctorVM)
+        {
+            if (doctorVM is not null)
+            {
+                var doctor = _mapper.Map<Doctor>(doctorVM);
+                return _doctorRepo.Delete(doctor);
+            }
+            return false;
+        }
     }
+
 }

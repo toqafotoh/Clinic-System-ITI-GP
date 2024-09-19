@@ -1,4 +1,5 @@
 ﻿using Clinic_System.BLL.ModelVM.AppointmentVM;
+using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
@@ -84,6 +85,12 @@ namespace Clinic_System.PLL.Controllers
             }
             ModelState.AddModelError("", "Failed to book appointment");
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult DeleteAppointment(DeleteAppointmentVM deleteAppointmentVM)
+        {
+            var result = _appointmentService.Delete(deleteAppointmentVM);
+            return Json(new { success = result });
         }
     }
 }

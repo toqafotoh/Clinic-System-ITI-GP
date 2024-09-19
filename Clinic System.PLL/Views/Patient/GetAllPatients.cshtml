@@ -12,58 +12,52 @@
         border-collapse: collapse;
     }
 
-    /* Set the table header background color */
-    #patient-table thead {
-        background-color: #2d53c633; /* Light gray background for the header */
+        /* Set the table header background color */
+        #patient-table thead {
+            background-color: #2d53c633; /* Light gray background for the header */
+        }
+
+        /* Style table rows */
+        #patient-table tbody tr {
+            background-color: white; /* White background for table rows */
+        }
+
+            /* Style table rows on hover */
+            #patient-table tbody tr:hover {
+                background-color: #f1f1f1; /* Light gray background on hover */
+            }
+
+        /* Style table cells */
+        #patient-table th, #patient-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd; /* Light gray border for cells */
+        }
+
+    .edit-btn, .delete-btn, .gender-btn {
+        border: none;
+        color: #fff;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 14px;
     }
 
-    /* Style table rows */
-    #patient-table tbody tr {
-        background-color: white; /* White background for table rows */
+    .edit-btn {
+        background-color: #6ab470;
     }
 
-    /* Style table rows on hover */
-    #patient-table tbody tr:hover {
-        background-color: #f1f1f1; /* Light gray background on hover */
+    .delete-btn {
+        background-color: #dc3545;
     }
 
-    /* Style table cells */
-    #patient-table th, #patient-table td {
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ddd; /* Light gray border for cells */
-    }
-    /* #patient-table .male-row{
-        background-color: rgb(169, 232, 243);
-    }
-    #patient-table .female-row{
-        background-color: rgb(216, 172, 216);
-    } */
+        .edit-btn:hover, .delete-btn:hover {
+            opacity: 0.8;
+        }
 
-    #patient-table .edit-btn:hover, #patient-table .delete-btn:hover {
-        text-decoration: underline;
-    }
-
-            .edit-btn, .delete-btn,.gender-btn {
-                border: none;
-                color: #fff;
-                padding: 5px 10px;
-                cursor: pointer;
-                border-radius: 4px;
-                font-size: 14px;
-            }
-            .edit-btn {
-                background-color: #6ab470;
-            }
-            .delete-btn {
-                background-color: #dc3545;
-            }
-            .edit-btn:hover, .delete-btn:hover {
-                opacity: 0.8;
-            }
-            .edit-btn i, .delete-btn i {
-                margin-right: 5px;
-            }
+        .edit-btn i, .delete-btn i {
+            margin-right: 5px;
+        }
 
     .gender-icon {
         margin-right: 5px;
@@ -94,7 +88,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var patient in Model)
+        @foreach (var patient in Model)
         {
             <tr>
                 <td>@patient.PatientID</td>
@@ -115,15 +109,12 @@
                 <td>@patient.Email</td>
                 <td>@patient.PhoneNumber</td>
                 <td>
-                    @* <button class="edit-btn"><i class="fas fa-edit"></i>Edit</button> *@
-                    <a onclick="deletePatient(@patient.PatientID)" class="btn btn-sm btn-danger" href="@Url.Action("DeletePatient", "Patient", new { id = patient.PatientID })">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(@patient.PatientID, '@patient.FullName')">
                         <i class="fas fa-trash-alt"></i> Remove
-                    </a>
+                    </button>
                 </td>
             </tr>
-
         }
-        
     </tbody>
 
     <tfoot>
@@ -138,4 +129,81 @@
         </tr>
     </tfoot>
 </table>
+<!-- Modal -->
+<div class="modal fade" id="deletePatientModal" tabindex="-1" role="dialog" aria-labelledby="deletePatientModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePatientModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <span id="patientName"></span>?</p>
+                <form id="deletePatientForm" method="post" action="@Url.Action("DeletePatient", "Patient")">
+                    <input type="hidden" name="PatientID" id="patientId" />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" data-dismiss="modal">
+                            <i class="fas fa-times btn-icon"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-delete">
+                            <i class="fas fa-trash-alt btn-icon"></i> Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
+<style>
+    /* Modal buttons */
+    .modal-footer .btn-delete {
+        background-color: #dc3545; /* Red color for delete button */
+        color: #fff;
+        border: none;
+    }
+
+    .modal-footer .btn-cancel {
+        background-color: #d0e7f5; /* Light blue color for cancel button */
+        color: #333;
+        border: none;
+    }
+
+    .modal-footer .btn-icon {
+        margin-right: 5px; /* Space between icon and text */
+    }
+</style>
+
+<script>
+    function confirmDelete(patientId, patientName) {
+        document.getElementById('patientName').textContent = patientName;
+        document.getElementById('patientId').value = patientId;
+        $('#deletePatientModal').modal('show');
+    }
+
+    document.getElementById('deletePatientForm').addEventListener('submit', function (e) {
+        e.preventDefault(); 
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload(); 
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the patient.');
+            });
+    });
+</script>

@@ -45,14 +45,74 @@
                     <button class="status-btn @isDeletedClass">@isDeletedText</button>
                 </td>
                 <td>
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
+                    <a asp-action="EditDepartment" asp-route-id="@department.ID" class="edit-btn">Edit</a>
+                    <button type="button" class="delete-btn" onclick="confirmDelete(@department.ID, '@department.Name')">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+<!-- Modal -->
+<div class="modal fade" id="deleteDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="deleteDepartmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteDepartmentModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><i class="fas fa-trash-alt"></i> Are you sure you want to delete the department <span id="departmentName"></span>?</p>
+                <form id="deleteDepartmentForm" method="post" action="@Url.Action("DeleteDepartment", "Department")">
+                    <input type="hidden" name="DepartmentID" id="departmentId" />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" data-dismiss="modal">
+                            <i class="fas fa-times btn-icon"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-delete">
+                            <i class="fas fa-trash-alt btn-icon"></i> Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function confirmDelete(departmentId, departmentName) {
+        document.getElementById('departmentName').textContent = departmentName;
+        document.getElementById('departmentId').value = departmentId;
+        $('#deleteDepartmentModal').modal('show');
+    }
+
+    document.getElementById('deleteDepartmentForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the department.');
+            });
+    });
+</script>
 <style>
     /* Style the table */
     #departments-table {
@@ -162,4 +222,22 @@
             .add-department-container button:hover {
                 background-color: #0056b3;
             }
+</style>
+<style>
+    /* Modal buttons */
+    .modal-footer .btn-delete {
+        background-color: #dc3545; /* Red color for delete button */
+        color: #fff;
+        border: none;
+    }
+
+    .modal-footer .btn-cancel {
+        background-color: #d0e7f5; /* Light blue color for cancel button */
+        color: #333;
+        border: none;
+    }
+
+    .modal-footer .btn-icon {
+        margin-right: 5px; /* Space between icon and text */
+    }
 </style>

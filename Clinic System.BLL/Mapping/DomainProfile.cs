@@ -21,6 +21,22 @@ namespace Clinic_System.BLL.Mapping
 
             CreateMap<Patient, GetAllPatientVM>().ConstructUsing(patient => new GetAllPatientVM(patient));
             CreateMap<Patient, GetPatientByIdVM>().ConstructUsing(patient => new GetPatientByIdVM(patient));
+            CreateMap<Department, GetAllDepartmentsVM>().ReverseMap();
+            CreateMap<Department, GetDepartmentByIdVM>().ReverseMap();
+            CreateMap<CreateDepartmentVM, Department>().ReverseMap();
+            CreateMap<EditDepartmentVM, Department>().ReverseMap();
+            CreateMap<DeleteDepartmentVM, Department>().ReverseMap();
+
+            CreateMap<Doctor, GetAllDoctorsVM>().ConstructUsing(doctor => new GetAllDoctorsVM(doctor));
+            CreateMap<Doctor, GetDoctorByIdVM>().ConstructUsing(doctor => new GetDoctorByIdVM(doctor));
+            CreateMap<GetDoctorByIdVM, UpdateDoctorVM>();
+            CreateMap<GetPatientByIdVM, DeletePatientVM>();
+            CreateMap<Appointment, CreateAppointmentVM>().ReverseMap();
+            CreateMap<Appointment, UpdateAppointmentVM>().ReverseMap();
+            CreateMap<DeleteAppointmentVM, Appointment>().ReverseMap();
+            CreateMap<DeleteDepartmentVM, Department>();
+            CreateMap<Patient, DeletePatientVM>();
+
             CreateMap<DeletePatientVM, Patient>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User
                 {
@@ -32,10 +48,19 @@ namespace Clinic_System.BLL.Mapping
                     Image = src.Image,
                     IsDeleted=src.IsDeleted
                 }));
-            CreateMap<Patient, DeletePatientVM>();
 
-            //CreateMap<CreatePatientVM, Patient>();
-            //CreateMap<EditPatientVM, Patient>();
+            CreateMap<DeleteDoctorVM, Doctor>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User
+                {
+                    FirstName = src.FirstName,
+                    LastName = src.LastName,
+                    Age = src.Age,
+                    Gender = src.Gender,
+                    Email = src.Email,
+                    Image = src.Image,
+                    IsDeleted = src.IsDeleted
+                }));
+
             CreateMap<CreateDoctorVM, Doctor>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User
                 {
@@ -49,11 +74,6 @@ namespace Clinic_System.BLL.Mapping
                 })).ForMember(dest => dest.DeptID, opt => opt.MapFrom(src => src.DepartmentID));
 
 
-            // From VM To Entity (Create - Edit - Delete)
-            //CreateMap<DepartmentVM, Department>();
-
-
-            //CreateMap<Doctor, Doctor>().ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
             CreateMap<UpdateDoctorVM, Doctor>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User
                 {
@@ -66,12 +86,6 @@ namespace Clinic_System.BLL.Mapping
                     Image = src.Image
                 })).ForMember(dest => dest.DeptID, opt => opt.MapFrom(src => src.DepartmentID));
 
-            CreateMap<Doctor, GetAllDoctorsVM>().ConstructUsing(doctor => new GetAllDoctorsVM(doctor));
-            CreateMap<Doctor, GetDoctorByIdVM>().ConstructUsing(doctor => new GetDoctorByIdVM(doctor));
-            CreateMap<GetDoctorByIdVM, UpdateDoctorVM>();
-            CreateMap<GetPatientByIdVM, DeletePatientVM>();
-            CreateMap<Appointment, CreateAppointmentVM>().ReverseMap();
-            CreateMap<Appointment, UpdateAppointmentVM>().ReverseMap();
             CreateMap<Appointment, GetAllAppointmentsVM>()
                 .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Doctor.User.FirstName + " " + src.Doctor.User.LastName))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Doctor.SessionPrice))
@@ -83,11 +97,6 @@ namespace Clinic_System.BLL.Mapping
                 .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Doctor.Department.Name));
             CreateMap<GetAppointmentByIdVM, UpdateAppointmentVM>();
 
-            CreateMap<Department, GetAllDepartmentsVM>().ReverseMap();
-            CreateMap<Department, GetDepartmentByIdVM>().ReverseMap();
-            CreateMap<CreateDepartmentVM, Department>().ReverseMap();
-            CreateMap<EditDepartmentVM, Department>().ReverseMap();
-            CreateMap<DeleteDepartmentVM, Department>().ReverseMap();
         }
     }
 }
