@@ -1,12 +1,17 @@
 using Clinic_System.BLL.Mapping;
+using Clinic_System.BLL.ModelVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
 using Clinic_System.DAL.Database;
 using Clinic_System.DAL.Entities;
 using Clinic_System.DAL.Repo.Abstraction;
 using Clinic_System.DAL.Repo.Implementation;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System.Configuration;
 namespace Clinic_System.PLL
 {
     public class Program
@@ -14,13 +19,48 @@ namespace Clinic_System.PLL
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            IConfiguration configuration = builder.Configuration;
+
             //builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            builder.Services.Configure<SMTPConfigMV>(configuration.GetSection("applicationSettings"));
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
+             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+             options =>
+             {
+                 options.LoginPath = new PathString("/Account/Login");
+                 options.AccessDeniedPath = new PathString("/Account/Login");
+             });
+
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                // Default Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+
+
+
+
+
+
+
+
 
             builder.Services.AddScoped<IFeedBackRepository, FeedBackRipository>();
             builder.Services.AddScoped<IFeedbackService, FeedbackService>();
