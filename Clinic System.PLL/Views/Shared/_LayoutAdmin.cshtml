@@ -40,9 +40,10 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" asp-controller="Admin" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
 
             <hr class="sidebar-divider">
@@ -76,12 +77,12 @@
             </li>
             <hr class="sidebar-divider">
 
-            <li class="nav-item">
-                <a class="nav-link" href="Payments.html">
-                    <i class="fas fa-fw fa-credit-card"></i> 
-                    <span>Payments</span></a>
-            </li>
-
+@*              <li class="nav-item">
+                 <a class="nav-link" href="Payments.html">
+                     <i class="fas fa-fw fa-credit-card"></i> 
+                     <span>Payments</span></a>
+             </li>
+ *@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
@@ -127,7 +128,7 @@
                         </li>
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="Feedbacks.html" id="messagesDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" asp-controller="Feedback" asp-action="Index" id="messagesDropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
