@@ -25,7 +25,12 @@
 
 <div class="container form-container">
     <h2 class="text-center mb-4">Add New Doctor</h2>
-
+    @if (!ViewData.ModelState.IsValid)
+    {
+            <div class="alert alert-danger">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+    }
     <form asp-action="CreateDoctor" asp-controller="Doctor" method="post" enctype="multipart/form-data">
 
         <!-- First Name -->
@@ -77,23 +82,21 @@
             <span class="text-danger" asp-validation-for="Email"></span>
         </div>
 
-        <!-- Password -->
+@*         <!-- Password -->
         <div class="mb-3">
             <label class="form-label">Password</label>
             <input type="password" class="form-control" asp-for="Password" placeholder="Enter password">
             <span class="text-danger" asp-validation-for="Password"></span>
         </div>
-
-@*           <!-- Department -->
-          <div class="mb-3">
-              <label class="form-label">Department</label>
-              <select class="form-select" asp-for="Department">
-                  <option value="" disabled selected>Select department</option>
-                  <option value="1">Surgery</option>
-                  <option value="2">Dentistry</option>
-              </select>
-              <span class="text-danger" asp-validation-for="Department"></span>
-          </div> *@
+ *@
+         <!-- Department -->
+        <div class="mb-3">
+            <label class="form-label">Department</label>
+            <select class="form-select" asp-for="DepartmentID" asp-items="ViewBag.Departments">
+                <option value="">Select department</option>
+            </select>
+            <span class="text-danger" asp-validation-for="DepartmentID"></span>
+        </div>
 
         <!-- Shift -->
         <div class="mb-3">

@@ -1,22 +1,46 @@
 ﻿using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.BLL.Service.Abstraction;
+using Clinic_System.BLL.Service.Implementation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic_System.PLL.Controllers
 {
-    public class PatientProfileController : Controller
+    public class PatientController : Controller
     {
         private readonly IPatientService _patientService;
 
-        public PatientProfileController(IPatientService patientService)
+        public PatientController(IPatientService patientService)
         {
-            this._patientService = patientService;
+            _patientService = patientService;
+        }
+        public IActionResult Index()
+        {
+            var patients = _patientService.GetAllPatients();
+            return View("GetAllPatients",patients);
         }
 
+        [HttpGet]
+        public IActionResult DeletePatient(int id)
+        {
+            var PatientVM = _patientService.GetPatientById(id);
+            if (PatientVM is null)
+            {
+                return RedirectToAction("Index");
+            }
+            var deletePatientVM = _patientService.ConvertToDeletePatientVM(PatientVM);
+            return View(deletePatientVM);
+        }
+
+        [HttpPost]
+        public IActionResult DeletePatient(DeletePatientVM deletePatientVM)
+        {
+            var result = _patientService.Delete(deletePatientVM);
+            return Json(new { success = result });
+        }
 
         //after log in redirect here .... not direct access
         [HttpGet]
-        public async Task<IActionResult> Index(int id = 1)
+        public async Task<IActionResult> Profile(int id = 1)
         {
             var patientVM = _patientService.GetPatientById(id);
             return View(patientVM);

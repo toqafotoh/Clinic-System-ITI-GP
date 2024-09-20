@@ -10,12 +10,13 @@ namespace Clinic_System.BLL.Service.Abstraction
 {
     public interface IPatientService
     {
-        List<GetAllPatientVM> GetAll();
-        PatientProfileVM GetPatientById(int id);
-        bool EditPatientEmail(EditPatientEmailVM editPatientEmailVM);
+        List<GetAllPatientVM> GetAllPatients();
+        GetPatientByIdVM GetPatientById(int id);
         bool Edit(EditPatientVM patientVM);
         bool Create(CreatePatientVM patientVM);
-        bool Delete(DeletePatientVM patient);
-
+        bool Delete(DeletePatientVM patientVM);
+        bool DeletePatientById(DeletePatientVM deletePatientVM);
+        DeletePatientVM ConvertToDeletePatientVM(GetPatientByIdVM patientByIdVM);
+        bool EditPatientEmail(EditPatientEmailVM editPatientEmailVM);
     }
 }

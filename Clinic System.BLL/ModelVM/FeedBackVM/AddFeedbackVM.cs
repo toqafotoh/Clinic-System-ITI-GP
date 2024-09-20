@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Clinic_System.BLL.ModelVM.FeedBackVM
 {
-    public class FeedbackVM
+    public class AddFeedbackVM
     {
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]

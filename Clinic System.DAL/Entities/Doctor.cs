@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Clinic_System.DAL.Entities
 {
-    [Table("Doctor")]
     public class Doctor 
     {
         public int DoctorID { get; set; }
@@ -20,10 +19,9 @@ namespace Clinic_System.DAL.Entities
         public string Description { get; set; }
 
         [ForeignKey("Department")]
-        public int? DeptID { get; set; }
+        public int DeptID { get; set; }
         public Department? Department { get; set; }
         public List<Appointment> Appointments { get; set; }
-        [ForeignKey("ApplicationUser")]
         public User User { get; set; }
         
 

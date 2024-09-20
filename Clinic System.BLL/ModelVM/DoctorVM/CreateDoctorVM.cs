@@ -32,11 +32,8 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Password is required")]
-        public string Password { get; set; }
-
-        //[Required(ErrorMessage = "Department is required")]
-        //public int Department { get; set; }
+        [Required(ErrorMessage = "Department is required")]
+        public int? DepartmentID { get; set; }
 
         [Required(ErrorMessage = "Shift is required")]
         public Shift Shift { get; set; }

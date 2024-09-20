@@ -1,4 +1,5 @@
-﻿using Clinic_System.DAL.Database;
+﻿using AutoMapper;
+using Clinic_System.DAL.Database;
 using Clinic_System.DAL.Entities;
 using Clinic_System.DAL.Repo.Abstraction;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace Clinic_System.DAL.Repo.Implementation
     public class DoctorRepo : IDoctorRepo
     {
         private readonly ApplicationDbContext _db;
+        private readonly IMapper _mapper;
 
-        public DoctorRepo(ApplicationDbContext applicationDb)
+        public DoctorRepo(ApplicationDbContext applicationDb, IMapper mapper)
         {
             _db = applicationDb;
+            _mapper = mapper;
         }
 
         public bool Create(Doctor doctor)
@@ -34,26 +37,6 @@ namespace Clinic_System.DAL.Repo.Implementation
             }
         }
 
-        public bool Delete(Doctor doctor)
-        {
-            try
-            {
-                var data = _db.Doctors.Include(d => d.User)
-                                      .FirstOrDefault(d => d.DoctorID == doctor.DoctorID);
-                if (data is not null)
-                {
-                    data.User.IsDeleted = !data.User.IsDeleted;
-                    _db.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public bool Edit(Doctor doctor)
         {
             try
@@ -63,15 +46,17 @@ namespace Clinic_System.DAL.Repo.Implementation
 
                 if (existingDoctor is not null)
                 {
-                    existingDoctor.Department = doctor.Department;
+                    //_mapper.Map(doctor, existingDoctor);
+                    existingDoctor.Shift = doctor.Shift;
+                    existingDoctor.SessionPrice = doctor.SessionPrice;
+                    existingDoctor.Description = doctor.Description;
+                    existingDoctor.DeptID = doctor.DeptID;  
                     existingDoctor.User.FirstName = doctor.User.FirstName;
                     existingDoctor.User.LastName = doctor.User.LastName;
                     existingDoctor.User.Age = doctor.User.Age;
                     existingDoctor.User.Gender = doctor.User.Gender;
                     existingDoctor.User.PhoneNumber = doctor.User.PhoneNumber;
                     existingDoctor.User.Email = doctor.User.Email;
-                    existingDoctor.SessionPrice = doctor.SessionPrice;
-                    existingDoctor.Shift = doctor.Shift;
                     _db.SaveChanges();
                     return true;
                 }
@@ -93,6 +78,25 @@ namespace Clinic_System.DAL.Repo.Implementation
         {
             return _db.Doctors.Include(d => d.User).FirstOrDefault(d => d.DoctorID == id);
         }
+        public bool Delete(Doctor doctor)
+        {
+            try
+            {
+                var data = _db.Doctors.Include(d => d.User)
+                                                      .FirstOrDefault(p => p.DoctorID == doctor.DoctorID);
+                if (data != null)
+                {
+                    data.User.IsDeleted = !data.User.IsDeleted;
+                    _db.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
 
+            }
+        }
     }      
 }

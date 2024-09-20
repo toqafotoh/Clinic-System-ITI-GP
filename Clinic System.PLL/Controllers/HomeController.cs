@@ -1,55 +1,101 @@
-﻿using Clinic_System.BLL.ModelVM.FeedBackVM;
+using Clinic_System.BLL.ModelVM.FeedBackVM;
 using Clinic_System.BLL.Service.Abstraction;
-using Clinic_System.DAL.Entities;
-using Clinic_System.PLL.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Clinic_System.DAL.Entities;
+using Clinic_System.BLL.ModelVM.Appointment;
+using AutoMapper;
 
-namespace Clinic_System.PLL.Controllers
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger;
+    private readonly IFeedbackService _feedbackService;
+    private readonly IDoctorService _doctorService; 
+    private readonly IDepartmentService _departmentService;
+    private readonly IAppointmentService _appointmentService;
+    private readonly IMapper _mapper;
+
+
+
+    public HomeController(ILogger<HomeController> logger, IFeedbackService feedbackService, IAppointmentService appointmentService, IDoctorService doctorService, IDepartmentService departmentService , IMapper mapper)
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IFeedbackService _feedbackService;
-
-        public HomeController(ILogger<HomeController> logger, IFeedbackService feedbackService)
-        {
-            _logger = logger;
-            _feedbackService = feedbackService;
-}
-            public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Search()
-        {
-            return View();
-        }
-
-
-        [HttpGet]
-        public IActionResult FeedBack()
-        {
-            return View();
-        }
-
-        // معالجة البيانات المرسلة من نموذج Create FeedBack
-        [HttpPost]
-        public IActionResult Feedback(FeedbackVM model)
-        {
-            // تأكد من صحة البيانات المرسلة
-            if (ModelState.IsValid)
-            {
-                var addedFeedback = _feedbackService.AddFeedback(model); // استخدم الـ feedback اللي اتضاف
-                return RedirectToAction("Index");
-            }
-
-            return View(model);
-        }
-
-            // في حالة عدم صحة البيانات أو حدوث خطأ، رجّع نفس الـ View مع البيانات الحالية
-        }
-
+        _logger = logger;
+        _feedbackService = feedbackService;
+        _doctorService = doctorService; 
+        _departmentService = departmentService;
+        _appointmentService = appointmentService;
+        _mapper = mapper;
 
     }
+
+    public IActionResult Index()
+    {
+        var departments = _departmentService.GetDepartments(); 
+        ViewBag.Departments = new SelectList(departments, "ID", "Name"); 
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Search()
+    {
+
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Search(SearchVM model)
+    {
+        var departments = _departmentService.GetDepartments();
+        ViewBag.Departments = new SelectList(departments, "ID", "Name");
+
+        List<DoctorVM> doctors;
+
+        if (model.DepartmentId.HasValue && !string.IsNullOrEmpty(model.DoctorName))
+        {
+            doctors = _doctorService.SearchDoctorsByName(model.DoctorName);
+        }
+        else if (model.DepartmentId.HasValue)
+        {
+            doctors = _doctorService.GetDoctorsByDepartment(model.DepartmentId.Value);
+        }
+        else if (!string.IsNullOrEmpty(model.DoctorName))
+        {
+            doctors = _doctorService.SearchDoctorsByName(model.DoctorName);
+        }
+        else
+        {
+            doctors = _doctorService.GetDoctors().ToList();
+        }
+
+        foreach (var doctor in doctors)
+        {
+            var appointments = _appointmentService.GetAppointmentsByDoctor(doctor.DoctorID);
+            doctor.Appointments = appointments.ToList();  
+        }
+
+        model.Doctors = doctors;
+
+        return View(model);
+    }
+
+
+    [HttpGet]
+    public IActionResult FeedBack()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Feedback(string Name, string Email, string Content)
+    {
+        var feedback = new AddFeedbackVM
+        {
+            Name = Name,
+            Email = Email,
+            Content = Content
+        };
+        
+        var addedFeedback = _feedbackService.AddFeedback(feedback);
+        return Ok();
+    }
+}

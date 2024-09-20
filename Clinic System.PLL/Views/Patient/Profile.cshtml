@@ -1,4 +1,4 @@
-﻿@model PatientProfileVM
+﻿@model GetPatientByIdVM
 
 <!DOCTYPE html>
 <html lang="en">
@@ -165,7 +165,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var appointment in Model.Appointments)
+                                foreach (var appointment in Model.Appointments)
                                 {
                                     if(appointment.Date >= DateTime.Now)
                                     {
@@ -228,7 +228,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editEmailForm" action="/PatientProfile/EditEmail" method="post">
+                    <form id="editEmailForm" action="/Patient/EditEmail" method="post">
                         <input type="number" class="form-control" id="newEmail" hidden name="PatientID" value="@Model.PatientID">
                         <div class="mb-3">
                             <label for="newEmail" class="form-label" name="NewEmail">New Email</label>

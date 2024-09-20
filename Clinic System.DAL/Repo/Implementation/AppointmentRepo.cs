@@ -60,10 +60,10 @@ namespace Clinic_System.DAL.Repo.Implementation
 
                 if (existingAppointment is not null)
                 {
-                    existingAppointment.Date=appointment.Date;
+                    existingAppointment.AppointmentDate = appointment.AppointmentDate;
+                    existingAppointment.AppointmentTime = appointment.AppointmentTime;
                     existingAppointment.IsDeleted = appointment.IsDeleted;
                     existingAppointment.Isbooked = appointment.Isbooked;
-                    
                     _db.SaveChanges();
                     return true;
                 }
@@ -76,31 +76,52 @@ namespace Clinic_System.DAL.Repo.Implementation
             }
         }
 
-        public List<Appointment> GetAll()
-        {
-            return _db.Appointments.ToList();
-        }
+            //          public List<Appointment> GetAll()
+            //         {
+            //             return _db.Appointments.ToList();
+            //         }
 
-        public Appointment GetbyId(int id)
-        {
-            return _db.Appointments.Where(a => a.ID == id).FirstOrDefault();
-        }
-        
-        public bool BookAppointment(Appointment appointment,int patientID)
-        {
-           var Booking = _db.Appointments.Where(a => a.ID == appointment.ID).FirstOrDefault();
-            try
+            public List<Appointment> GetAll()
             {
-                Booking.Isbooked = true;
-                Booking.PatientID = patientID;
-                _db.SaveChanges();
-                return true;
+                return _db.Appointments
+                   .Include(a => a.Doctor)
+                   .ThenInclude(d => d.Department)
+                   .Include(a => a.Doctor.User)
+                   .ToList();
             }
-            catch
-            {
-                return false;
-            }
-        }
 
+            public Appointment GetbyId(int id)
+            {
+                // return _db.Appointments.Where(a => a.ID == id).FirstOrDefault();
+                return _db.Appointments
+                   .Include(a => a.Doctor)
+                   .ThenInclude(d => d.Department)
+                   .Include(a => a.Doctor.User)
+                   .FirstOrDefault(a => a.ID == id);
+            }
+
+            public bool BookAppointment(Appointment appointment, int patientID)
+            {
+                var Booking = _db.Appointments.Where(a => a.ID == appointment.ID).FirstOrDefault();
+                try
+                {
+                    Booking.Isbooked = true;
+                    Booking.PatientID = patientID;
+                    _db.SaveChanges();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            public IEnumerable<Appointment> GetAppointmentsByDoctor(int doctorId)
+            {
+                return _db.Appointments
+                    .Where(a => a.DoctorID == doctorId && !a.IsDeleted)
+                    .ToList();
+            }
+
+        }
     }
-}

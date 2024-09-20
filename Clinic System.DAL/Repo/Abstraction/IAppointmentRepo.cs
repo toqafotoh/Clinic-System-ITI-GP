@@ -15,5 +15,7 @@ namespace Clinic_System.DAL.Repo.Abstraction
         bool Create(Appointment appointment);
         bool Delete(Appointment appointment);
         bool BookAppointment(Appointment appointment, int patientID);
+        IEnumerable<Appointment> GetAppointmentsByDoctor(int doctorId);
+
     }
 }

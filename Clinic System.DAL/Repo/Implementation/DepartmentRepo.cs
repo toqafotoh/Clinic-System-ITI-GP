@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Clinic_System.DAL.Repo.Implementation
 {
-    public class DepartmentRepo
+    public class DepartmentRepo : IDepartmentRepo
     {
         private readonly ApplicationDbContext _db;
         public DepartmentRepo(ApplicationDbContext applicationDb)
@@ -40,6 +40,7 @@ namespace Clinic_System.DAL.Repo.Implementation
                 if (department!=null)
                 {
                     exsitingDept.Name = department.Name;
+                    exsitingDept.PhoneNumber = department.PhoneNumber;
                     _db.SaveChanges();
                     return true;
                 }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -89,6 +90,11 @@ namespace Clinic_System.DAL.Repo.Implementation
         public Patient GetById(int id)
         {
             return _db.Patients.Include(p => p.User).FirstOrDefault(p => p.PatientID == id);
+        }
+
+        public void SaveChanges()
+        {
+            _db.SaveChanges();
         }
     }
 }
