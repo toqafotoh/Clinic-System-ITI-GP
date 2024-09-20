@@ -11,22 +11,50 @@ namespace Clinic_System.DAL.Repo.Implementation
 {
     public class FeedBackRipository : IFeedBackRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _db;
 
-        public FeedBackRipository(ApplicationDbContext context)
+        public FeedBackRipository(ApplicationDbContext applicationDb)
         {
-            _context = context;
+            _db = applicationDb;
         }
 
 
         public Feedback Add(Feedback feedback)
         {
-            _context.Feedbacks.Add(feedback);
-            _context.SaveChanges();
+            _db.Feedbacks.Add(feedback);
+            _db.SaveChanges();
             return feedback; // رجع الـ feedback اللي اتسجل
         }
+        public List<Feedback> GetAll()
+        {
+            return _db.Feedbacks.ToList();
+        }
+        public Feedback GetById(int id)
+        {
+            return _db.Feedbacks.FirstOrDefault(f => f.ID == id);
+        }
+        
 
-     
+        public bool Delete(Feedback feedback)
+        {
+            try
+            {
+                var data = _db.Feedbacks.FirstOrDefault(f => f.ID == feedback.ID);
+                if (data is not null)
+                {
+                    data.IsDeleted = !data.IsDeleted;
+                    _db.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
 
         //public IEnumerable<FeedBack> GetAllFeedbacks()
         //{

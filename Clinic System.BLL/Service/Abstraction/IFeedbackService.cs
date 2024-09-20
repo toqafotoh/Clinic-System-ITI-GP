@@ -10,6 +10,7 @@ namespace Clinic_System.BLL.Service.Abstraction
 {
     public interface IFeedbackService
     {
-        Feedback AddFeedback(FeedbackVM feedback);
+        Feedback AddFeedback(AddFeedbackVM feedback);
+        List<GetAllFeedbacksVM> GetAllFeedbacks();
     }
 }

@@ -15,6 +15,9 @@ namespace Clinic_System.DAL.Repo.Abstraction
         //void Save();
 
         Feedback Add(Feedback feedback);
+        List<Feedback> GetAll();
+        Feedback GetById(int id);
+        bool Delete(Feedback feedback);
     }
 
 }

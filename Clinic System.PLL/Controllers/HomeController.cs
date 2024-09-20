@@ -88,7 +88,7 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Feedback(string Name, string Email, string Content)
     {
-        var feedback = new FeedbackVM
+        var feedback = new AddFeedbackVM
         {
             Name = Name,
             Email = Email,

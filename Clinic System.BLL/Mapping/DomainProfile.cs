@@ -3,6 +3,7 @@ using Clinic_System.BLL.ModelVM.Appointment;
 using Clinic_System.BLL.ModelVM.AppointmentVM;
 using Clinic_System.BLL.ModelVM.DepartmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
+using Clinic_System.BLL.ModelVM.FeedBackVM;
 using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.DAL.Entities;
 using System;
@@ -29,6 +30,8 @@ namespace Clinic_System.BLL.Mapping
             CreateMap<CreateDepartmentVM, Department>().ReverseMap();
             CreateMap<EditDepartmentVM, Department>().ReverseMap();
             CreateMap<DeleteDepartmentVM, Department>().ReverseMap();
+            CreateMap<Feedback,GetAllFeedbacksVM>().ReverseMap();
+            CreateMap<AddFeedbackVM,Feedback>().ReverseMap();
 
             CreateMap<Doctor, GetAllDoctorsVM>().ConstructUsing(doctor => new GetAllDoctorsVM(doctor));
             CreateMap<Doctor, GetDoctorByIdVM>().ConstructUsing(doctor => new GetDoctorByIdVM(doctor));
