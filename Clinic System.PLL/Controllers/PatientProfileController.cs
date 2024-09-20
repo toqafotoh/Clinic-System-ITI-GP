@@ -23,15 +23,20 @@ namespace Clinic_System.PLL.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditEmail(EditPatientVM model)
+        public async Task<IActionResult> EditEmail(EditPatientEmailVM model)
         {
             if (!ModelState.IsValid)
             {
-                return View("Index", await GetPatientViewModel());
+                List<string> errors = new List<string>();
+                foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    errors.Add(error.ErrorMessage);
+                }
+                TempData["ErrorMessage"] = errors;
+                return RedirectToAction("Index");
             }
 
-            var userId = 1;//_authService.GetCurrentUserId();
-            var result =  _patientService.Edit(model);
+            var result = _patientService.EditPatientEmail(model);
 
             if (result)
             {
@@ -39,16 +44,38 @@ namespace Clinic_System.PLL.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Failed to update email");
+                TempData["ErrorMessage"] = new List<string> { "Failed to update email" };
             }
 
             return RedirectToAction("Index");
         }
 
-        private async Task<PatientProfileVM> GetPatientViewModel()
-        {
-            var patientId = 1;///_authService.GetCurrentUserId();
-            return /*await*/ _patientService.GetPatientById(patientId);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> DeletePatient(EditPatientEmailVM model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        List<string> errors = new List<string>();
+        //        foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        //        {
+        //            errors.Add(error.ErrorMessage);
+        //        }
+        //        TempData["ErrorMessage"] = errors;
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    var result = _patientService.EditPatientEmail(model);
+
+        //    if (result)
+        //    {
+        //        TempData["SuccessMessage"] = "Email updated successfully";
+        //    }
+        //    else
+        //    {
+        //        TempData["ErrorMessage"] = new List<string> { "Failed to update email" };
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
     }
 }

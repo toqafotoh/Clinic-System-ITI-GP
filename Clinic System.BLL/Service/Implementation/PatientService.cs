@@ -55,9 +55,16 @@ namespace Clinic_System.BLL.Service.Implementation
         //return PatientProfileVM to display patient profile
         public PatientProfileVM GetPatientById(int id)
         {
-            var Result = patientRepo.GetById(id);
-            var NewData = mapper.Map<PatientProfileVM>(Result);
-            return NewData;
+            var result = patientRepo.GetById(id);
+            var newData = mapper.Map<PatientProfileVM>(result);
+            return newData;
+        }
+
+        public bool EditPatientEmail(EditPatientEmailVM editPatientEmailVM)
+        {
+            var patient = patientRepo.GetById(editPatientEmailVM.PatientID);
+            patient.User.Email = editPatientEmailVM.NewEmail;
+            return patientRepo.Edit(patient);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Clinic_System.BLL.ModelVM.PatientVM
 {
     public class PatientProfileVM
     {
+        public int PatientID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -17,6 +18,5 @@ namespace Clinic_System.BLL.ModelVM.PatientVM
         public Gender Gender { get; set; }
         public string? Image { get; set; }
         public List<Appointment> Appointments { get; set; }
-        //public EditEmailVM EditEmail { get; set; }
     }
 }
