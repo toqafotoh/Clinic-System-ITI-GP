@@ -22,7 +22,6 @@ namespace Clinic_System.DAL.Repo.Implementation
         {
             try
             {
-                _db.Users.Add(patient.User);
                 _db.Patients.Add(patient);
                 _db.SaveChanges();
                 return true;

@@ -8,6 +8,8 @@ using Clinic_System.BLL.ModelVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.DAL.Entities;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using Clinic_System.DAL.Database;
 
 namespace Clinic_System.PLL.Controllers
 {
@@ -17,12 +19,14 @@ namespace Clinic_System.PLL.Controllers
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly Clinic_System.BLL.Service.Abstraction.IEmailSender emailSender;
+        private readonly ApplicationDbContext _db;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, Clinic_System.BLL.Service.Abstraction.IEmailSender emailSender)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, Clinic_System.BLL.Service.Abstraction.IEmailSender emailSender, ApplicationDbContext _db)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.emailSender = emailSender;
+            this._db = _db;
         }
 
         public string GetLoggedInUserId()
@@ -65,12 +69,20 @@ namespace Clinic_System.PLL.Controllers
 
                     if (result.Succeeded)
                     {
-                       // IdentityResult data= await userManager.AddToRoleAsync(user, "Admin");
+                        // IdentityResult data= await userManager.AddToRoleAsync(user, "Admin");
                         //if (data.Succeeded)
                         //{
 
+                        await _db.SaveChangesAsync();
+                        var patient = new Patient
+                        {
+                            User = user, 
+                            Address = model.Address
+                        };
 
-                            var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                        _db.Patients.Add(patient);
+                        await _db.SaveChangesAsync();
+                        var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                             var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token }, protocol: Request.Scheme);
 
 
