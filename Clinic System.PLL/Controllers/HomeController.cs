@@ -1,10 +1,13 @@
-using Clinic_System.BLL.ModelVM.FeedBackVM;
+﻿using Clinic_System.BLL.ModelVM.FeedBackVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Clinic_System.DAL.Entities;
 using Clinic_System.BLL.ModelVM.Appointment;
 using AutoMapper;
+using Clinic_System.DAL.Repo.Implementation;
+using Clinic_System.BLL.Service.Implementation;
+using System.Security.Claims;
 
 public class HomeController : Controller
 {
@@ -13,17 +16,19 @@ public class HomeController : Controller
     private readonly IDoctorService _doctorService; 
     private readonly IDepartmentService _departmentService;
     private readonly IAppointmentService _appointmentService;
+    private readonly IPatientService _patientService;
     private readonly IMapper _mapper;
 
 
 
-    public HomeController(ILogger<HomeController> logger, IFeedbackService feedbackService, IAppointmentService appointmentService, IDoctorService doctorService, IDepartmentService departmentService , IMapper mapper)
+    public HomeController(ILogger<HomeController> logger,IPatientService patientService, IFeedbackService feedbackService, IAppointmentService appointmentService, IDoctorService doctorService, IDepartmentService departmentService , IMapper mapper)
     {
         _logger = logger;
         _feedbackService = feedbackService;
         _doctorService = doctorService; 
         _departmentService = departmentService;
         _appointmentService = appointmentService;
+        _patientService = patientService;
         _mapper = mapper;
 
     }
@@ -38,8 +43,13 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult Search()
     {
+        var model = new SearchVM
+        {
+            Doctors = _doctorService.GetDoctors() // تأكد من جلب الأطباء بشكل صحيح
+        };
 
-        return View();
+
+        return View(model);
     }
 
     [HttpPost]
@@ -73,10 +83,28 @@ public class HomeController : Controller
             doctor.Appointments = appointments.ToList();  
         }
 
+
         model.Doctors = doctors;
 
         return View(model);
     }
+
+
+    public IActionResult BookAppointment(int appointmentId)
+    {
+        Console.WriteLine($"Appointment ID: {appointmentId}");
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var patient = _patientService.GetAllPatients().Where(a => a.User.Id == userId).FirstOrDefault();
+        var isBooked = _appointmentService.BookAppointment(appointmentId ,patient.PatientID);
+        if (isBooked)
+        {
+            return RedirectToAction("BookAppointment");
+        }
+        ModelState.AddModelError("", "Failed to book appointment");
+        return RedirectToAction("BookAppointment");
+    }
+
+
 
 
     [HttpGet]

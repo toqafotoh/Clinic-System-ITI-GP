@@ -21,12 +21,6 @@ namespace Clinic_System.DAL.Database
            
         }
 
-        // remove the onconfiguring method to use configuration from program.cs
-        // protected override void onconfiguring(dbcontextoptionsbuilder optionsbuilder)
-        // {
-        //     optionsbuilder.usesqlserver("server=elgogo;database=clinicsystemiti;trusted_connection=true;multipleactiveresultsets=true;trustservercertificate=true");
-        // }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Appointment>()

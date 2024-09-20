@@ -11,8 +11,8 @@ namespace Clinic_System.BLL.ModelVM.Appointment
     {
         public int? DepartmentId { get; set; }
         public string DoctorName { get; set; }
-        public User User { get; set; }  // إضافة المستخدم للـ ViewModel
-
+        public User User { get; set; }  
+        public int AppointmentId { get; set; }
         public List<Department> Departments { get; set; } 
         public List<DoctorVM> Doctors { get; set; }
     }

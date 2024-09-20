@@ -23,14 +23,16 @@ namespace Clinic_System.BLL.ModelVM.PatientVM
         public string? Image { get; set; }
         public bool? IsDeleted { get; set; } = false;
         public string Address { get; set; }
+        public User User { get; set; }
+
 
         public GetAllPatientVM(Patient patient)
         {
-            PatientID =patient.PatientID;
+            PatientID = patient.PatientID;
             FirstName = patient.User.FirstName;
             LastName = patient.User.LastName;
             Age = patient.User.Age;
-            Gender= patient.User.Gender;
+            Gender = patient.User.Gender;
             PhoneNumber = patient.User.PhoneNumber;
             Email = patient.User.Email;
             Address = patient.Address;

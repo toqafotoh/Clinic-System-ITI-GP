@@ -81,9 +81,9 @@
     <form asp-action="Search" method="get">
         @if (Model.Doctors != null && Model.Doctors.Any())
         {
-            @foreach (var doctor in Model.Doctors)
+            foreach (var doctor in Model.Doctors)
             {
-                @if (doctor != null && doctor.User != null)
+                if (doctor != null && doctor.User != null)
                 {
                     <div class="doctor-container">
                         <div class="doctor-header">
@@ -93,7 +93,7 @@
                             }
                             else
                             {
-                                <img src="~/imges/Elgraihy.jpg" alt="Default Photo">
+                                <img src="~/images/Elgraihy.jpg" alt="Default Photo">
                             }
                             <div class="doctor-info">
                                 <h2>@doctor.User.FirstName @doctor.User.LastName</h2>
@@ -115,7 +115,7 @@
                                     <tr>
                                         <td>@group.Key.ToString("dddd")</td>
                                         <td>
-                                            <select>
+                                            <select id="appointmentId_@group.First().ID" name="appointmentId">
                                                 <option value="">Select Time</option>
                                                 @foreach (var slot in group)
                                                 {
@@ -135,7 +135,9 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <button class="book-btn" asp-action="Book" asp-route-id="@group.FirstOrDefault().ID">Book</button>
+                                            <a asp-action="BookAppointment" asp-controller="Home"
+                                               asp-route-appointmentId="@group.First().ID"
+                                               asp-route-patientId="@group.First().PatientId">Book</a>
                                         </td>
                                     </tr>
                                 }

@@ -13,6 +13,7 @@ namespace Clinic_System.BLL.ModelVM.Appointment
         public TimeSpan AppointmentTime { get; set; }
         public bool IsBooked { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public int PatientId { get; set; }
 
     }
 }

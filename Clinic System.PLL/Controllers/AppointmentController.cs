@@ -75,17 +75,17 @@ namespace Clinic_System.PLL.Controllers
             return View(appointmentVM);
         }
 
-        [HttpPost]
-        public IActionResult BookAppointment(int appointmentId, int patientId)
-        {
-            var isBooked = _appointmentService.BookAppointment(appointmentId, patientId);
-            if (isBooked)
-            {
-                return RedirectToAction("Index");
-            }
-            ModelState.AddModelError("", "Failed to book appointment");
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //public IActionResult BookAppointment(int appointmentId, int patientId)
+        //{
+        //    var isBooked = _appointmentService.BookAppointment(appointmentId, patientId);
+        //    if (isBooked)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //    ModelState.AddModelError("", "Failed to book appointment");
+        //    return RedirectToAction("Index");
+        //}
         [HttpPost]
         public IActionResult DeleteAppointment(DeleteAppointmentVM deleteAppointmentVM)
         {

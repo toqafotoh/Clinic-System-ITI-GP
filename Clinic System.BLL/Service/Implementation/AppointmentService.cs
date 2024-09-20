@@ -63,7 +63,8 @@ namespace Clinic_System.BLL.Service.Implementation
         public bool BookAppointment(int appointmentId, int patientId)
         {
             var appointment = _appointmentRepo.GetbyId(appointmentId);
-            if (appointment is not null)
+         
+            if (appointment != null)
             {
                 appointment.Isbooked = true;
                 appointment.PatientID = patientId;
@@ -71,6 +72,10 @@ namespace Clinic_System.BLL.Service.Implementation
             }
             return false;
         }
+
+
+
+
 
         public List<GetAllAppointmentsVM> GetAllAppointments()
         {

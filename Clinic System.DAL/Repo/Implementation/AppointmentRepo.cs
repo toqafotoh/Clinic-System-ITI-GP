@@ -102,7 +102,7 @@ namespace Clinic_System.DAL.Repo.Implementation
 
             public bool BookAppointment(Appointment appointment, int patientID)
             {
-                var Booking = _db.Appointments.Where(a => a.ID == appointment.ID).FirstOrDefault();
+            var Booking = _db.Appointments.Where(a => a.ID == appointment.ID ).FirstOrDefault();
                 try
                 {
                     Booking.Isbooked = true;
@@ -119,7 +119,7 @@ namespace Clinic_System.DAL.Repo.Implementation
             public IEnumerable<Appointment> GetAppointmentsByDoctor(int doctorId)
             {
                 return _db.Appointments
-                    .Where(a => a.DoctorID == doctorId && !a.IsDeleted)
+                    .Where(a => a.DoctorID == doctorId && !a.IsDeleted && !a.Isbooked)
                     .ToList();
             }
 
