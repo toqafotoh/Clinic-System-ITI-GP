@@ -15,5 +15,7 @@ namespace Clinic_System.BLL.Service.Abstraction
         bool Create(CreateDepartmentVM departmentVM);
         bool Edit(EditDepartmentVM departmentVM);
         bool Delete(DeleteDepartmentVM departmentVM);
+        public GetDepartmentByIdVM GetById(int id);
+        EditDepartmentVM ConvertToUpdateDepartmentVM(GetDepartmentByIdVM getDepartmentById);
     }
 }

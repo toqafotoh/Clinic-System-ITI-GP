@@ -40,6 +40,7 @@ namespace Clinic_System.DAL.Repo.Implementation
                 if (department!=null)
                 {
                     exsitingDept.Name = department.Name;
+                    exsitingDept.PhoneNumber = department.PhoneNumber;
                     _db.SaveChanges();
                     return true;
                 }

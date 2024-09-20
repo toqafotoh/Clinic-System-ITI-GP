@@ -45,7 +45,7 @@
                     <button class="status-btn @isDeletedClass">@isDeletedText</button>
                 </td>
                 <td>
-                    <a asp-action="EditDepartment" asp-route-id="@department.ID" class="edit-btn">Edit</a>
+                    <a asp-action="EditDepartment" method="get" asp-route-id="@department.ID" style="display:inline;" class="edit-btn">Edit</a>
                     <button type="button" class="delete-btn" onclick="confirmDelete(@department.ID, '@department.Name')">
                         <i class="fas fa-trash-alt"></i> Delete
                     </button>
@@ -68,7 +68,7 @@
             <div class="modal-body">
                 <p><i class="fas fa-trash-alt"></i> Are you sure you want to delete the department <span id="departmentName"></span>?</p>
                 <form id="deleteDepartmentForm" method="post" action="@Url.Action("DeleteDepartment", "Department")">
-                    <input type="hidden" name="DepartmentID" id="departmentId" />
+                    <input type="hidden" name="ID" id="departmentId" />
                     <div class="modal-footer">
                         <button type="button" class="btn btn-cancel" data-dismiss="modal">
                             <i class="fas fa-times btn-icon"></i> Cancel
