@@ -132,8 +132,9 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <button class="book-btn" asp-action="Book" asp-route-id="@group.FirstOrDefault().ID">Book</button>
+                                            <button type="button" class="book-btn" onclick="bookAppointment(@group.FirstOrDefault().ID)">Book</button>
                                         </td>
+
                                     </tr>
                                 }
                             </tbody>
@@ -217,6 +218,34 @@
         </div>
     </div>
  </footer>
+    <script>
+        function bookAppointment(appointmentId) {
+            if (!confirm("Are you sure you want to book this appointment?")) {
+                return; 
+            }
+            $.ajax({
+                url: '@Url.Action("BookAppointment", "Home")', 
+                type: 'POST',
+                data: {
+                    appointmentId: appointmentId,
+                    patientId: 1 
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Booked successfully"); 
+                        document.querySelector(`button[onclick="bookAppointment(${appointmentId})"]`).disabled = true;
+                        document.querySelector(`button[onclick="bookAppointment(${appointmentId})"]`).innerText = "Booked";
+                    } else {
+                        alert("error booking appointment" ); 
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while trying to book the appointment. Please try again later.");
+                }
+            });
+        }
+    </script>
+
 <script>
 window.addEventListener('DOMContentLoaded', function() {
     const loadingScreen = document.querySelector('.loading-screen');
@@ -236,6 +265,10 @@ window.addEventListener('DOMContentLoaded', function() {
                 navbar.classList.toggle('active');
             }
 
+
+
 </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 </html>
