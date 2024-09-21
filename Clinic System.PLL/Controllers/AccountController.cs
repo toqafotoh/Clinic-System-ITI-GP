@@ -145,7 +145,15 @@ namespace Clinic_System.PLL.Controllers
 
                     if (result.Succeeded)
                     {
-                        if (!string.IsNullOrEmpty(returnUrl))
+                        var user = await userManager.FindByNameAsync(model.UseName);
+
+                        // Get user roles
+                        var roles = await userManager.GetRolesAsync(user);
+                        if (roles.Contains("Admin")) {
+                            return RedirectToAction("Index", "Admin");
+                        }
+
+                        else if (!string.IsNullOrEmpty(returnUrl))
                         {
                             return LocalRedirect(returnUrl);
                         }

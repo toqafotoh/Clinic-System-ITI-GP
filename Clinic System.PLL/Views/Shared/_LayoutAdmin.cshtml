@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿ @using Microsoft.AspNetCore.Identity;
+@using Clinic_System.DAL.Entities
+
+@inject SignInManager<User> signInManager
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -77,12 +84,25 @@
             </li>
             <hr class="sidebar-divider">
 
-@*              <li class="nav-item">
-                 <a class="nav-link" href="Payments.html">
+             <li class="nav-item">
+                <a class="nav-link" asp-controller="Role" asp-action="AddRole">
                      <i class="fas fa-fw fa-credit-card"></i> 
-                     <span>Payments</span></a>
+                     <span>Add Role</span></a>
              </li>
- *@
+             <li class="nav-item">
+                <a class="nav-link" asp-controller="Account" asp-action="AdminRegister">
+                     <i class="fas fa-fw fa-credit-card"></i> 
+                     <span>Admin Register</span></a>
+             </li>
+             <li class="nav-item">
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="nav-link btn btn-link py-0">
+                        Logout
+                    </button>
+                </form>
+             </li>
+ 
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
