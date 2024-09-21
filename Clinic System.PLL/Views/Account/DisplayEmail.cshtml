@@ -4,6 +4,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Email Sent</h2>
-<p>Please check your email and confirm your account by clicking the link.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* Card Styling */
+        .card {
+            width: 80vw; /* Responsive width based on viewport */
+            max-width: 400px; /* Limit the maximum size */
+            height: auto; /* Allow the height to be flexible */
+            border-radius: 20px; /* Responsive border radius */
+            border: 5px solid;
+            border-image: linear-gradient(to right, #4da7f9 50%, rgba(239,246,254,255) 50%);
+            border-image-slice: 1;
+            color: #4da7f9;
+            background-color: #fff;
+        }
+
+        /* Image Styling */
+        .card-img-top {
+            width: 100%;
+            height: auto; /* Image will adjust height automatically */
+            border-radius: 20px 20px 0 0; /* Border radius at the top only */
+        }
+
+        /* Card Container */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full height */
+            background: linear-gradient(to right, rgba(239,246,254,255) 50%, #4da7f9 50%);
+            padding: 20px;
+        }
+
+        /* Text Styling */
+        .card-body p {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <img class="card-img-top" src="~/Systembackground/aa.png" alt="Card image cap">
+            <div class="card-body">
+                <p>Please check your email and confirm your account by clicking the link.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
 
