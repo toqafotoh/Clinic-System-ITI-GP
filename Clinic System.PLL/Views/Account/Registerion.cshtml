@@ -138,7 +138,7 @@
 
                                     <p class="text-center h1 fw-bold mb-3 mx-1 mx-md-4 mt-4" style="padding-bottom: 45px;">Sign up</p>
 
-                                    <form class="mx-1 mx-md-4" asp-action="Registerion" asp-controller="Account">
+                                    <form class="mx-1 mx-md-4" asp-action="Registerion" asp-controller="Account" enctype="multipart/form-data">
                                         <div asp-validation-summary="All" class="text-danger"></div>
 
                                         <div class="d-flex flex-row align-items-center mb-2">
@@ -238,7 +238,13 @@
                                                 <span class="text-danger" asp-validation-for="UserName"></span>
                                             </div>
                                         </div>
-
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <div data-mdb-input-init class="form-outline flex-fill mb-0" style="padding-left: 10px;">
+                                                <label asp-for="ImageFile" class="form-label" for="form3Example3c"> <i class="fa fa-calendar" aria-hidden="true"></i> Profile Photo </label>
+                                                <input asp-for="ImageFile" type="file" id="form3Example3c" class="form-control" accept="image/*" />
+                                                <span class="text-danger" asp-validation-for="ImageFile"></span>
+                                            </div>
+                                        </div>
 
                                         <div class="mx-4 mb-3 mb-lg-4">
                                             <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button><br>

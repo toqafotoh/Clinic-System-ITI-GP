@@ -41,7 +41,7 @@
         <div class="row patient-info-card" id="PatientProfile">
             <div class="col-md-3 text-center mb-4 mb-md-0">
                 @{
-                    string image = "DefaultProfilePhoto.jpg";
+                    string image = "DefaultPatientProfilePhoto.jpg";
                     if (Model.Image is not null) image = Model.Image;
                 }
                 <img src="~/imges/PatientProfilePhoto/@image" alt="Patient Photo" class="patient-photo mb-3">
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <p class="info-text"><i class="fas fa-phone me-2"></i>Phone number</p>
-                        <p class="header-text">(063) 222-3333</p>
+                        <p class="header-text">@Model.PhoneNumber</p>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -120,7 +120,7 @@
                     </ul>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <button class="btn btn-primary"><i class="fas fa-plus me-2"></i>Add Appointment</button>
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="Index"><i class="fas fa-plus me-2"></i>Add Appointment</a>
                 </div>
             </div>
 

@@ -10,6 +10,8 @@ using Clinic_System.DAL.Entities;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Clinic_System.DAL.Database;
+using Clinic_System.BLL.Helper;
+using Clinic_System.BLL.ModelVM.Appointment;
 
 namespace Clinic_System.PLL.Controllers
 {
@@ -43,6 +45,7 @@ namespace Clinic_System.PLL.Controllers
         [HttpPost]
         public async Task<IActionResult> Registerion(RegisterionVM model)
         {
+            model.Image = FileHelper.UploadFile("PatientProfilePhoto", model.ImageFile); //handle image 
             var user = new User()
             {
                 UserName = model.UserName,
@@ -51,6 +54,7 @@ namespace Clinic_System.PLL.Controllers
                 LastName = model.LastName,
                 Age = model.Age,
                 PhoneNumber = model.PhoneNumber,
+                Image = model.Image,
             };
             try
             {

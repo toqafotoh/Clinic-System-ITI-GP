@@ -40,7 +40,7 @@ namespace Clinic_System.PLL.Controllers
 
         //after log in redirect here .... not direct access
         [HttpGet]
-        public async Task<IActionResult> Profile(int id = 1)
+        public async Task<IActionResult> Profile(int id = 2)
         {
             var patientVM = _patientService.GetPatientById(id);
             return View(patientVM);

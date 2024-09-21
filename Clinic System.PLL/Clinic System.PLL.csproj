@@ -25,9 +25,4 @@
     <ProjectReference Include="..\Clinic System.BLL\Clinic System.BLL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\imges\DoctorProfilePhoto\" />
-    <Folder Include="wwwroot\imges\PatientProfilePhoto\" />
-  </ItemGroup>
-
 </Project>

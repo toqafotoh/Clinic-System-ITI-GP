@@ -9,9 +9,9 @@ namespace Clinic_System.BLL.Helper
 {
     public static class FileHelper
     {
-        public static string UploadFile(string folderName, IFormFile file)
+        public static string UploadFile(string folderName, IFormFile? file)
         {
-
+            if (file is null) return null;
             try
             {
                 //catch the folder Path and the file name in server
@@ -42,9 +42,9 @@ namespace Clinic_System.BLL.Helper
 
         }
 
-        public static string DeleteFile(string folderName, string fileName)
+        public static string DeleteFile(string folderName, string? fileName)
         {
-
+            if (fileName is not null) return "No file match file name";
             try
             {
                 var directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imges", folderName, fileName);

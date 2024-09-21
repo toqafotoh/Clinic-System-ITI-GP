@@ -47,8 +47,8 @@ namespace Clinic_System.BLL.Service.Implementation
                 return false; // Patient not found or already deleted
             }
 
-            //null refernce handling
-            FileHelper.DeleteFile("PatientProfilePhoto", deletePatientVM.Image); //If patient photo exist will delete it
+
+            //FileHelper.DeleteFile("PatientProfilePhoto", deletePatientVM.Image); //If patient photo exist will delete it ... commeted as we use soft delete
 
             // Use AutoMapper to map DeletePatientVM to Patient entity
             var patientEntity = mapper.Map<Patient>(deletePatientVM);
@@ -63,8 +63,7 @@ namespace Clinic_System.BLL.Service.Implementation
         {
             if (patientVM is not null)
             {
-                //null refernce handling
-                FileHelper.DeleteFile("PatientProfilePhoto", patientVM.Image); //If patient photo exist will delete it
+                //FileHelper.DeleteFile("PatientProfilePhoto", patientVM.Image); //If patient photo exist will delete it ... commeted as we use soft delete
                 var patient = mapper.Map<Patient>(patientVM);
                 return patientRepo.Delete(patient);
             }
@@ -76,7 +75,6 @@ namespace Clinic_System.BLL.Service.Implementation
         {
             if(patientVM is not null)
             {
-                //null refernce handling
                 patientVM.Image = FileHelper.UploadFile("PatientProfilePhoto", patientVM.ImageFile);  //save photo in specfic path and return its name to save it in DB
                 var Result = mapper.Map<Patient>(patientVM);
                 return patientRepo.Create(Result);

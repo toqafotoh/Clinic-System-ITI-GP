@@ -87,14 +87,11 @@
                 {
                     <div class="doctor-container">
                         <div class="doctor-header">
-                            @if (!string.IsNullOrEmpty(doctor.Image))
-                            {
-                                <img src="~/images/@doctor.Image" alt="@doctor.User.FirstName Photo">
+                            @{
+                                string image = "DefaultDoctorProfilePhoto.png";
+                                if (doctor.Image is not null) image = doctor.Image;
                             }
-                            else
-                            {
-                                <img src="~/imges/Elgraihy.jpg" alt="Default Photo">
-                            }
+                            <img src="~/imges/DoctorProfilePhoto/@image" alt="Doctor Photo">
                             <div class="doctor-info">
                                 <h2>@doctor.User.FirstName @doctor.User.LastName</h2>
                                 <p>@doctor.Description</p>
