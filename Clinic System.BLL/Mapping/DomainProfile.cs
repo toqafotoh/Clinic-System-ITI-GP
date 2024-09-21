@@ -5,6 +5,7 @@ using Clinic_System.BLL.ModelVM.DepartmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.ModelVM.FeedBackVM;
 using Clinic_System.BLL.ModelVM.PatientVM;
+using Clinic_System.BLL.ModelVM.PaymentVM;
 using Clinic_System.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -103,7 +104,12 @@ namespace Clinic_System.BLL.Mapping
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Doctor.SessionPrice))
                 .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Doctor.Department.Name));
             CreateMap<GetAppointmentByIdVM, UpdateAppointmentVM>();
-
+            CreateMap<Payment, PatientAppointmentPaymentVM>();
+            CreateMap<Appointment, GetAppointmentsByPatientIdVM>()
+                .ForMember(dest => dest.DoctorName, opt => opt.MapFrom(src => src.Doctor.User.FirstName + " " + src.Doctor.User.LastName))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Doctor.SessionPrice))
+                .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Doctor.Department.Name))
+                .ForMember(dest => dest.PaidAmount, opt => opt.MapFrom(src => src.payments.FirstOrDefault().Amount));
         }
     }
 }

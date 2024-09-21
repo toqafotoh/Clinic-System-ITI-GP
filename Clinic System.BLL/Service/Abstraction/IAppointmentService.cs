@@ -19,5 +19,6 @@ namespace Clinic_System.BLL.Service.Abstraction
         GetAppointmentByIdVM GetAppointmentById(int id);
         UpdateAppointmentVM ConvertToUpdateAppointmentVM(GetAppointmentByIdVM appointmentByIdVM);
         bool Delete(DeleteAppointmentVM appointmentVM);
+        IEnumerable<GetAppointmentsByPatientIdVM> GetAppointmentsByPatientId(int id);
     }
 }

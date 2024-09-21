@@ -78,7 +78,6 @@ namespace Clinic_System.DAL.Repo.Implementation
         {
             return _db.Doctors.Include(d => d.User).FirstOrDefault(d => d.DoctorID == id);
         }
-
         public bool Delete(Doctor doctor)
         {
             try
@@ -99,5 +98,5 @@ namespace Clinic_System.DAL.Repo.Implementation
 
             }
         }
-    }
+    }      
 }
