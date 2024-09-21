@@ -100,7 +100,7 @@ namespace Clinic_System.BLL.Service.Implementation
 
         public IEnumerable<GetAppointmentsByPatientIdVM> GetAppointmentsByPatientId(int id)
         {
-            var appointments = _appointmentRepo.GetAll().Where(p => p.PatientID == id);
+            var appointments = _appointmentRepo.GetAll().Where(a => a.PatientID == id);
             var appointmentsVM = _mapper.Map<IEnumerable<GetAppointmentsByPatientIdVM>>(appointments);
             return appointmentsVM;
         }

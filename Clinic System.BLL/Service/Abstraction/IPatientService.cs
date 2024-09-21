@@ -18,5 +18,6 @@ namespace Clinic_System.BLL.Service.Abstraction
         bool DeletePatientById(DeletePatientVM deletePatientVM);
         DeletePatientVM ConvertToDeletePatientVM(GetPatientByIdVM patientByIdVM);
         bool EditPatientEmail(EditPatientEmailVM editPatientEmailVM);
+        GetPatientByIdVM GetPatientById(string id);
     }
 }

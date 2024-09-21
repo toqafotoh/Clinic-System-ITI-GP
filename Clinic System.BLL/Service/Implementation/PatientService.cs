@@ -38,6 +38,12 @@ namespace Clinic_System.BLL.Service.Implementation
             return mapper.Map<GetPatientByIdVM>(patient);
         }
 
+        public GetPatientByIdVM GetPatientById(string id)
+        {
+            var patient = patientRepo.GetById(id);
+            return mapper.Map<GetPatientByIdVM>(patient);
+        }
+
         public bool DeletePatientById(DeletePatientVM deletePatientVM)
         {
             var patient = patientRepo.GetById(deletePatientVM.PatientID);

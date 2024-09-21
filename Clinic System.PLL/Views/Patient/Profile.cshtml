@@ -73,11 +73,10 @@
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="btn-group d-flex flex-wrap" role="group">
-                            <button class="btn btn-primary me-2 mb-2" data-bs-toggle="modal"
-                                    data-bs-target="#changePasswordModal">
+                            <a class="btn btn-primary me-2 mb-2" asp-action="ChangePassword" asp-controller="Account">
                                 <i class="fas fa-key me-2"></i>Change
                                 Password
-                            </button>
+                            </a>
                             <button class="btn btn-secondary me-2 mb-2" data-bs-toggle="modal"
                                     data-bs-target="#editEmailModal">
                                 <i class="fas fa-envelope me-2"></i>Edit
@@ -207,39 +206,6 @@
         </div>
     </div>
 
-    <!-- Change Password Modal -->
-    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="changePasswordForm">
-                        <div class="mb-3">
-                            <label for="currentPassword" class="form-label">Current Password</label>
-                            <input type="password" class="form-control" id="currentPassword" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="newPassword" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="newPassword" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="changePasswordBtn">Change Password</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Edit Email Modal -->
     <div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -300,8 +266,9 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-                    <form id="deleteAccountForm" action="/PatientProfile/DeletePatient" method="post">
+                    <form id="deleteAccountForm" action="/PatientProfile/DeletePatientProfile" method="post">
                         <div class="mb-3">
+                            <input type="number" class="form-control" id="newEmail" hidden name="PatientID" value="@Model.PatientID">
                             <label for="deleteConfirmation" class="form-label">Type "delete" to confirm:</label>
                             <input type="text" class="form-control" id="deleteConfirmation" required name="DeleteConfirmation">
                         </div>
