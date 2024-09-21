@@ -92,6 +92,11 @@ namespace Clinic_System.DAL.Repo.Implementation
             return _db.Patients.Include(p => p.User).FirstOrDefault(p => p.PatientID == id);
         }
 
+        public Patient GetById(string id)
+        {
+            return _db.Patients.Include(p => p.User).FirstOrDefault(p => p.User.Id == id);
+        }
+
         public void SaveChanges()
         {
             _db.SaveChanges();
