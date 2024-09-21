@@ -34,6 +34,7 @@ namespace Clinic_System.BLL.ModelVM.PatientVM
             PhoneNumber = patient.User.PhoneNumber;
             Email = patient.User.Email;
             Address = patient.Address;
+            Image = patient.User.Image;
         }
     }
 }

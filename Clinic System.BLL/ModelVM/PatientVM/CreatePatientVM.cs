@@ -1,4 +1,5 @@
 ﻿using Clinic_System.DAL.Enum;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +29,7 @@ namespace Clinic_System.BLL.ModelVM.PatientVM
         [Required(ErrorMessage = "Gender is required")]
         public Gender Gender { get; set; } = Gender.Male;
         public string? Image { get; set; }
+        public IFormFile? ImageFile { get; set; }
         public bool? IsDeleted { get; set; } = false;
 
         [Required(ErrorMessage = "Address is required")]

@@ -14,6 +14,8 @@ using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.DAL.Entities;
 using Clinic_System.BLL.ModelVM.PatientVM;
 
+using AutoMapper;
+using Clinic_System.BLL.Helper;
 namespace Clinic_System.BLL.Service.Implementation
 {
     public class DoctorService : IDoctorService
@@ -66,10 +68,11 @@ namespace Clinic_System.BLL.Service.Implementation
             return _mapper.Map<List<DoctorVM>>(doctors).ToList();
         }
 
-    public bool Create(CreateDoctorVM doctorVM)
+        public bool Create(CreateDoctorVM doctorVM)
         {
             if (doctorVM is not null)
             {
+                doctorVM.Image = FileHelper.UploadFile("DoctorProfilePhoto", doctorVM.ImageFile);  //save photo in specfic path and return its name to save it in DB 
                 var doctorEntity = _mapper.Map<Doctor>(doctorVM);
                 return _doctorRepo.Create(doctorEntity);
             }
@@ -106,6 +109,7 @@ namespace Clinic_System.BLL.Service.Implementation
         {
             if (doctorVM is not null)
             {
+                //FileHelper.DeleteFile("DoctorProfilePhoto", doctorVM.Image); //If doctor photo exist will delete it ... commeted as we use soft delete
                 var doctor = _mapper.Map<Doctor>(doctorVM);
                 return _doctorRepo.Delete(doctor);
             }
