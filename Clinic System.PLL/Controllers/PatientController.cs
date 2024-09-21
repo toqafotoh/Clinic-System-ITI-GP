@@ -8,10 +8,12 @@ namespace Clinic_System.PLL.Controllers
     public class PatientController : Controller
     {
         private readonly IPatientService _patientService;
+        private readonly IAppointmentService _appointmentService;
 
-        public PatientController(IPatientService patientService)
+        public PatientController(IPatientService patientService, IAppointmentService appointmentService)
         {
             _patientService = patientService;
+            _appointmentService = appointmentService;
         }
         public IActionResult Index()
         {
@@ -43,6 +45,7 @@ namespace Clinic_System.PLL.Controllers
         public async Task<IActionResult> Profile(int id = 2)
         {
             var patientVM = _patientService.GetPatientById(id);
+            ViewData["PatientAppointments"] = _appointmentService.GetAppointmentsByPatientId(id);
             return View(patientVM);
         }
 
