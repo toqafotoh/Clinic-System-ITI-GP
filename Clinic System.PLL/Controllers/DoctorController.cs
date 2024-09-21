@@ -2,12 +2,14 @@
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
 using Clinic_System.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Numerics;
 
 namespace Clinic_System.PLL.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DoctorController : Controller
     {
         private readonly IDoctorService _doctorService;

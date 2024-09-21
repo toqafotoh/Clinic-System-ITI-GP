@@ -1,6 +1,7 @@
 ﻿using Clinic_System.BLL.ModelVM.AppointmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
 using Clinic_System.BLL.Service.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic_System.PLL.Controllers
@@ -15,7 +16,7 @@ namespace Clinic_System.PLL.Controllers
             _appointmentService = appointmentService;
             _doctorService = doctorService;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -26,7 +27,7 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Doctors = doctors;
             return View(new CreateAppointmentVM());
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult CreateAppointment(CreateAppointmentVM appointmentVM)
         {
@@ -45,7 +46,7 @@ namespace Clinic_System.PLL.Controllers
 
             return View("Index", appointmentVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditAppointment(int id)
         {
@@ -58,7 +59,7 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Doctors = _doctorService.GetAllDoctors();
             return View(updateAppointmentVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditAppointment(UpdateAppointmentVM appointmentVM)
         {
@@ -74,7 +75,7 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Doctors = _doctorService.GetAllDoctors();
             return View(appointmentVM);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult BookAppointment(int appointmentId, int patientId)
         {
@@ -86,6 +87,7 @@ namespace Clinic_System.PLL.Controllers
             ModelState.AddModelError("", "Failed to book appointment");
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteAppointment(DeleteAppointmentVM deleteAppointmentVM)
         {

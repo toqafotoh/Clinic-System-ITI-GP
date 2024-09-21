@@ -1,4 +1,5 @@
 ﻿using Clinic_System.BLL.Service.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic_System.PLL.Controllers
@@ -12,6 +13,7 @@ namespace Clinic_System.PLL.Controllers
             _feedbackService = feedbackService;
                 
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var feedbacks=_feedbackService.GetAllFeedbacks();

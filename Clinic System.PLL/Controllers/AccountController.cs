@@ -69,7 +69,7 @@ namespace Clinic_System.PLL.Controllers
 
                     if (result.Succeeded)
                     {
-                         IdentityResult data= await userManager.AddToRoleAsync(user, "Admin");
+                         //IdentityResult data= await userManager.AddToRoleAsync(user, "Admin");
                         //if (data.Succeeded)
                         //{
 
@@ -374,7 +374,6 @@ namespace Clinic_System.PLL.Controllers
                 var existingUser = await userManager.FindByEmailAsync(model.Email);
                 if (existingUser != null)
                 {
-                    // Add a model error if the email is already in use
                     ModelState.AddModelError("", "An account with this email already exists.");
                     return View(model);
                 }
@@ -387,25 +386,6 @@ namespace Clinic_System.PLL.Controllers
                     if (result.Succeeded)
                     {
                          IdentityResult data= await userManager.AddToRoleAsync(user, "Admin");
-                        //if (data.Succeeded)
-                        //{
-
-                       
-
-                       
-                       
-                        //}
-                        //else
-                        //{
-                        //    foreach (var item in data.Errors)
-                        //    {
-                        //        ModelState.AddModelError("", item.Description);
-                        //    }
-                        //}
-
-
-
-
                         
                          return RedirectToAction("Index", "Admin");
                     }

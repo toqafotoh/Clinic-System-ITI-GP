@@ -1,10 +1,12 @@
 ﻿using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic_System.PLL.Controllers
 {
+
     public class PatientController : Controller
     {
         private readonly IPatientService _patientService;
@@ -13,12 +15,13 @@ namespace Clinic_System.PLL.Controllers
         {
             _patientService = patientService;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var patients = _patientService.GetAllPatients();
             return View("GetAllPatients",patients);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult DeletePatient(int id)
         {
@@ -30,7 +33,7 @@ namespace Clinic_System.PLL.Controllers
             var deletePatientVM = _patientService.ConvertToDeletePatientVM(PatientVM);
             return View(deletePatientVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeletePatient(DeletePatientVM deletePatientVM)
         {
