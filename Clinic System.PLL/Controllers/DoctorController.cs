@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace Clinic_System.PLL.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   
     public class DoctorController : Controller
     {
         private readonly IDoctorService _doctorService;
@@ -20,13 +20,13 @@ namespace Clinic_System.PLL.Controllers
             _doctorService = doctorService;
             _departmentService = departmentService;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             var doctors = _doctorService.GetAllDoctors();
             return View("GetAllDoctors", doctors);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult CreateDoctor()
         {
@@ -34,7 +34,7 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Departments = new SelectList(departments, "ID", "Name");
             return View(new CreateDoctorVM());
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult CreateDoctor(CreateDoctorVM doctorVM)
         {
@@ -52,7 +52,7 @@ namespace Clinic_System.PLL.Controllers
             }
             return View(doctorVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditDoctor(int id)
         {
@@ -66,7 +66,7 @@ namespace Clinic_System.PLL.Controllers
             var updateDoctorVM = _doctorService.ConvertToUpdateDoctorVM(doctorVM);
             return View(updateDoctorVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditDoctor(UpdateDoctorVM doctorVM)
         {
@@ -83,6 +83,7 @@ namespace Clinic_System.PLL.Controllers
             }
             return View(doctorVM);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteDoctor(DeleteDoctorVM deleteDoctorVM)
         {

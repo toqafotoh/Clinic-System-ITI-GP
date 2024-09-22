@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Clinic_System.DAL.Database;
 using Clinic_System.BLL.Helper;
 using Clinic_System.BLL.ModelVM.Appointment;
+using System.Runtime.InteropServices;
 
 namespace Clinic_System.PLL.Controllers
 {
@@ -73,7 +74,7 @@ namespace Clinic_System.PLL.Controllers
 
                     if (result.Succeeded)
                     {
-                         //IdentityResult data= await userManager.AddToRoleAsync(user, "Admin");
+                        IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
                         //if (data.Succeeded)
                         //{
 
@@ -138,30 +139,47 @@ namespace Clinic_System.PLL.Controllers
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
-                    var result = await signInManager.PasswordSignInAsync(model.UseName, model.Password, true, false);
-                    if (User.Identity.IsAuthenticated == true)
+
+                    var user = await userManager.FindByNameAsync(model.UseName);
+
+                    if (user != null)
                     {
-                        Claim IdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-                        string idguest = IdClaim.Value;
-                    }
-
-                    if (result.Succeeded)
-                    {
-                        var user = await userManager.FindByNameAsync(model.UseName);
-
-                        // Get user roles
-                        var roles = await userManager.GetRolesAsync(user);
-                        if (roles.Contains("Admin")) {
-                            return RedirectToAction("Index", "Admin");
-                        }
-
-                        else if (!string.IsNullOrEmpty(returnUrl))
+                        bool result = await userManager.CheckPasswordAsync(user, model.Password);
+                        if (result)
                         {
-                            return LocalRedirect(returnUrl);
+
+                            List<Claim> claims = new List<Claim>();
+                            if (!string.IsNullOrEmpty(user.Image)){
+                                claims.Add(new Claim("UserImage", user.Image));
+                            }
+
+
+                            await signInManager.SignInWithClaimsAsync(user, model.RememberMe, claims);
+
+
+
+                            //Claim ImageClaim = User.Claims.FirstOrDefault(c => c.Type == "UserImage");
+                            //string image = ImageClaim.Value;
+
+
+
+                            // Get user roles
+                            var roles = await userManager.GetRolesAsync(user);
+                            if (roles.Contains("Admin"))
+                            {
+                                return RedirectToAction("Index", "Admin");
+                            }
+
+                            else if (!string.IsNullOrEmpty(returnUrl))
+                            {
+                                return LocalRedirect(returnUrl);
+                            }
+                            return RedirectToAction("Index", "Home");
                         }
-                        return RedirectToAction("Index", "Home");
+
                     }
                     else
                     {
@@ -356,7 +374,7 @@ namespace Clinic_System.PLL.Controllers
             return View(model);
         }
         [HttpGet]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Adminregister()
         {
             return View();
@@ -389,9 +407,9 @@ namespace Clinic_System.PLL.Controllers
 
                     if (result.Succeeded)
                     {
-                         IdentityResult data= await userManager.AddToRoleAsync(user, "Admin");
-                        
-                         return RedirectToAction("Index", "Admin");
+                        IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
+
+                        return RedirectToAction("Index", "Admin");
                     }
                     else
                     {
@@ -412,5 +430,5 @@ namespace Clinic_System.PLL.Controllers
             return View(model);
         }
     }
-    
+
 }

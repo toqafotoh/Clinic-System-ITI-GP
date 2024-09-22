@@ -1,8 +1,10 @@
 @using Clinic_System.BLL.ModelVM.FeedBackVM
-@model AddFeedbackVM 
-
+@model AddFeedbackVM
+@using System.Security.Claims;
+@using Clinic_System.BLL.Helper;
  @using Microsoft.AspNetCore.Identity;
 @using Clinic_System.DAL.Entities
+@using Clinic_System.PLL.Controllers
 
 @inject SignInManager<User> signInManager
 
@@ -101,10 +103,21 @@
 
 
 
-        @if (signInManager.IsSignedIn(User)){
+        @if (signInManager.IsSignedIn(User))
+        {
+
+
+            Claim ImageClaim = User.Claims.FirstOrDefault(c => c.Type == "UserImage");
+            //string image = ImageClaim.Value;
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="imges/about1.png" alt="User Profile" class="user-image">
+
+                    @if (ImageClaim != null)
+                    {
+                        <img class="rounded-circle" width="50px" src="~/imges/PatientProfilePhoto/@ImageClaim.Value">
+
+                    }
+
                     @User.Identity.Name
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
@@ -119,34 +132,42 @@
                     </a>
 
 
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="dropdown-item" asp-action="Index" asp-controller="Admin">Admin</a>
+                    }
+
+
+
+
                 </div>
             </div>
-       @*
+            @*
 
-   @if (User.IsInRole("Admin"))
-             {
+        @if (User.IsInRole("Admin"))
+        {
 
-                 <nav class="navbar" style="position:relative; left:640px;">
+        <nav class="navbar" style="position:relative; left:640px;">
 
-                         <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index"> Admin  </a>                
+        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index"> Admin  </a>
 
-                     </nav>
-             
-            }
+        </nav>
 
-
-       *@
-
-         
         }
 
-           
-   
+
+        *@
+
+
+        }
 
 
 
 
-       
+
+
+
+
         <nav class="navbar">
             <a href="index.html">Home</a>
             <a href="#search-container">Book</a>
@@ -180,10 +201,19 @@
                     and select doctors quickly. Create your account now for a smooth healthcare.
                 </p>
 
+                @if (signInManager.IsSignedIn(User))
+                {
+
+                }
+                else{
                 <div class="home-btn">
                     <a asp-action="Login" asp-controller="Account">Login</a>
-                    <a class="homebtnsec" asp-action="Registerion" asp-controller="Account" >SignUp</a>
+                    <a class="homebtnsec" asp-action="Registerion" asp-controller="Account">SignUp</a>
                 </div>
+                }
+
+
+
 
             </div>
             <span id="search-container"></span>
@@ -268,15 +298,19 @@
                 </p>
             </div>
 
-            <div class="inner-technology">
-                <span></span>
-                <i class="fi fi-tr-user-md"></i>
-                <h2>Doctor’s profiles:</h2>
-                <p>
-                    Doctors have individual profiles visible to patients for contact and appointment scheduling.
 
-                </p>
-            </div>
+            <a asp-action="Index" asp-controller="Doctor">
+                <div class="inner-technology">
+                    <span></span>
+                    <i class="fi fi-tr-user-md"></i>
+                    <h2>Doctor’s profiles:</h2>
+                    <p>
+                        Doctors have individual profiles visible to patients for contact and appointment scheduling.
+
+                    </p>
+                </div>
+            </a>
+
             <div class="inner-technology">
                 <span></span>
                 <i class="fi fi-tr-admin-alt"></i>
@@ -350,7 +384,7 @@
             </div>
 
             <div class="contactForm">
-                <form  asp-action="Feedback" asp-controller="Home"  id="feedbackForm" method="post">
+                <form asp-action="Feedback" asp-controller="Home" id="feedbackForm" method="post">
                     <h2>Send Message</h2>
                     <div class="inputBox">
                         <input asp-for="Name" type="text" required id="name">
@@ -359,18 +393,18 @@
                     </div>
                     <div class="inputBox">
                         <input asp-for="Email" type="text" required id="email">
-                        <span asp-for ="Email">Email</span>
+                        <span asp-for="Email">Email</span>
                         <span asp-validation-for="Email" style="color : red"></span>
 
                     </div>
                     <div class="inputBox">
-                        <textarea asp-for="Content" required id = "content"></textarea>
+                        <textarea asp-for="Content" required id="content"></textarea>
                         <span asp-for="Content">Type Your Message...</span>
                         <span asp-validation-for="Content" style="color : red"></span>
 
                     </div>
                     <div class="inputBox">
-                        <input type="button" value="Send" id="feed"/>
+                        <input type="button" value="Send" id="feed" />
                     </div>
                 </form>
             </div>
@@ -452,15 +486,15 @@
 
         window.addEventListener('DOMContentLoaded', function () {
             const loadingScreen = document.querySelector('.loading-screen');
-            document.body.style.overflow = 'hidden'; 
-            document.body.style.pointerEvents = 'none'; 
+            document.body.style.overflow = 'hidden';
+            document.body.style.pointerEvents = 'none';
 
             setTimeout(() => {
-                loadingScreen.style.opacity = 0; 
-                document.body.style.overflow = ''; 
-                document.body.style.pointerEvents = ''; 
+                loadingScreen.style.opacity = 0;
+                document.body.style.overflow = '';
+                document.body.style.pointerEvents = '';
 
-            }, 1000); 
+            }, 1000);
         });
 
 
@@ -475,27 +509,27 @@
             }
         });
 
-                scrollToTopBtn.addEventListener('click', () => {
-                window.scrollTo({
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
                 top: 0,
-                behavior: 'smooth' 
+                behavior: 'smooth'
             });
         });
 
 
     </script>
-   <script>
-       document.addEventListener("DOMContentLoaded", (event) => {
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
             $(document).ready(function () {
                 $('#feed').on('click', function (event) {
-                    event.preventDefault(); 
+                    event.preventDefault();
 
                     var name = $('#name').val();
                     var email = $('#email').val();
                     var content = $('#content').val();
 
                     $.ajax({
-                        url: '/Home/Feedback', 
+                        url: '/Home/Feedback',
                         method: 'POST',
                         data: {
                             Name: name,
@@ -516,9 +550,9 @@
                 });
             });
         });
-      
 
-   </script>
+
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
