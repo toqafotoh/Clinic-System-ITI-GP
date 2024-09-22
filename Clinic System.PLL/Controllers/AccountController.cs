@@ -74,7 +74,7 @@ namespace Clinic_System.PLL.Controllers
 
                     if (result.Succeeded)
                     {
-                        IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
+                     //   IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
                         //if (data.Succeeded)
                         //{
 

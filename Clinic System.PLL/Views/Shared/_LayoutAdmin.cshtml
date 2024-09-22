@@ -35,7 +35,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center"  asp-action="Index" asp-controller="Admin">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -93,7 +93,15 @@
                 <a class="nav-link" asp-controller="Account" asp-action="AdminRegister">
                      <i class="fas fa-fw fa-credit-card"></i> 
                      <span>Admin Register</span></a>
+             </li> 
+             
+             <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">
+                     <i class="fas fa-fw fa-credit-card"></i> 
+                     <span>Home</span></a>
              </li>
+
+
              <li class="nav-item">
                 <form asp-controller="Account" asp-action="Logout" method="post">
                     <button type="submit" class="nav-link btn btn-link py-0">
