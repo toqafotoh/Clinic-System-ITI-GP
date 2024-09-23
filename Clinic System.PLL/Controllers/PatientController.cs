@@ -114,5 +114,23 @@ namespace Clinic_System.PLL.Controllers
                 return RedirectToAction("Profile");
             }
         }
+        //[HttpGet]
+        //public IActionResult GetPatientId()
+        //{
+        //    var id = GetLoggedInUserId();
+        //    if (string.IsNullOrEmpty(id))
+        //    {
+        //        return Json(new { success = false, message = "User not logged in." });
+        //    }
+
+        //    var patientVM = _patientService.GetPatientById(id);
+        //    if (patientVM == null)
+        //    {
+        //        return Json(new { success = false, message = "Patient not found." });
+        //    }
+
+        //    return Json(new { success = true, patient = patientVM }); 
+        //}
+
     }
 }

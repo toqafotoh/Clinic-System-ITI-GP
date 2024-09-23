@@ -20,6 +20,7 @@ namespace Clinic_System.PLL.Controllers
             _doctorService = doctorService;
             _departmentService = departmentService;
         }
+        [Authorize(Roles = "Admin")]
         [Authorize]
         public IActionResult Index()
         {

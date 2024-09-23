@@ -221,22 +221,23 @@
     <script>
         function bookAppointment(appointmentId) {
             if (!confirm("Are you sure you want to book this appointment?")) {
-                return; 
+                return;
             }
             $.ajax({
-                url: '@Url.Action("BookAppointment", "Home")', 
+                url: '@Url.Action("BookAppointment", "Appointment")',
                 type: 'POST',
                 data: {
                     appointmentId: appointmentId,
-                    patientId: 1 
                 },
                 success: function (response) {
                     if (response.success) {
-                        alert("Booked successfully"); 
-                        document.querySelector(`button[onclick="bookAppointment(${appointmentId})"]`).disabled = true;
-                        document.querySelector(`button[onclick="bookAppointment(${appointmentId})"]`).innerText = "Booked";
+                        alert("Booked successfully");
+                        // Disable the button and change its text
+                        let button = document.querySelector(`button[onclick="bookAppointment(${appointmentId})"]`);
+                        button.disabled = true;
+                        button.innerText = "Booked";
                     } else {
-                        alert("error booking appointment" ); 
+                        alert("Error booking appointment: " + response.message);
                     }
                 },
                 error: function () {
@@ -245,6 +246,7 @@
             });
         }
     </script>
+
 
 <script>
 window.addEventListener('DOMContentLoaded', function() {

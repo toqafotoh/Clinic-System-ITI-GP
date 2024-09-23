@@ -1,20 +1,24 @@
 ﻿using Clinic_System.BLL.ModelVM.AppointmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
+using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.BLL.Service.Abstraction;
+using Clinic_System.BLL.Service.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Claims;
 namespace Clinic_System.PLL.Controllers
 {
     public class AppointmentController : Controller
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IDoctorService _doctorService;
+        private readonly IPatientService _patientService;
 
-        public AppointmentController(IAppointmentService appointmentService, IDoctorService doctorService)
+        public AppointmentController(IAppointmentService appointmentService, IDoctorService doctorService, IPatientService patientService)
         {
             _appointmentService = appointmentService;
             _doctorService = doctorService;
+            _patientService = patientService;
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -75,18 +79,26 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Doctors = _doctorService.GetAllDoctors();
             return View(appointmentVM);
         }
+        public string GetLoggedInUserId()
+        {
+            return User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
         [Authorize]
         [HttpPost]
-        public IActionResult BookAppointment(int appointmentId, int patientId)
+        public IActionResult BookAppointment(int appointmentId)
         {
-            var isBooked = _appointmentService.BookAppointment(appointmentId, patientId);
+            var id = GetLoggedInUserId();
+            var patientVM = _patientService.GetPatientById(id);
+            var isBooked = _appointmentService.BookAppointment(appointmentId, patientVM.PatientID);
+
             if (isBooked)
             {
-                return RedirectToAction("Index");
+                return Json(new { success = true });
             }
-            ModelState.AddModelError("", "Failed to book appointment");
-            return RedirectToAction("Index");
+
+            return Json(new { success = false, message = "Failed to book appointment" });
         }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteAppointment(DeleteAppointmentVM deleteAppointmentVM)

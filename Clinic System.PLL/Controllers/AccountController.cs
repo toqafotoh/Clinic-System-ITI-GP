@@ -31,7 +31,10 @@ namespace Clinic_System.PLL.Controllers
             this.emailSender = emailSender;
             this._db = _db;
         }
-
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
         public string GetLoggedInUserId()
         {
             return User?.FindFirstValue(ClaimTypes.NameIdentifier);
