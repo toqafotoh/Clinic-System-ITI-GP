@@ -5,6 +5,7 @@ using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Clinic_System.DAL.Database;
 
 namespace Clinic_System.PLL.Controllers
 {
@@ -34,6 +35,8 @@ namespace Clinic_System.PLL.Controllers
                 var isCreated = _departmentService.Create(departmentVM);
                 if (isCreated)
                 {
+                 
+                    
                     return RedirectToAction("Index");
                 }
                 ModelState.AddModelError("", "Failed to create department");
