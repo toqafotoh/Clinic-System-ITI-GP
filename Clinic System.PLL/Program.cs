@@ -60,6 +60,9 @@ namespace Clinic_System.PLL
 
 
             // Repositories and Services
+            builder.Services.AddScoped<IDashboardRepo, DashboardRepo>();
+            builder.Services.AddScoped<IDashBoardService, DashBoardService>();
+
             builder.Services.AddScoped<IFeedBackRepository, FeedBackRipository>();
             builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 

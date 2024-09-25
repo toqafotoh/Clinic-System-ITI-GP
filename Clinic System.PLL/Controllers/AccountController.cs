@@ -63,14 +63,12 @@ namespace Clinic_System.PLL.Controllers
             try
             {
                 var existingUser = await userManager.FindByEmailAsync(model.Email);
-                if (existingUser != null)
+                if (existingUser is not null)
                 {
                     // Add a model error if the email is already in use
                     ModelState.AddModelError("", "An account with this email already exists.");
                     return View(model);
                 }
-
-
                 if (ModelState.IsValid)
                 {
                     var result = await userManager.CreateAsync(user, model.Password);
@@ -78,9 +76,6 @@ namespace Clinic_System.PLL.Controllers
                     if (result.Succeeded)
                     {
                      //   IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
-                        //if (data.Succeeded)
-                        //{
-
                         await _db.SaveChangesAsync();
                         var patient = new Patient
                         {
@@ -93,23 +88,9 @@ namespace Clinic_System.PLL.Controllers
                         var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                         var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token }, protocol: Request.Scheme);
 
-
-
                         var subject = "Confirm your email";
                         var message = $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>Confirm Email</a>";
                         await emailSender.SendEmailAsync(user.Email, subject, message);
-                        //}
-                        //else
-                        //{
-                        //    foreach (var item in data.Errors)
-                        //    {
-                        //        ModelState.AddModelError("", item.Description);
-                        //    }
-                        //}
-
-
-
-
                         return View("DisplayEmail");
                         // return RedirectToAction("Login", "Account");
                     }

@@ -132,7 +132,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <button type="button" class="book-btn" onclick="bookAppointment(@group.FirstOrDefault().ID)">Book</button>
+                                            <button type="button" class="book-btn" onclick="window.location.href='@Url.Action("BookAppointment", "Appointment", new { appointmentId = group.FirstOrDefault().ID })'">Book</button>
                                         </td>
 
                                     </tr>
@@ -218,7 +218,7 @@
         </div>
     </div>
  </footer>
-    <script>
+@*     <script>
         function bookAppointment(appointmentId) {
             if (!confirm("Are you sure you want to book this appointment?")) {
                 return;
@@ -245,7 +245,7 @@
                 }
             });
         }
-    </script>
+    </script> *@
 
 
 <script>

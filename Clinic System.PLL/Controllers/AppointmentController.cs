@@ -84,21 +84,42 @@ namespace Clinic_System.PLL.Controllers
             return User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         public IActionResult BookAppointment(int appointmentId)
+        {
+            var appointment = _appointmentService.GetAppointmentById(appointmentId);
+            if (appointment is null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var bookAppointmentVM = new BookAppointmentVM
+            {
+                AppointmentId = appointmentId,
+                DoctorName = $"{appointment.DoctorName}",
+                AppointmentTime = appointment.AppointmentDate,
+                SessionPrice = appointment.Price,
+            };
+
+            return View(bookAppointmentVM);
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult BookAppointment(BookAppointmentVM bookAppointmentVM)
         {
             var id = GetLoggedInUserId();
             var patientVM = _patientService.GetPatientById(id);
-            var isBooked = _appointmentService.BookAppointment(appointmentId, patientVM.PatientID);
+            var isBooked = _appointmentService.BookAppointment(bookAppointmentVM.AppointmentId, patientVM.PatientID);
 
             if (isBooked)
             {
-                return Json(new { success = true });
+                return Json(new { success = true, redirectUrl = Url.Action("Profile", "Patient") });
             }
-
-            return Json(new { success = false, message = "Failed to book appointment" });
+            else
+            {
+                return Json(new { success = false, message = "Failed to book appointment" });
+            }
         }
-
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteAppointment(DeleteAppointmentVM deleteAppointmentVM)
