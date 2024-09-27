@@ -79,7 +79,7 @@
         </div>
     </form>
     <form asp-action="Search" method="get">
-        @if (Model.Doctors != null && Model.Doctors.Any())
+        @if (Model?.Doctors != null && Model.Doctors.Any())
         {
             @foreach (var doctor in Model.Doctors)
             {

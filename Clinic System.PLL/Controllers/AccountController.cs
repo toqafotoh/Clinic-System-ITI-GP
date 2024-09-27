@@ -158,10 +158,10 @@ namespace Clinic_System.PLL.Controllers
                                 return RedirectToAction("Index", "Admin");
                             }
 
-                            else if (!string.IsNullOrEmpty(returnUrl))
-                            {
+                           else if (!string.IsNullOrEmpty(returnUrl))
+                           {
                                 return LocalRedirect(returnUrl);
-                            }
+                           }
                             return RedirectToAction("Index", "Home");
                         }
 

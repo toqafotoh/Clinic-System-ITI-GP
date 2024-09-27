@@ -88,7 +88,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    [Authorize]
+   /// [Authorize]
     [HttpPost]
     public async Task <IActionResult> Feedback(string Name, string Email, string Content)
     {
@@ -98,24 +98,28 @@ public class HomeController : Controller
             Email = Email,
             Content = Content
         };
-        if(User.Identity.IsAuthenticated)
+        var addedFeedback =    _feedbackService.AddFeedback(feedback);
+
+        // var addedFeedback = await  _feedbackService.AddFeedback(feedback);
+        if (addedFeedback)
 
         {
-        var addedFeedback = _feedbackService.AddFeedback(feedback);
-        string adminEmail = "admin@gmail.com"; // Replace with your admin email
-        string subject = $"New Feedback from {feedback.Email}";
-        string message = $"Feedback message: {feedback.Content}";
+           
+         
+            string adminEmail = "eldeeba124@gmail.com"; // Replace with your admin email
+            string subject = $"New Feedback from {feedback.Email}";
+            string message = $"Feedback message: {feedback.Content}";
 
-        await emailSender.SendEmailAsync(adminEmail, subject, message);
-
-        return RedirectToAction("ThankYou");
+            await emailSender.SendEmailAsync(adminEmail, subject, message);
+            return RedirectToAction("ThankYou");
         }
         else
         {
-            return RedirectToAction("Login", "Account");
+            //return RedirectToAction("Login", "Account");
+             return Ok();
         }
 
-       // return Ok();
+       
     }
 
     [HttpPost]

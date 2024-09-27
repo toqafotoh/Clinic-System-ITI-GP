@@ -20,11 +20,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p><i class="fas fa-calendar-check"></i> Are you sure you want to book an appointment with <span id="appointmentDoctorName">@Model.DoctorName</span>?</p>
+                <p><i class="fas fa-calendar-check"></i> Are you sure you want to book an appointment with DR <span id="appointmentDoctorName">@Model.DoctorName</span>?</p>
                 <form id="bookAppointmentForm" method="post" action="@Url.Action("BookAppointment", "Appointment")">
                     <input type="hidden" name="AppointmentId" id="appointmentId" value="@Model.AppointmentId" />
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+@*                         <button type="button" class="btn btn-secondary" asp-action="Search" asp-controller="Home" data-dismiss="modal">Cancel</button> *@
+                        <a  asp-action="Search" asp-controller="Home" class="btn btn-secondary">Cancel</a>
                         <button type="submit" class="btn btn-primary">Book</button>
                     </div>
                 </form>
