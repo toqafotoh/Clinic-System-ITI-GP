@@ -75,7 +75,7 @@ namespace Clinic_System.PLL.Controllers
 
                     if (result.Succeeded)
                     {
-                     //   IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
+                      //  IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
                         await _db.SaveChangesAsync();
                         var patient = new Patient
                         {

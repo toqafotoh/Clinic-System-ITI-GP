@@ -545,11 +545,14 @@
                             Content: content
                         },
                         success: function (response) {
-                            alert('Feedback sent successfully!');
-
-                            $('#name').val('');
-                            $('#email').val('');
-                            $('#content').val('');
+                            if (response.success) {
+                                alert(response.message); // Success message
+                                $('#name').val('');
+                                $('#email').val('');
+                                $('#content').val('');
+                            } else {
+                                alert(response.message); // Error message from the server
+                            }
                         },
                         error: function (error) {
                             alert('An error occurred. Please try again.');
@@ -558,10 +561,7 @@
                 });
             });
         });
-
-
     </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

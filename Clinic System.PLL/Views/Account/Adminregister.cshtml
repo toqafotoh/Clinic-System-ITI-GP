@@ -44,13 +44,22 @@
                                     </div>
                                 </div>
 
-                                <!-- Username -->
+                                <!-- Username and adress -->
                                 <div class="mb-4">
+                                    <div class="col-md-6">
                                     <div class="form-outline">
                                         <label asp-for="UserName" class="form-label"> <i class="fas fa-user fa-fw"></i> User Name</label>
                                         <input asp-for="UserName" type="text" class="form-control" />
                                         <span class="text-danger" asp-validation-for="UserName"></span>
                                     </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-outline">
+                                            <label asp-for="Address" class="form-label"><i class="fas fa-home fa-fw"></i> Address</label>
+                                            <input asp-for="Address" type="text" class="form-control" />
+                                            <span class="text-danger" asp-validation-for="Address"></span>
+                                        </div>
+                                </div>
                                 </div>
 
                                 <!-- Email -->

@@ -83,14 +83,14 @@ public class HomeController : Controller
 
 
     [HttpGet]
-    [Authorize]
     public IActionResult FeedBack()
     {
         return View();
     }
    /// [Authorize]
     [HttpPost]
-    public async Task <IActionResult> Feedback(string Name, string Email, string Content)
+    [HttpPost]
+    public async Task<IActionResult> Feedback(string Name, string Email, string Content)
     {
         var feedback = new AddFeedbackVM
         {
@@ -98,29 +98,26 @@ public class HomeController : Controller
             Email = Email,
             Content = Content
         };
-        var addedFeedback =    _feedbackService.AddFeedback(feedback);
 
-        // var addedFeedback = await  _feedbackService.AddFeedback(feedback);
-        if (addedFeedback)
+        var addedFeedback = _feedbackService.AddFeedback(feedback);
 
+        if (addedFeedback != null)
         {
-           
-         
             string adminEmail = "eldeeba124@gmail.com"; // Replace with your admin email
             string subject = $"New Feedback from {feedback.Email}";
             string message = $"Feedback message: {feedback.Content}";
 
             await emailSender.SendEmailAsync(adminEmail, subject, message);
-            return RedirectToAction("ThankYou");
+
+            // Return a JSON success response
+            return Json(new { success = true, message = "Feedback sent successfully!" });
         }
         else
         {
-            //return RedirectToAction("Login", "Account");
-             return Ok();
+            return Json(new { success = false, message = "An error occurred while submitting feedback." });
         }
-
-       
     }
+
 
     [HttpPost]
     public IActionResult BookAppointment(int appointmentId, int patientId)
