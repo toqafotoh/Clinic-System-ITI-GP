@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Clinic_System.DAL.Entities;
 using Clinic_System.BLL.ModelVM.Appointment;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IFeedbackService _feedbackService;
+    private readonly IEmailSender emailSender;
     private readonly IDoctorService _doctorService; 
     private readonly IDepartmentService _departmentService;
     private readonly IAppointmentService _appointmentService;
@@ -17,10 +19,11 @@ public class HomeController : Controller
 
 
 
-    public HomeController(ILogger<HomeController> logger, IFeedbackService feedbackService, IAppointmentService appointmentService, IDoctorService doctorService, IDepartmentService departmentService , IMapper mapper)
+    public HomeController(ILogger<HomeController> logger, IFeedbackService feedbackService,IEmailSender emailSender, IAppointmentService appointmentService, IDoctorService doctorService, IDepartmentService departmentService , IMapper mapper)
     {
         _logger = logger;
         _feedbackService = feedbackService;
+        this.emailSender = emailSender;
         _doctorService = doctorService; 
         _departmentService = departmentService;
         _appointmentService = appointmentService;
@@ -84,9 +87,10 @@ public class HomeController : Controller
     {
         return View();
     }
-
+   /// [Authorize]
     [HttpPost]
-    public IActionResult Feedback(string Name, string Email, string Content)
+    [HttpPost]
+    public async Task<IActionResult> Feedback(string Name, string Email, string Content)
     {
         var feedback = new AddFeedbackVM
         {
@@ -94,10 +98,27 @@ public class HomeController : Controller
             Email = Email,
             Content = Content
         };
-        
+
         var addedFeedback = _feedbackService.AddFeedback(feedback);
-        return Ok();
+
+        if (addedFeedback != null)
+        {
+            string adminEmail = "eldeeba124@gmail.com"; // Replace with your admin email
+            string subject = $"New Feedback from {feedback.Email}";
+            string message = $"Feedback message: {feedback.Content}";
+
+            await emailSender.SendEmailAsync(adminEmail, subject, message);
+
+            // Return a JSON success response
+            return Json(new { success = true, message = "Feedback sent successfully!" });
+        }
+        else
+        {
+            return Json(new { success = false, message = "An error occurred while submitting feedback." });
+        }
     }
+
+
     [HttpPost]
     public IActionResult BookAppointment(int appointmentId, int patientId)
     {

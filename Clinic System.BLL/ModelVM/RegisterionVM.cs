@@ -33,7 +33,7 @@ namespace Clinic_System.BLL.ModelVM
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }

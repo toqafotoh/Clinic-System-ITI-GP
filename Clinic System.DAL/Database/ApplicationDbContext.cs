@@ -14,6 +14,7 @@ namespace Clinic_System.DAL.Database
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<User> usersss { get; set; }
         // Constructor accepting DbContextOptions
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

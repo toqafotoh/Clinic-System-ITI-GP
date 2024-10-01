@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Clinic_System.BLL.ModelVM.DashBoardVM.DashboardVM
+@{
     ViewData["Title"] = "View";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
@@ -32,7 +33,7 @@
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             Number of Patients
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">500</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.PatientCount</div>
                         <!-- Example number -->
                     </div>
                     <div class="col-auto">
@@ -52,7 +53,7 @@
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Appointments
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">120</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.AppointmentCount</div>
                         <!-- Example number -->
                     </div>
                     <div class="col-auto">
@@ -73,7 +74,7 @@
                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                             Total Earnings
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$255,000</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalEarnings.ToString("C")</div>
                         <!-- Example earnings -->
                     </div>
                     <div class="col-auto">
@@ -94,7 +95,7 @@
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Departments
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.DepartmentCount</div>
                         <!-- Example number -->
                     </div>
                     <div class="col-auto">
@@ -148,9 +149,9 @@
         dataLabels: {
             enabled: false
         },
-        series: [150, 100, 80, 120],  // Number of appointments for each department
-        labels: ["Surgery", "Pediatrics", "Dermatology", "Cardiology"],  // Department names
-        colors: ["#d192cc", "#68f294", "#6b93db", "#e0d53d"],  // Custom colors
+        series: @Html.Raw(Json.Serialize(Model.AppointmentsByDepartment.Select(x => x.AppointmentCount).ToList())),
+        labels: @Html.Raw(Json.Serialize(Model.AppointmentsByDepartment.Select(x => x.DepartmentName).ToList())),
+        colors: ["#d192cc", "#68f294", "#6b93db", "#e0d53d"],
         legend: {
             position: 'bottom'
         },
@@ -163,17 +164,17 @@
 
     chart.render();
 </script>
-<!-- Add this script inside your <script> tags -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var ctx = document.getElementById("myBarChart").getContext('2d');
     var myBarChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Surgery", "Pediatrics", "Radiology", "Cardiology", "Oncology", "Orthopedics"],
+            labels: @Html.Raw(Json.Serialize(Model.AppointmentsByDepartment.Select(x => x.DepartmentName).ToList())),
             datasets: [{
                 label: 'Appointments',
-                data: [25, 15, 12, 30, 18, 22], // Example data for appointments per department
+                data: @Html.Raw(Json.Serialize(Model.AppointmentsByDepartment.Select(x => x.AppointmentCount).ToList())),
                 backgroundColor: [
                     'rgba(75, 192, 192, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

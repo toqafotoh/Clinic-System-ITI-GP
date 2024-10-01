@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic_System.PLL.Controllers
 {
+    [Authorize]
     public class FeedbackController : Controller
     {
         private readonly IFeedbackService _feedbackService;
@@ -13,6 +14,7 @@ namespace Clinic_System.PLL.Controllers
         public FeedbackController(IFeedbackService feedbackService)
         {
             _feedbackService = feedbackService;
+
                 
         }
         [Authorize(Roles = "Admin")]

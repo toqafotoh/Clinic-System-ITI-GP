@@ -6501,7 +6501,8 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 	support.clearCloneStyle = div.style.backgroundClip === "content-box";
 
 	jQuery.extend( support, {
-		boxSizingReliable: function() {
+		boxSizingReliable: function () {
+
 			computeStyleTests();
 			return boxSizingReliableVal;
 		},
