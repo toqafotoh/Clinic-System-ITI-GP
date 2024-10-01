@@ -1,21 +1,26 @@
 ﻿using Clinic_System.BLL.ModelVM.AppointmentVM;
 using Clinic_System.BLL.ModelVM.DoctorVM;
+using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.BLL.Service.Abstraction;
+using Clinic_System.BLL.Service.Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Claims;
 namespace Clinic_System.PLL.Controllers
 {
     public class AppointmentController : Controller
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IDoctorService _doctorService;
+        private readonly IPatientService _patientService;
 
-        public AppointmentController(IAppointmentService appointmentService, IDoctorService doctorService)
+        public AppointmentController(IAppointmentService appointmentService, IDoctorService doctorService, IPatientService patientService)
         {
             _appointmentService = appointmentService;
             _doctorService = doctorService;
+            _patientService = patientService;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -26,7 +31,7 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Doctors = doctors;
             return View(new CreateAppointmentVM());
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult CreateAppointment(CreateAppointmentVM appointmentVM)
         {
@@ -45,7 +50,7 @@ namespace Clinic_System.PLL.Controllers
 
             return View("Index", appointmentVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditAppointment(int id)
         {
@@ -58,7 +63,7 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Doctors = _doctorService.GetAllDoctors();
             return View(updateAppointmentVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditAppointment(UpdateAppointmentVM appointmentVM)
         {
@@ -74,18 +79,27 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Doctors = _doctorService.GetAllDoctors();
             return View(appointmentVM);
         }
-
-        [HttpPost]
-        public IActionResult BookAppointment(int appointmentId, int patientId)
+        public string GetLoggedInUserId()
         {
-            var isBooked = _appointmentService.BookAppointment(appointmentId, patientId);
+            return User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult BookAppointment(int appointmentId)
+        {
+            var id = GetLoggedInUserId();
+            var patientVM = _patientService.GetPatientById(id);
+            var isBooked = _appointmentService.BookAppointment(appointmentId, patientVM.PatientID);
+
             if (isBooked)
             {
-                return RedirectToAction("Index");
+                return Json(new { success = true });
             }
-            ModelState.AddModelError("", "Failed to book appointment");
-            return RedirectToAction("Index");
+
+            return Json(new { success = false, message = "Failed to book appointment" });
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteAppointment(DeleteAppointmentVM deleteAppointmentVM)
         {

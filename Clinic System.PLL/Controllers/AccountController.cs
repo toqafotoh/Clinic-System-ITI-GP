@@ -10,6 +10,9 @@ using Clinic_System.DAL.Entities;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Clinic_System.DAL.Database;
+using Clinic_System.BLL.Helper;
+using Clinic_System.BLL.ModelVM.Appointment;
+using System.Runtime.InteropServices;
 
 namespace Clinic_System.PLL.Controllers
 {
@@ -28,7 +31,10 @@ namespace Clinic_System.PLL.Controllers
             this.emailSender = emailSender;
             this._db = _db;
         }
-
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
         public string GetLoggedInUserId()
         {
             return User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -43,6 +49,7 @@ namespace Clinic_System.PLL.Controllers
         [HttpPost]
         public async Task<IActionResult> Registerion(RegisterionVM model)
         {
+            model.Image = FileHelper.UploadFile("PatientProfilePhoto", model.ImageFile); //handle image 
             var user = new User()
             {
                 UserName = model.UserName,
@@ -51,6 +58,7 @@ namespace Clinic_System.PLL.Controllers
                 LastName = model.LastName,
                 Age = model.Age,
                 PhoneNumber = model.PhoneNumber,
+                Image = model.Image,
             };
             try
             {
@@ -69,27 +77,27 @@ namespace Clinic_System.PLL.Controllers
 
                     if (result.Succeeded)
                     {
-                        // IdentityResult data= await userManager.AddToRoleAsync(user, "Admin");
+                     //   IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
                         //if (data.Succeeded)
                         //{
 
                         await _db.SaveChangesAsync();
                         var patient = new Patient
                         {
-                            User = user, 
+                            User = user,
                             Address = model.Address
                         };
 
                         _db.Patients.Add(patient);
                         await _db.SaveChangesAsync();
                         var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                            var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token }, protocol: Request.Scheme);
+                        var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token }, protocol: Request.Scheme);
 
 
 
-                            var subject = "Confirm your email";
-                            var message = $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>Confirm Email</a>";
-                            await emailSender.SendEmailAsync(user.Email, subject, message);
+                        var subject = "Confirm your email";
+                        var message = $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>Confirm Email</a>";
+                        await emailSender.SendEmailAsync(user.Email, subject, message);
                         //}
                         //else
                         //{
@@ -130,26 +138,51 @@ namespace Clinic_System.PLL.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM model,string? returnUrl)
+        public async Task<IActionResult> Login(LoginVM model, string? returnUrl)
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
-                    var result = await signInManager.PasswordSignInAsync(model.UseName, model.Password, true, false);
-                    if (User.Identity.IsAuthenticated == true)
-                    {
-                        Claim IdClaim = User.Claims.FirstOrDefault(c =>c.Type==ClaimTypes.NameIdentifier);
-                         string idguest = IdClaim.Value; 
-                    }
 
-                    if (result.Succeeded)
+                    var user = await userManager.FindByNameAsync(model.UseName);
+
+                    if (user != null)
                     {
-                        if (!string.IsNullOrEmpty(returnUrl))
+                        bool result = await userManager.CheckPasswordAsync(user, model.Password);
+                        if (result)
                         {
-                            return LocalRedirect(returnUrl);
+
+                            List<Claim> claims = new List<Claim>();
+                            if (!string.IsNullOrEmpty(user.Image)){
+                                claims.Add(new Claim("UserImage", user.Image));
+                            }
+
+
+                            await signInManager.SignInWithClaimsAsync(user, model.RememberMe, claims);
+
+
+
+                            //Claim ImageClaim = User.Claims.FirstOrDefault(c => c.Type == "UserImage");
+                            //string image = ImageClaim.Value;
+
+
+
+                            // Get user roles
+                            var roles = await userManager.GetRolesAsync(user);
+                            if (roles.Contains("Admin"))
+                            {
+                                return RedirectToAction("Index", "Admin");
+                            }
+
+                            else if (!string.IsNullOrEmpty(returnUrl))
+                            {
+                                return LocalRedirect(returnUrl);
+                            }
+                            return RedirectToAction("Index", "Home");
                         }
-                        return RedirectToAction("Index", "Home");
+
                     }
                     else
                     {
@@ -343,7 +376,62 @@ namespace Clinic_System.PLL.Controllers
             }
             return View(model);
         }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Adminregister()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Adminregister(RegisterionVM model)
+        {
+            var user = new User()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Age = model.Age,
+                PhoneNumber = model.PhoneNumber,
+            };
+            try
+            {
+                var existingUser = await userManager.FindByEmailAsync(model.Email);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("", "An account with this email already exists.");
+                    return View(model);
+                }
 
 
+                if (ModelState.IsValid)
+                {
+                    var result = await userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        IdentityResult data = await userManager.AddToRoleAsync(user, "Admin");
+
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else
+                    {
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
+                    }
+                    return View(model);
+                }
+            }
+            catch (Exception)
+            {
+
+                return View(model);
+            }
+
+            return View(model);
+        }
     }
+
 }

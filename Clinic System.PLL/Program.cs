@@ -21,29 +21,29 @@ namespace Clinic_System.PLL
             var builder = WebApplication.CreateBuilder(args);
             IConfiguration configuration = builder.Configuration;
 
-            //builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
-
+           
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Database Context
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+            // Email Service
             builder.Services.Configure<SMTPConfigMV>(configuration.GetSection("applicationSettings"));
             builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-
-             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            // Authentication & Identity
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
              .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
              options =>
              {
                  options.LoginPath = new PathString("/Account/Login");
-                 options.AccessDeniedPath = new PathString("/Account/Login");
+                 options.AccessDeniedPath = new PathString("/Account/AccessDenied");
              });
 
             builder.Services.AddIdentity<User, IdentityRole>(options =>
             {
-                // Default Password settings.
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -53,50 +53,61 @@ namespace Clinic_System.PLL
             }).AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Account/AccessDenied");
+            });
 
 
-
-
-
-
-
-
-
+            // Repositories and Services
             builder.Services.AddScoped<IFeedBackRepository, FeedBackRipository>();
             builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+
             builder.Services.AddScoped<IPatientRepo, PatientRepo>();
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IPatientService, PatientService>();
-            builder.Services.AddScoped<IAppointmentRepo, AppointmentRepo>();
-            builder.Services.AddScoped<IPaymentRepo,PaymentRepo>();
-            builder.Services.AddScoped<IDoctorRepo, DoctorRepo>();
-            builder.Services.AddScoped<IDoctorService, DoctorService>();
-            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
-            builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
+            builder.Services.AddScoped<IAppointmentRepo, AppointmentRepo>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+
+            builder.Services.AddScoped<IPaymentRepo, PaymentRepo>();
+
+            builder.Services.AddScoped<IDoctorRepo, DoctorRepo>();
+            builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+            builder.Services.AddScoped<IDoctorService, DoctorService>();
+            
+            // AutoMapper
             builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
             var app = builder.Build();
+            
+            
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+
             app.UseAuthorization();
+            app.UseAuthorization();
+
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+
         }
     }
 }

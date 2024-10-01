@@ -98,4 +98,15 @@ public class HomeController : Controller
         var addedFeedback = _feedbackService.AddFeedback(feedback);
         return Ok();
     }
+    [HttpPost]
+    public IActionResult BookAppointment(int appointmentId, int patientId)
+    {
+        var result = _appointmentService.BookAppointment(appointmentId, patientId);
+        if (result)
+        {
+            return Ok(new { success = true });
+        }
+        return BadRequest(new { success = false, message = "Failed to book appointment." });
+    }
+
 }

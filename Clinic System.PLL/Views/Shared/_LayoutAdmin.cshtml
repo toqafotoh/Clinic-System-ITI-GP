@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿ @using Microsoft.AspNetCore.Identity;
+@using Clinic_System.DAL.Entities
+
+@inject SignInManager<User> signInManager
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -28,7 +35,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center"  asp-action="Index" asp-controller="Admin">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -40,9 +47,10 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" asp-controller="Admin" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
 
             <hr class="sidebar-divider">
@@ -71,16 +79,42 @@
 
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Patient" asp-action="Index">
-                    <i class="fas fa-fw fa-procedures"></i> <!-- Icon for Patients -->
-                    <span>Patients</span></a>
+                    <i class="fas fa-user-injured"></i> <!-- Icon for Patients -->
+                    <span>Patients</span>
+                </a>
             </li>
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link" href="Payments.html">
-                    <i class="fas fa-fw fa-credit-card"></i> 
-                    <span>Payments</span></a>
+                <a class="nav-link" asp-controller="Role" asp-action="AddRole">
+                    <i class="fas fa-user-shield"></i> <!-- Icon for Add Role -->
+                    <span>Add Role</span>
+                </a>
             </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Account" asp-action="AdminRegister">
+                    <i class="fas fa-user-plus"></i> <!-- Icon for Admin Register -->
+                    <span>Admin Register</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i> <!-- Icon for Home -->
+                    <span>Home</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <form asp-controller="Account" class="nav-link" asp-action="Logout" method="post">
+                    <button type="submit" class="nav-link btn btn-link py-0" style="color: #dc3545;">
+                        <i class="fas fa-sign-out-alt"></i> <!-- Icon for Logout -->
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -127,7 +161,7 @@
                         </li>
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="Feedbacks.html" id="messagesDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" asp-controller="Feedback" asp-action="Index" id="messagesDropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->

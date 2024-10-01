@@ -2,12 +2,14 @@
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.BLL.Service.Implementation;
 using Clinic_System.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Numerics;
 
 namespace Clinic_System.PLL.Controllers
 {
+   
     public class DoctorController : Controller
     {
         private readonly IDoctorService _doctorService;
@@ -18,13 +20,14 @@ namespace Clinic_System.PLL.Controllers
             _doctorService = doctorService;
             _departmentService = departmentService;
         }
-
+        [Authorize(Roles = "Admin")]
+        [Authorize]
         public IActionResult Index()
         {
             var doctors = _doctorService.GetAllDoctors();
             return View("GetAllDoctors", doctors);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult CreateDoctor()
         {
@@ -32,7 +35,7 @@ namespace Clinic_System.PLL.Controllers
             ViewBag.Departments = new SelectList(departments, "ID", "Name");
             return View(new CreateDoctorVM());
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult CreateDoctor(CreateDoctorVM doctorVM)
         {
@@ -50,7 +53,7 @@ namespace Clinic_System.PLL.Controllers
             }
             return View(doctorVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditDoctor(int id)
         {
@@ -64,7 +67,7 @@ namespace Clinic_System.PLL.Controllers
             var updateDoctorVM = _doctorService.ConvertToUpdateDoctorVM(doctorVM);
             return View(updateDoctorVM);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditDoctor(UpdateDoctorVM doctorVM)
         {
@@ -81,6 +84,7 @@ namespace Clinic_System.PLL.Controllers
             }
             return View(doctorVM);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult DeleteDoctor(DeleteDoctorVM deleteDoctorVM)
         {

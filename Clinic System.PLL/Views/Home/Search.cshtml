@@ -87,14 +87,11 @@
                 {
                     <div class="doctor-container">
                         <div class="doctor-header">
-                            @if (!string.IsNullOrEmpty(doctor.Image))
-                            {
-                                <img src="~/images/@doctor.Image" alt="@doctor.User.FirstName Photo">
+                            @{
+                                string image = "DefaultDoctorProfilePhoto.png";
+                                if (doctor.Image is not null) image = doctor.Image;
                             }
-                            else
-                            {
-                                <img src="~/imges/Elgraihy.jpg" alt="Default Photo">
-                            }
+                            <img src="~/imges/DoctorProfilePhoto/@image" alt="Doctor Photo">
                             <div class="doctor-info">
                                 <h2>@doctor.User.FirstName @doctor.User.LastName</h2>
                                 <p>@doctor.Description</p>
@@ -135,8 +132,9 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <button class="book-btn" asp-action="Book" asp-route-id="@group.FirstOrDefault().ID">Book</button>
+                                            <button type="button" class="book-btn" onclick="bookAppointment(@group.FirstOrDefault().ID)">Book</button>
                                         </td>
+
                                     </tr>
                                 }
                             </tbody>
@@ -220,6 +218,36 @@
         </div>
     </div>
  </footer>
+    <script>
+        function bookAppointment(appointmentId) {
+            if (!confirm("Are you sure you want to book this appointment?")) {
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("BookAppointment", "Appointment")',
+                type: 'POST',
+                data: {
+                    appointmentId: appointmentId,
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Booked successfully");
+                        // Disable the button and change its text
+                        let button = document.querySelector(`button[onclick="bookAppointment(${appointmentId})"]`);
+                        button.disabled = true;
+                        button.innerText = "Booked";
+                    } else {
+                        alert("Error booking appointment: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while trying to book the appointment. Please try again later.");
+                }
+            });
+        }
+    </script>
+
+
 <script>
 window.addEventListener('DOMContentLoaded', function() {
     const loadingScreen = document.querySelector('.loading-screen');
@@ -239,6 +267,10 @@ window.addEventListener('DOMContentLoaded', function() {
                 navbar.classList.toggle('active');
             }
 
+
+
 </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 </html>

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Clinic_System.BLL.ModelVM.DoctorVM;
+using Clinic_System.BLL.Helper;
 using Clinic_System.BLL.ModelVM.PatientVM;
 using Clinic_System.BLL.Service.Abstraction;
 using Clinic_System.DAL.Entities;
 using Clinic_System.DAL.Repo.Abstraction;
 using Clinic_System.DAL.Repo.Implementation;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,12 @@ namespace Clinic_System.BLL.Service.Implementation
             return mapper.Map<GetPatientByIdVM>(patient);
         }
 
+        public GetPatientByIdVM GetPatientById(string id)
+        {
+            var patient = patientRepo.GetById(id);
+            return mapper.Map<GetPatientByIdVM>(patient);
+        }
+
         public bool DeletePatientById(DeletePatientVM deletePatientVM)
         {
             var patient = patientRepo.GetById(deletePatientVM.PatientID);
@@ -44,6 +52,9 @@ namespace Clinic_System.BLL.Service.Implementation
             {
                 return false; // Patient not found or already deleted
             }
+
+
+            //FileHelper.DeleteFile("PatientProfilePhoto", deletePatientVM.Image); //If patient photo exist will delete it ... commeted as we use soft delete
 
             // Use AutoMapper to map DeletePatientVM to Patient entity
             var patientEntity = mapper.Map<Patient>(deletePatientVM);
@@ -58,6 +69,7 @@ namespace Clinic_System.BLL.Service.Implementation
         {
             if (patientVM is not null)
             {
+                //FileHelper.DeleteFile("PatientProfilePhoto", patientVM.Image); //If patient photo exist will delete it ... commeted as we use soft delete
                 var patient = mapper.Map<Patient>(patientVM);
                 return patientRepo.Delete(patient);
             }
@@ -69,6 +81,7 @@ namespace Clinic_System.BLL.Service.Implementation
         {
             if(patientVM is not null)
             {
+                patientVM.Image = FileHelper.UploadFile("PatientProfilePhoto", patientVM.ImageFile);  //save photo in specfic path and return its name to save it in DB
                 var Result = mapper.Map<Patient>(patientVM);
                 return patientRepo.Create(Result);
             }
@@ -92,5 +105,11 @@ namespace Clinic_System.BLL.Service.Implementation
             return deletePatientVM;
         }
 
+        public bool EditPatientEmail(EditPatientEmailVM editPatientEmailVM)
+        {
+            var patient = patientRepo.GetById(editPatientEmailVM.PatientID);
+            patient.User.Email = editPatientEmailVM.NewEmail;
+            return patientRepo.Edit(patient);
+        }
     }
 }
