@@ -1,5 +1,6 @@
 ﻿using Clinic_System.DAL.Enum;
 using global::Clinic_System.DAL.Enum;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +20,7 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Age is required")]
-        [Range(1, 100, ErrorMessage = "Age must be between 1 and 100")]
+        [Range(25, 80, ErrorMessage = "Age must be between 25 and 80")]
         public int Age { get; set; }
 
         [Required(ErrorMessage = "Gender is required")]
@@ -38,8 +39,8 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
 
         [Required(ErrorMessage = "Shift is required")]
         public Shift Shift { get; set; }
-
         public String? Image { get; set; }
+        public IFormFile? ImageFile { get; set; }
 
         [Required(ErrorMessage = "Session price is required")]
         [Range(80, double.MaxValue, ErrorMessage = "Session price must be at least 80")]

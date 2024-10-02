@@ -17,14 +17,6 @@
 }
 
 
-
-
-
-
-
-
-
-
     .loading-screen .logo-container {
         display: flex;
         align-items: center;
@@ -100,7 +92,7 @@ header {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: 0.5rem 7% !important;
+    padding: 0.7rem 7% !important;
     width: 100% !important;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.1) !important;
     z-index: 100 !important;
@@ -241,7 +233,6 @@ nav {
 
 .main-home {
     background: url(../imges/MEDICAL\ BLURRED\ BACKGROUND.jpeg) no-repeat;
-    margin-bottom: 100px;
     padding: 2rem 7%;
     width: 100%;
     min-height: 100vh;
@@ -296,22 +287,18 @@ nav {
         transition: 0.7s ease;
         border-radius: 5px;
     }
-
-        .home-btn a:hover {
+.home-btn a:hover {
             background-color: white;
             color: black;
             transform: scale(1.1);
-        }
-
-.home .home-right-content {
-    flex: 1 1 50rem;
 }
-
-    .home .home-right-content img {
+.home .home-right-content {
+    flex: 60rem;
+}
+.home .home-right-content img {
         width: 100%;
-        margin-top: 4rem;
-    }
-
+/*        margin-top: 4rem;*/
+ }
 
 .ser-heading {
     margin-top: 15px;

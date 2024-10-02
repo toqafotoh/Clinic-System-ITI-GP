@@ -4,6 +4,10 @@
     ViewData["Title"] = "GetAllPatients";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.3.1/luxon.min.js"></script>
 
 <style>
     /* Style the table */
@@ -175,6 +179,9 @@
         margin-right: 5px; /* Space between icon and text */
     }
 </style>
+<script>
+    new DataTable('#patient-table');
+</script>
 
 <script>
     function confirmDelete(patientId, patientName) {

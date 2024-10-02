@@ -4,7 +4,10 @@
     ViewData["Title"] = "Get All Doctors";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.3.1/luxon.min.js"></script>
 <style>
     .add-doctor-container button {
         background-color: #4E73DF;
@@ -26,7 +29,7 @@
     <button onclick="window.location.href='@Url.Action("CreateDoctor", "Doctor")'">Add New Doctor</button>
 </div>
 <!-- Begin Page Content -->
-<table class="table table-bordered border-dark table-hover table-light">
+<table class="table table-bordered border-dark table-hover table-light" id="doctorTable">
     <thead style="background-color: #2d53c633;">
         <tr>
             <th>ID</th>
@@ -97,7 +100,11 @@
         </div>
     </div>
 </div>
-
+<script>
+    $(document).ready(function () {
+        $('#doctorTable').DataTable();
+    });
+</script>
 <script>
     function confirmDelete(doctorId, doctorName) {
         document.getElementById('doctorName').textContent = doctorName;

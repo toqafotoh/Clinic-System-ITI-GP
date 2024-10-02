@@ -18,7 +18,7 @@ namespace Clinic_System.BLL.ModelVM.DoctorVM
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Age is required")]
-        [Range(1, 100, ErrorMessage = "Age must be between 1 and 100")]
+        [Range(25, 80, ErrorMessage = "Age must be between 25 and 80")]
         public int Age { get; set; }
 
         [Required(ErrorMessage = "Gender is required")]

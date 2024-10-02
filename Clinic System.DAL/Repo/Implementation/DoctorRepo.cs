@@ -57,6 +57,7 @@ namespace Clinic_System.DAL.Repo.Implementation
                     existingDoctor.User.Gender = doctor.User.Gender;
                     existingDoctor.User.PhoneNumber = doctor.User.PhoneNumber;
                     existingDoctor.User.Email = doctor.User.Email;
+                    existingDoctor.Image = doctor.Image;
                     _db.SaveChanges();
                     return true;
                 }

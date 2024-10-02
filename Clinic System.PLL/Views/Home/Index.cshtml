@@ -21,16 +21,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedLink</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="~/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css ">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js" integrity="sha512-oAY57i8MXmaOP7pAylNLnULAM4QLV3uGnvnXVY4zF229/zFzTvG2/5YIgH8iN8oZR2hnbkiDPd4JCJGaH4oG6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="~/css/index.css">
 
 
 </head>
+<style>
+    .home-right-content {
+        margin: 0; /* Remove margin */
+        padding: 0; /* Remove padding */
+    }
 
+    .medical-image {
+        display: block; /* Ensure it behaves like a block element */
+        margin: 0; /* Remove margin */
+        padding: 0; /* Remove padding */
+        width: 100%; /* Optional: make the image responsive */
+        height: auto; /* Maintain aspect ratio */
+    }
+</style>
 <body>
     <div id="feedbackMessage" style="display:none;"></div>
 
@@ -217,9 +229,9 @@
             <span id="search-container"></span>
 
             <div class="home-right-content">
-                <img src="imges/n.png" alt="">
-
+                <img src="imges/medical.png" alt="" class="medical-image">
             </div>
+
         </div>
     </div>
     <form method="post" asp-action="Search">

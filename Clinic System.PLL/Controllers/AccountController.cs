@@ -58,6 +58,7 @@ namespace Clinic_System.PLL.Controllers
                 LastName = model.LastName,
                 Age = model.Age,
                 PhoneNumber = model.PhoneNumber,
+                Gender = model.Gender,
                 Image = model.Image,
             };
             try
@@ -126,7 +127,6 @@ namespace Clinic_System.PLL.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    
 
                     var user = await userManager.FindByNameAsync(model.UseName);
 
@@ -163,6 +163,10 @@ namespace Clinic_System.PLL.Controllers
                                 return LocalRedirect(returnUrl);
                            }
                             return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Invalid UserName Or Password");
                         }
 
                     }

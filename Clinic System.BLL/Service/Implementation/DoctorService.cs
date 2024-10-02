@@ -83,6 +83,7 @@ namespace Clinic_System.BLL.Service.Implementation
         {
            if(doctorVM is not null)
             {
+                doctorVM.Image = FileHelper.UploadFile("DoctorProfilePhoto", doctorVM.ImageFile);
                 var doctorEntity = _mapper.Map<Doctor>(doctorVM);
                 return _doctorRepo.Edit(doctorEntity);
             }

@@ -1,4 +1,5 @@
 ﻿@model Clinic_System.BLL.ModelVM.RegisterionVM
+@using Clinic_System.DAL.Enum
 @{
     ViewData["Title"] = "Registerion";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -64,12 +65,25 @@
                                             </div>
                                         </div>
 
-                                        <div class="mb-2">
+  @*                                       <div class="mb-2">
                                             <label asp-for="UserName" class="form-label"><i class="fas fa-user fa-fw"></i> User Name</label>
                                             <input asp-for="UserName" type="text" class="form-control" />
                                             <span class="text-danger" asp-validation-for="UserName"></span>
+                                        </div> *@
+                                        <div class="row mb-2">
+                                            <div class="col-md-6">
+                                                <label asp-for="UserName" class="form-label"><i class="fas fa-user fa-fw"></i> User Name</label>
+                                                <input asp-for="UserName" type="text" class="form-control" />
+                                                <span class="text-danger" asp-validation-for="UserName"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-2">
+                                                    <label asp-for="Gender" class="form-label"><i class="fas fa-venus-mars fa-fw"></i> Gender</label>
+                                                    <select asp-for="Gender" class="form-select" asp-items="Html.GetEnumSelectList<Clinic_System.DAL.Enum.Gender>()"></select>
+                                                    <span class="text-danger" asp-validation-for="Gender"></span>
+                                                </div>
+                                            </div>
                                         </div>
-
                                         <div class="row mb-2">
                                             <div class="col-md-6">
                                                 <label asp-for="Email" class="form-label"><i class="fas fa-envelope fa-fw"></i> Email</label>
